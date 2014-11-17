@@ -1,0 +1,5038 @@
+45== ATRIBUTE ==5== ATRIBUTE ==Výrazy== ATRIBUTE ==1== LESSON ==46== ATRIBUTE ==1== ATRIBUTE ==Úvod== ATRIBUTE ==1== LESSON ==44== ATRIBUTE ==2== ATRIBUTE ==Začínáme== ATRIBUTE ==1== LESSON ==47== ATRIBUTE ==4== ATRIBUTE ==Základní znalosti== ATRIBUTE ==1== LESSON ==49== ATRIBUTE ==6== ATRIBUTE ==Vyhodnocování== ATRIBUTE ==1== LESSON ==50== ATRIBUTE ==7== ATRIBUTE ==Funkce== ATRIBUTE ==1== LESSON ==52== ATRIBUTE ==8== ATRIBUTE ==Práce se skriptem== ATRIBUTE ==1== LESSON ==53== ATRIBUTE ==9== ATRIBUTE ==Typy I== ATRIBUTE ==1== LESSON ==54== ATRIBUTE ==10== ATRIBUTE ==Užitečné funkce I== ATRIBUTE ==1== LESSON ==55== ATRIBUTE ==11== ATRIBUTE ==Seznamy I== ATRIBUTE ==1== LESSON ==56== ATRIBUTE ==14== ATRIBUTE ==Důkaz indukcí== ATRIBUTE ==1== LESSON ==57== ATRIBUTE ==12== ATRIBUTE ==Funkce na seznamech I== ATRIBUTE ==1== LESSON ==58== ATRIBUTE ==15== ATRIBUTE ==Vstup a výstup I== ATRIBUTE ==1== LESSON ==59== ATRIBUTE ==24== ATRIBUTE ==Eta redukce== ATRIBUTE ==1== LESSON ==60== ATRIBUTE ==19== ATRIBUTE ==Částečná aplikace== ATRIBUTE ==1== LESSON ==61== ATRIBUTE ==25== ATRIBUTE ==Typ složené funkce== ATRIBUTE ==1== LESSON ==62== ATRIBUTE ==16== ATRIBUTE ==Typy II== ATRIBUTE ==1== LESSON ==63== ATRIBUTE ==20== ATRIBUTE ==Programujeme kalkulačku== ATRIBUTE ==1== LESSON ==64== ATRIBUTE ==17== ATRIBUTE ==Funkce na seznamech II== ATRIBUTE ==1== LESSON ==65== ATRIBUTE ==21== ATRIBUTE ==Seznamy II== ATRIBUTE ==1== LESSON ==66== ATRIBUTE ==22== ATRIBUTE ==curry, uncurry== ATRIBUTE ==1== LESSON ==67== ATRIBUTE ==23== ATRIBUTE ==Lambda abstrakce== ATRIBUTE ==1== LESSON ==68== ATRIBUTE ==18== ATRIBUTE ==Funkce na seznamech III== ATRIBUTE ==1== LESSON ==69== ATRIBUTE ==3== ATRIBUTE ==Pár funkcí do začátku== ATRIBUTE ==1== LESSON ==70== ATRIBUTE ==13== ATRIBUTE ==Funkce nad Bool== ATRIBUTE ==1== LESSON ==71== ATRIBUTE ==26== ATRIBUTE ==foldr, foldl== ATRIBUTE ==1== LESSON ==72== ATRIBUTE ==30== ATRIBUTE ==Maybe== ATRIBUTE ==1== LESSON ==73== ATRIBUTE ==27== ATRIBUTE ==Sázíme stromy== ATRIBUTE ==1== LESSON ==74== ATRIBUTE ==28== ATRIBUTE ==Vstup a výstup II== ATRIBUTE ==1== LESSON ==76== ATRIBUTE ==29== ATRIBUTE ==Typy III== ATRIBUTE ==1== LESSON ==77== ATRIBUTE ==31== ATRIBUTE ==Vyhodnocování II== ATRIBUTE ==1== LESSON ==78== ATRIBUTE ==32== ATRIBUTE ==Časová složitost== ATRIBUTE ==1== MAIN ==40== ATRIBUTE ==44== ATRIBUTE ==3== ATRIBUTE ==Instalujeme Hugs== ATRIBUTE ==<p>
+Na fakultních strojích s Linuxem je spuštění Hugsu jednoduché. Otevřeme si terminál a napíšeme do něj <code>hugs</code>. Pokud terminál zahlásí, že modul Hugs neexistuje, přidáme jej příkazem <code>module add hugs</code> a poté spustíme Hugs příkazem <code>hugs</code>.
+</p>
+
+
+<p>
+Pokud si budete chtít procvičovat Haskell i na svém osobním počítači (což vřele doporučuji), na <a href="http://www.haskell.org/hugs/"><b>stránkách Hugsu</b></a> najdete instalační soubory jak na Windows, tak na Linux.
+</p>
+
+
+<p>
+Při instalování na Windows Vista a Windows 7 si dejte pozor, abyste instalační soubor spustili s <b>administrátorskými právy</b> (kliknout pravým myšítkem na stažený instalační soubor a zvolit <i>Run as administrator</i>, česky <i>Spustit jako správce</i>).
+</p>
+
+<p>
+Pro vyzkoušení funkcionálního programování existuje i <a href="http://tryhaskell.org/">webový interpret</a>, který umí vyhodnocovat jednoduché výrazy. Později nám ale jeho možnosti přestanou stačit a bude nevyhnutelné nainstalovat Hugs.
+</p>== PARAGRAPH ==41== ATRIBUTE ==44== ATRIBUTE ==4== ATRIBUTE ==První krůčky v Hugsu== ATRIBUTE ==<p>Do Hugsu budeme zadávat dva typy požadavků na zpracování, a to <b>povely</b> a <b>výrazy</b>.</p>
+
+<p><b>Povely</b> jsou speciální příkazy, kterými říkáme interpretu, aby něco provedl. Všechny povely, které Hugs umí provést si zobrazíme přímo v Hugsu jednoduchým povelem. Napíšeme <code>:?</code> a stiskneme Enter. Z těchto povelů nám prozatím bude stačit <code>:quit</code>, kterým Hugsu řekneme, aby se ukončil. Pro tento povel existuje i jeho kratší varianta, a to <code>:q</code>.</p>
+
+<p>O <b>výrazech</b> si začneme povídat v jedné z následujících lekcí.== PARAGRAPH ==39== ATRIBUTE ==44== ATRIBUTE ==2== ATRIBUTE ==Interpret / kompilátor== ATRIBUTE ==<p>
+Abychom mohli začít prozkoumávat taje Haskellu, potřebujeme prostředí, ve kterém si budeme naše programy zkoušet. Můžeme si vybrat buďto nějaký <b>interpret</b> nebo <b>kompilátor</b>.
+</p>
+
+<ul>
+<li><b>Interpret</b> je program, který při každém spuštění našeho kódu tento kód načte, přeloží a provede.
+<li><b>Kompilátor</b> je program, který kód jednou načte, jednou přeloží a vytvoří spustitelný soubor, který se při každém spuštění pouze provede.
+</ul>
+
+<p>Místo spuštění kódu si můžeme představit, že se chceme dívat na divadelní představení.
+</p>
+
+<ul>
+<li><b>Interpret</b> nás v tomto případě vezme do divadla, kde domluví, aby nám bylo představení odehráno.
+<li>Naproti tomu <b>kompilátor</b> půjde do divadla za nás, domluví odehrání představení a nahraje jej na videokameru. Pak nám předá nosič se záznamem představení a my se na něj můžeme dívat kolikrát chceme.
+</ul>
+
+<p>
+V této učebnici budeme pracovat s <b>interpretem</b> zvaným <b>Hugs</b>.
+</p>== PARAGRAPH ==42== ATRIBUTE ==45== ATRIBUTE ==1== ATRIBUTE ==Co je to výraz?== ATRIBUTE ==<p>Výraz je všechno, co nám Hugs bez připomínky vezme a není to povel.</p>
+
+<center>
+<p><code>5 + 2</code> je výraz.</p>
+<p><code>7</code> je výraz.</p>
+<p><code>"Haskell"</code> je výraz.</p>
+<p><code>'c'</code> je výraz.</p>
+<p><code>even 5</code> je výraz.</p>
+</center>
+
+<p>V krabičkové metodě budeme výrazy znázorňovat různými <b>geometrickými tělesy</b> (válec, hranol, těšit se můžete i na vláček). Bude vysvětleno později.</p>
+
+<center>
+<img class="lessonImg" src="images/L04P01.gif"><br>
+<i>Znázornění výrazů pomocí krabiček</i>
+</center>== PARAGRAPH ==43== ATRIBUTE ==45== ATRIBUTE ==2== ATRIBUTE ==Prefixový / infixový zápis== ATRIBUTE ==<p>
+V Haskellu používáme dva typy zápisu výrazů. <b>Prefixový</b> a <b>infixový</b>. Ukázka na začátek:
+</p>
+
+<p>
+Infixový zápis: <code>3 + 5</code>
+</p>
+
+<center>
+<img class="lessonImg" src="images/L04P02.gif"><br>
+<i>Infixový zápis</i>
+</center>
+
+<p>
+Prefixový zápis: <code>div 8 3</code>
+</p>
+
+<center>
+<img class="lessonImg" src="images/L04P03.gif"><br>
+<i>Prefixový zápis</i>
+</center>
+
+<p>
+<code>3 + 5</code> čteme [<i>tři plus pět</i>]
+</p>
+
+<p>
+<code>div 8 3</code> čteme [<i>aplikace funkce div na argumenty 8 a 3</i>]
+</p>
+
+<p>
+Znaménko označující unární či binární funkci, se někdy nazývá <b>operátor</b>. Rozlišujeme dva druhy operátorů:
+</p>
+
+<ul>
+<li><b>alfanumerický</b> skládající se z písmen a číslic, např. funkce <code>div</code> a <code>mod</code>
+<li><b>nealfanumerický</b> <code>+</code>,<code>^</code>.
+</ul>
+
+<p>
+Každý infixově zapsaný výraz můžeme zapsat prefixově. Opačně to funguje pouze u binárních funkcí.
+</p>
+
+<p>
+Infixově zapsaný výraz za použití nealfanumerického operátoru převedeme do prefixu tak, že operátor dáme do závorek a napíšeme jej před argumenty.
+
+<pre>
+3 + 5  ==>  (+) 3 5
+</pre>
+</p>
+
+<p>
+Prefixově zapsaný výraz alfanumerickým operátorem zapíšeme infixově tak, že operátor obalíme zpětnými apostrofy a vložíme jej mezi argumenty.
+
+<pre>
+div 8 3  ==>  8 `div` 3
+</pre>
+</p>
+
+<p>Mezi infixovým a prefixovým zápisem není žádný výpočetní rozdíl. Vyzkoušejte si sami v Hugsu. Oba jsou zpracovány stejně, akorát prefixově zapsaná funkce má <b>větší prioritu</b>. To znamená, že ve výrazu
+
+<pre>
+3 * div 5 2
+</pre>
+
+se nejdříve provede prefixově zapsané celočíselné dělení a teprve potom infixově zapsané násobení.
+</p>== PARAGRAPH ==44== ATRIBUTE ==45== ATRIBUTE ==3== ATRIBUTE ==Podvýrazy== ATRIBUTE ==<p>Každý výraz se dá rozložit na <b>podvýrazy</b>. Ukázkový výraz: <code>3 + 5</code>
+
+<p>Pro snazší rozložení výrazu na podvýrazy převedeme výraz do <b>prefixového tvaru</b>.<br>
+<code>(+) 3 5</code>
+
+<p><b>Podvýrazem je:</b>
+<ul>
+<li>funkce a její argumenty <code><u>(+)</u> <u>3</u> <u>5</u></code>, což jsou tři podvýrazy<br><br>
+<li>funkce a její 1 argument, funkce a její 2 argumenty, … , funkce a jejích <i>n</i> argumentů<br>
+<code><u>(+) 3</u> 5</code><br>
+<code><u>(+) 3 5</u></code>
+</ul>
+Výraz <code>3 + 5</code> má celkem <b>5 podvýrazů</b>.</p>
+
+<hr>
+
+<p><b>Složitější výraz:</b> <code>(zipWith (*) [1,2] [3,4]) ++ [5,6]</code>
+<ul>
+<li>převedeme <b>do prefixu</b>:<br>
+<code>(++) (zipWith (*) [1,2] [3,4]) [5,6]</code><br><br>
+
+<li>funkce <code>(++)</code> a její dva argumenty, celkem 3 podvýrazy<br>
+<code><u>(++)</u> <u>(zipWith (*) [1,2] [3,4])</u> <u>[5,6]</u></code><br><br>
+
+<li>funkce <code>(++)</code> a její první argument, 1 podvýraz<br>
+<code><u>(++) (zipWith (*) [1,2] [3,4])</u> [5,6]</code><br><br>
+
+<li>funkce <code>(++)</code> a její první dva argumenty, což je celý výraz, 1 podvýraz<br>
+<code><u>(++) (zipWith (*) [1,2] [3,4]) [5,6]</u></code><br><br>
+
+<li>funkce <code>(++)</code> a její argument <code>[5,6]</code> už jsou dále nerozložitelné, budeme rozkládat podvýraz<br>
+<code>zipWith (*) [1,2] [3,4]</code>:<br><br>
+
+<ul>
+
+<li>funkce <code>zipWith</code> a její tři argumenty, 4 podvýrazy<br>
+<code><u>zipWith</u> <u>(*)</u> <u>[1,2]</u> <u>[3,4]</u></code><br><br>
+
+<li>funkce <code>zipWith</code> a její první argument, 1 podvýraz<br>
+<code><u>zipWith (*)</u> [1,2] [3,4]</code><br><br>
+
+<li>funkce <code>zipWith</code> a její první dva argumenty, 1 podvýraz<br>
+<code><u>zipWith (*) [1,2]</u> [3,4]</code><br><br>
+
+<li>funkce <code>zipWith</code> a její první tři argumenty, což je celý výraz, který jsme už jako podvýraz započítali v druhém kroku<br><br>
+
+</ul>
+</ul>
+Výraz <code>(zipWith (*) [1,2] [3,4]) ++ [5,6]</code> má tedy <b>11 podvýrazů</b>.</p>== PARAGRAPH ==45== ATRIBUTE ==46== ATRIBUTE ==1== ATRIBUTE ==Úvodem== ATRIBUTE ==<div class="quote">
+    <b>
+        "Funkcionální programovací paradigma patří mezi deklarativní
+         paradigmata"<br>
+    </b>
+       − Libor Škarvada, první přednáška IB015, podzim 2008
+</div>
+
+<p>
+Pravidlo první – <b>nenechat se vylekat</b>. I my jsme byli na první přednášce a hlavou nám letěly věci typu <i>To se nemám šanci nikdy naučit!</i> nebo <i>Jsem na úplně špatné škole, tohle mi vůbec nic neříká, ostatní to hned pochopí, jen já budu za blbce... nemám na to talent, který je ke studiu takových věcí potřeba</i>.
+</p>
+
+<p>
+Už tento přístup vás spolehlivě dovede do záhuby a vyvede z fakulty. Pro začátek si vlepte do mysli několik strohých faktů jako absoulutní pravdu a nepřemýšlejte o jejich pravdivosti:
+</p>
+
+<ul>
+<li>Funkcionální programování <b>není těžké</b>.
+<li>Funkcionální programování <b>je krásné</b>.
+<li>Funkcionální programování <b>je elegantní</b>.
+<li>K pochopení funkcionálního programování je zapotřebí <b>otevřená mysl</b> a docela <b>dost času</b>.
+<li>Funkcionální programování se <b>nenaučíte za týden</b>.
+</ul>
+
+<p>
+Pokud vás něco z probírané látky vyleká, nezavrhujte celý předmět. Označte odstavec červeně a vraťte se k němu za dva dny.
+</p>
+
+<p>
+Pojmy krabičkové metody <b>nejsou oficiální</b>. Slouží pouze k ilustračním účelům. Pokud se rozhodnete zmínit krabičky v písemce, činíte tak na vlastní nebezpečí.
+</p>== PARAGRAPH ==47== ATRIBUTE ==46== ATRIBUTE ==2== ATRIBUTE ==Práce s učebnicí== ATRIBUTE ==<h4>Hodnocení odstavců</h4>
+
+Po přihlášení je možné označit si odstavec podle <b>stupně pochopení</b>.
+
+<ul>
+<li><b style="background-color: lightgreen">Zelené zátržítko – Zcela pochopený odstavec</b>, není potřeba se k němu víc vracet.
+<li><b style="background-color: #ffcc33">Oranžová pomlčka – Částečně pochopený odstavec</b>, ještě bude potřeba jej několikrát přečíst.
+<li><b style="background-color: pink">Červený křížek – Naprosto nepochopený odstavec</b>, jen co jsem se na něj podíval, už jsem si myslel, že mi praskne hlava.
+</ul>
+
+<h4>Levelový systém</h4>
+
+<p>
+Pro přehled o svém aktuálním stavu chápání funkcionálního programování je v učebnici zaveden <b>levelový systém</b>. Princip je jednoduchý – za určitý počet zkušenostních bodů <b>(xp)</b> je uživateli přiřazena jeho <b>úroveň</b> vyjádřená celým číslem.
+</p>
+
+<p>
+Body se dají získat za
+</p>
+
+<ul>
+<li>řešení příkladů
+<li>přispívání do diskuzí
+</ul>
+
+
+<h4>Příklady k lekcím</h4>
+
+<p>
+Lekce mají na konci příklady k procvičení probírané látky. Výsledkem každého příkladu je vždy <b>jednoznačná odpověď</b>. Výsledkem může být <b>číslo</b> nebo <b>řetězec znaků</b>. Příklad je ohodnocen zkušenostními body, jejichž množství je uvedeno v záhlaví příkladu. První zkušební příklad se nachází už u této lekce.
+</p>
+
+<h4>Žebříček nejúspěšnějších řešitelů</h4>
+
+<p>
+Uživatelé s nenulovým počtem xp bodů se nacházejí v tabulce v sekci Žebříček.
+</p>== PARAGRAPH ==48== ATRIBUTE ==47== ATRIBUTE ==1== ATRIBUTE ==Obecně== ATRIBUTE ==<p>Následující řádky <b>neberte</b> jako nutnost k našprtání. Spíš je to jen přehled <b>základních věcí</b>, se kterými další lekce počítají. Pro první přečtení to doporučuju jen tak proletět a pak se sem v případě potřeby vrátit.</p>== PARAGRAPH ==49== ATRIBUTE ==47== ATRIBUTE ==2== ATRIBUTE ==Case sensitive== ATRIBUTE ==<p>
+Haskellu <b>na velikosti záleží</b>. Je velký rozdíl, jestli Hugsu napíšeme <code>mojeFunkce</code> nebo <code>MojefunKce</code>.
+</p>
+
+
+<ul>
+<li>Výběr věcí, které se píší se začátečním <b>malým</b> písmenem:
+<ul>
+<li>název funkce <code>mojeFunkce</code>, <code>f</code>, <code>fact</code>
+<li>argumenty funkce <code>x</code>, <code>y</code>, <code>vyska</code>, <code>sirka</code>
+<li>označení polymorfních typů <code>a</code>, <code>b</code>, <code>c</code>
+</ul>
+
+<li>Výběr věcí, které se píší se začátečním <b>velkým</b> písmenem:
+<ul>
+<li>název typu <code>Integer</code>, <code>Char</code>, <code>String</code>
+<li>pravdivostní hodnoty <code>True</code>, <code>False</code>
+</ul>
+</ul>
+
+<hr>
+
+<p>
+Rozlišování velkých a malých písmen není pouze nějaká domluva programátorů, ale Hugs se podle nich opravdu řídí. Pokud si necháme vyhodnotit výraz
+
+<pre>
+False
+</pre>
+
+Hugs si výraz <code>False</code> přebere jako pravdivostní hodnotu, zjistí, že ta už je sama o sobě nezjednodušitelný výraz a dostaneme opět <code>False</code> jako výsledek.
+</p>
+
+<p>
+Pokud bychom napsali <code>False</code> s malým počátečním písmenem, čili
+
+<pre>false</pre>
+
+Hugs nám oznámí, že funkci/proměnnou <code>false</code> nezná.
+</p>== PARAGRAPH ==50== ATRIBUTE ==52== ATRIBUTE ==5== ATRIBUTE ==Odsazování== ATRIBUTE ==<p>
+Pokud píšeme nějaký skript s dlouhými řádky, je často přehlednější řádky zalomit. Jak to ale udělat, aby Hugs pochopil, že nový řádek není nový řádek, ale pokračování toho předešlého? Jednoduše. Na začátek nového řádku přidáme alespoň jednu mezeru.
+
+<pre>
+Toto je první řádek.
+Toto je druhý řádek a
+ toto je pokračování druhého řádku.
+</pre>
+</p>
+
+<p>
+Mezera na začátku nemusí být pouze jedna. Může jich být libovolný počet, ale řádek navazující musí být odsazený víc, než řádek navazovaný. Dobré přehlednosti se dá dosáhnout u výrazu <code>if-then-else</code> při odsazení slova <code>else</code> pod <code>then</code>.
+
+<pre>
+if even 5 then "Ano"
+          else "Ne"
+</pre>
+</p>
+
+<p>
+Takto se dá zanořovat i vícenásobně. Například při použití vnořené podmínky.
+
+<pre>
+if even 5 then "Ano"
+          else if 7 < 9 then "Ano"
+                        else "Ne"
+</pre>
+</p>
+
+
+<p>
+V tomto případě se nejdříve vyhodnotí podmínka <code>even 5</code>, jejímž výsledkem je <code>False</code>. To znamená, že se celý výraz vyhodnotí na část výrazu za <code>else</code>.
+
+<pre>
+if 7 < 9 then "Ano"
+         else "Ne"
+</pre>
+</p>
+
+<p>
+Dále se podmínka <code>7 < 9</code> vyhodnotí na <code>True</code>, takže se celý výraz vyhodnotí na <code>"Ano"</code>.
+</p>== PARAGRAPH ==51== ATRIBUTE ==47== ATRIBUTE ==4== ATRIBUTE ==Datové typy a struktury== ATRIBUTE ==<p>
+Datový typ je souhrnné označení hodnot se stejnými vlastnostmi. Více si o typech povíme v kapitole <b>Typy</b>.
+</p>
+
+<p>
+V naší učebnici budeme pracovat s následujícími datovými typy a strukturami:
+</p>
+
+
+<ul>
+<li>Celá čísla: <code>8</code>, <code>5</code>, <code>-3</code>, <code>0</code>
+<li>Desetinná čísla: <code>8.5</code>, <code>-5.8</code>, <code>3.0</code>
+<li>Pravdivostní hodnoty: <code>True</code>, <code>False</code>
+<li>Znaky: <code>'c'</code>, <code>'Ž'</code>, <code>'&'</code> <i>(uzavíráme do rovných apostrofů)</i>
+<li>Řetězce:
+
+<pre>
+"Haskell"
+"@&!#P961"
+"123987"          <i>-- uzavíráme do rovných uvozovek</i>
+</pre>
+
+<li>Uspořádané dvojice, trojice, ...:
+
+<pre>
+(1,2)
+('a',8.4, "PraVdA")
+("Haskell",False,4,'@')
+  <i>-- uzavíráme do kulatých závorek, oddělujeme čárkami</i>
+</pre>
+
+Uspořádané dvojice se tvoří operátorem <code>(,)</code>, trojice operátorem <code>(,,)</code>, čtveřice operátorem <code>(,,,)</code> atd.
+
+<pre>
+(,) 1 2             ~>  (1,2)
+(,,) True 'v' 10.5  ~>  (True, 'v', 10.5)
+</pre>
+
+<li>Seznamy:
+
+<pre>
+[1,2,3,4,5]
+['f','&','Q','!']
+[("Honza",15),("Marek",28),("Jana",32)]
+[[7,9,4],[1],[8,56,12,14],[]]
+  <i>-- uzavíráme do hranatých závorek, oddělujeme čárkami</i>
+</pre>
+</ul>== PARAGRAPH ==52== ATRIBUTE ==47== ATRIBUTE ==5== ATRIBUTE ==Arita funkce== ATRIBUTE ==<p>Arita je vlastnost funkce, která udává, kolik argumentů funkce potřebuje ke svému <b>plnému vyhodnocení</b>.
+
+<ul>
+<li><b>Funkce arity jedna</b> (<i>unární funkce</i>) potřebuje pouze jeden argument, aby se plně vyhodnotila. Příkladem unární funkce je například funkce <code>odd</code>, která zjišťuje, zda je číslo dané jako argument liché.
+
+<li><b>Funkce arity dvě</b> (<i>binární</i>) je například funkce <code>(+)</code>, která sečte dvě čísla a vrátí jejich výsledek.
+
+<li>Stejně tak existují <b>funkce arity tři</b> (<i>ternární</i>), které k plnému vyhodnocení potřebují tři argumenty.
+
+<li>A pak jsou zde také <b>nulární funkce</b>, což můžou být buď konstanty, neboli nezjednodušitelné výrazy, které už jsou plně vyhodnocené, nebo zjednodušitelné výrazy, které se vyhodnotí pokaždé na stejnou hodnotu.
+</ul>
+</p>
+
+
+<p>V krabičkovém modelu označuje arita funkce <b>počet děr na vrchní stěně krabičky</b>.<br>
+
+<center>
+<img class="lessonImg" src="images/L03P01.gif"><br>
+<i>Unární funkce <code>f</code>, binární funkce <code>g</code> a ternární funkce <code>h</code></i>
+</center>
+</p>== PARAGRAPH ==53== ATRIBUTE ==49== ATRIBUTE ==1== ATRIBUTE ==Co je vyhodnocování== ATRIBUTE ==<p>
+Funkcionální programování se celé točí okolo vyhodnocování výrazů. Uvědomme si, že už ve chvíli, kdy zadáváme Hugsu výraz k vyhodnocení, mu zadáváme výsledek výpočtu v <b>určitém tvaru</b>. Hugs tento <i>nějakým-způsobem-zapsaný-výsledek</i> vezme a převede jej do tvaru, který už se nedá dále zjednodušit.
+</p>
+
+
+<p>
+Například <code>3 + 5</code> je výraz, který se dá zjednodušit na dále nezjednodušitelný výraz <code>8</code>. Takové zjednodušení označujeme vlnitou šipkou <code>~></code>. Zjednodušení předchozího výrazu bychom tedy zapsali <code>3 + 5 ~> 8</code>.
+</p>== PARAGRAPH ==54== ATRIBUTE ==49== ATRIBUTE ==2== ATRIBUTE ==Vyhodnocujeme== ATRIBUTE ==<p>
+Všechny výrazy se samozřejmě nevyhodnotí po jednom kroku. Například vyhodnocení výrazu <code>3 + 5 * 2</code> na nezjednodušitelný tvar se provede ve <b>dvou krocích</b>:
+
+<pre>
+3 + 5 * 2  ~>  3 + 10  ~>  13
+</pre>
+</p>
+
+<p>
+Pokud chceme zapsat, že se výraz zjednodušil na jiný výraz ve dvou krocích, ale nechceme uvádět mezikrok, napíšeme
+
+<pre>
+3 + 5 * 2  ~>²  13
+</pre>
+</p>
+
+<p>
+Stejně bychom postupovali, pokud bychom chtěli napsat, že se výraz zjednodušil na jiný po <b>třech</b> krocích:
+
+<pre>
+3 * 4 + 2 * 5  ~>³  22
+</pre>
+
+atd.
+</p>
+
+<p>
+Pokud chceme zapsat, že se výraz zjednodušil na jiný a je nám jedno, kolik kroků zjednodušování zabralo, napíšeme nad šipku místo čísla hvězdičku: <code>~>*</code>.
+</p>== PARAGRAPH ==55== ATRIBUTE ==49== ATRIBUTE ==3== ATRIBUTE ==Priorita operátorů, směr sdružování== ATRIBUTE ==<p>Nabízí se otázka <i>„Jakto, že při vyhodnocování výrazu <code>3 + 5 * 2</code> Hugs ví, že násobení má přednost před sčítáním?</i> Je to jednoduché. Hugs se totiž řídí podle následující tabulky, která určuje, která operace má přednost před kterou. Čím má operace vyšší prioritu, tím dříve se provede.</p>
+
+<p>Sčítání má prioritu <code>6</code>, násobení <code>7</code>, což znamená, že se násobení provede před sčítáním. Předchozí výraz by se tedy vyhodnotil
+
+<pre>
+3 + 5 * 2  ~>  3 + 10  ~>  13
+</pre>
+</p>
+
+<p>Pokud chceme vynutit, aby se sčítání provedlo před násobením, dáme <code>3 + 5</code> do závorky: <code>(3 + 5) * 2</code></p>
+
+<p>
+Prefixový zápis má <b>vždy přednost</b> před infixovým. Ve výrazu <code>(+) 3 5 * 2</code> se nejdříve vyhodnotí sčítání a až poté násobení.
+
+<pre>
+(+) 3 5 * 5 ~> 8 * 5 ~> 40
+</pre>
+</p>
+
+<p>Dále by nás mohlo zajímat, zda se má výraz <code>3 ^ 3 ^ 3</code> vyhodnotit jako <code>3 ^ (3 ^ 3)</code>, nebo jako <code>(3 ^ 3) ^ 3</code>. I tento problém řeší následující tabulka. Konkrétně sloupec <i>Směr sdružování</i>. Umocňování sdružuje <b>zprava doleva</b>, tzn. předchozí výraz by se vyhodnotil jako <code>3 ^ 3 ^ 3 ~> 3 ^ 27 ~> <i>7625597484987</i></code>.</p>
+
+<p>
+<center>
+<table style="text-align: center; background-color: #ffff99" border=1>
+    <thead style="font-weight: bold">
+    <tr>
+        <td>Priorita</td>
+        <td>Směr sdružování</td>
+        <td>Operátory</td>
+    </tr>
+    <thead>
+    <tr>
+        <td>9</td>
+        <td>←</td>
+        <td><code>.</code></td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>→</td>
+        <td><code>!!</code></td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>←</td>
+        <td><code>^</code></td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>→</td>
+        <td><code>*</code> <code>/</code> <code>`div`</code> <code>`mod`</code></td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>→</td>
+        <td><code>+</code> <code>-</code></td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>←</td>
+        <td><code>:</code> <code>++</code></td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>−</td>
+        <td><code>==</code> <code>/=</code> <code><</code> <code><=</code> <code>></code> <code>>=</code> <code>`elem`</code> <code>`notElem`</code></td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>←</td>
+        <td><code>&&</code></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>←</td>
+        <td><code>||</code></td>
+    </tr>
+</table>
+</center>
+<br>
+</p>== PARAGRAPH ==56== ATRIBUTE ==50== ATRIBUTE ==1== ATRIBUTE ==Funkce jako krabička== ATRIBUTE ==<p>
+Funkci v krabičkovém modelu znázorňujeme krabičkou. Přesněji krabičkou, do které něco vhodíme, zatřepeme a ono z ní něco vypadne.
+</p>
+
+<p>
+Mějme třeba funkci <code>red</code>, do které hodíme válec, ona jej obarví na červeno a dá nám jej jako výsledek.
+</p>
+
+<center>
+<img class="lessonImg" src="images/L06P01.gif"><br>
+<i>Znázornění funkce <code>red</code></i>
+</center>
+
+<p>
+My budeme pracovat s funkcemi, které zpracovávají nejčastěji čísla nebo seznamy. Například funkci <code>(+)</code> dáme dvě čísla a ona nám dá jejich součet.
+</p>
+
+<center>
+<img class="lessonImg" src="images/L06P02.gif"><br>
+<i>Znázornění funkce <code>(+)</code></i>
+</center>== PARAGRAPH ==57== ATRIBUTE ==50== ATRIBUTE ==2== ATRIBUTE ==Definice vlastní funkce== ATRIBUTE ==<p>
+Základem funkcionálního programování jsou definice vlastních funkcí.
+</p>
+
+<p>
+Definice funkce má dvě části, levou a pravou, odděleny znakem rovnítka.
+</p>
+
+<ul>
+<li>Levá část se skládá ze jména funkce a jejích formálních parametrů. Parametry se zapisují řetězci znaků začínajících malým písmenem, nejčastěji jen malým písmenem.
+<li>V pravé části je napsán výsledek vyhodnocení funkce po jednom kroku.
+</ul>
+
+<h4>Příklad:</h4>
+
+<p>
+Definujte funkci <code>plus3</code>, která vezme tři čísla a vrátí nám jejich součet. Chceme, aby se její aplikace například na čísla <code>5</code>, <code>1</code> a <code>2</code> vyhodnotila takto:
+
+<pre>
+plus3 5 1 2  ~>  5 + 1 + 2  ~>*  8
+</pre>
+</p>
+
+<hr>
+
+<p>
+Její definice by mohla vypadat následovně:
+
+<pre>
+plus3 x y z  =  x + y + z
+</pre>
+</p>
+
+<h4>Příklad:</h4>
+Definujte funkci <code>obvodObdelnika</code>, které dáme délky stran obdélníka a ona vrátí jeho obvod. Aplikace na délky stran například <code>5</code> a <code>3</code> by měla vypadat následovně:
+
+<pre>
+obvodObdelnika 5 3  ~>  2 * (5 + 3)  ~>*  16
+</pre>
+</p>
+
+<hr>
+
+<p>
+Po zaměnění skutečných parametrů <code>5</code> a <code>3</code> za formální parametry <code>a</code> a <code>b</code> dostáváme obecnou definici:
+
+<pre>
+obvodObdelnika a b  =  2 * (a + b)
+</pre>
+</p>== PARAGRAPH ==58== ATRIBUTE ==50== ATRIBUTE ==3== ATRIBUTE ==Definice podle vzoru== ATRIBUTE ==<h4>Příklad:</h4>
+
+<p>
+Definujme funkci <code>cisloSlovem</code>, která si bude brát jeden argument – celé číslo.
+</p>
+
+<ul>
+<li>Pokud dostane číslo <code>1</code>, vrátí řetězec <code>"Jednicka"</code>.
+<li>Pokud dostane číslo <code>2</code>, vrátí řetězec <code>"Dvojka"</code>.
+<li>Pokud dostane nějaké jiné číslo, vrátí řetězec <code>"Neznam"</code>.
+</ul>
+
+<p>
+Jedna možnost, jak ji zadefinovat by byla následující:
+
+<pre>
+cisloSlovem x = if x == 1 then "Jednicka"
+                          else if x == 2 then "Dva"
+                                         else "Neznam"
+</pre>
+</p>
+
+<p>
+Jak bude Hugs postupovat při vyhodnocování výrazu <code>cisloSlovem 2</code>, je zřejmé. Za <code>x</code> dosadí <code>2</code> a nahradí výraz <code>cisloSlovem 2</code> pravou stranou definice, čili výrazem:
+
+<pre>
+if 2 == 1 then "Jednicka"
+          else if 2 == 2 then "Dva"
+                         else "Neznam"
+</pre>
+
+Poté vyhodnotí podmínku <code>2 == 1</code> na <code>False</code>, takže celý výraz vyhodnotí na <code>else</code> větev vnější podmínky:
+
+<pre>
+if 2 == 2 then "Dva"
+          else "Neznam"
+</pre>
+
+Výraz <code>2 == 2</code> se vyhodnotí na <code>True</code>, takže se celý výraz vyhodnotí na řetězec <code>"Dva"</code>.
+</p>
+
+<hr>
+
+<p>
+Druhou možností je definovat funkci <b>podle vzoru</b>. Ta stejná funkce bude definována podle vzoru následovně. Jednotlivé řádky definice se nazývají <b>klauzule</b>.
+
+<pre>
+cisloSlovem 1 = "Jednicka"
+cisloSlovem 2 = "Dvojka"
+cisloSlovem x = "Neznam"
+</pre>
+</p>
+
+<p>
+Hugs bude v tomto případě při vyhodnocování výrazu <code>cisloSlovem 2</code> postupovat následovně:
+</p>
+
+<ul>
+<li>Zkusí, zda se dá <code>cisloSlovem 2</code> dosadit do levé strany první klauzule <code>cisloSlovem 1</code>. Nedá, pokračuje na druhou klauzuli.
+<li>Zkusí, zda se dá <code>cisloSlovem 2</code> dosadit do levé strany druhé klauzule <code>cisloSlovem 2</code>. Ano, dá.
+<li>Výraz <code>cisloSlovem 2</code> se přepíše na pravou stranu druhé klauzule, čili na výraz <code>"Dvojka"</code>.
+</ul>
+</p>
+
+<p>
+Jak by se vyhodnotil výraz <code>cisloSlovem 5</code>?
+</p>
+
+<ul>
+<li>Dá se <code>cisloSlovem 5</code> dosadit do <code>cisloSlovem 1</code>? Nedá, zkusíme druhou klauzili.
+<li>Dá se <code>cisloSlovem 5</code> dosadit do <code>cisloSlovem 2</code>? Nedá, zkusíme třetí klauzili.
+<li>Dá se <code>cisloSlovem 5</code> dosadit do <code>cisloSlovem x</code>? Ano, dá.
+<li>Za <code>x</code> se dosadí <code>5</code> a výraz <code>cisloSlovem 5</code> se nahradí pravou stranou třetí klauzule, což je <code>"Neznam"</code>
+</ul>
+
+
+<p>
+Jelikož není proměnná <code>x</code> na pravé straně vůbec použitá, místo <code>x</code> můžeme napsat <code>_</code> <i>(podtržítko)</i>, což znamená <i>sem se může dosadit cokoli, co bude následně zapomenuto</i>. Naše funkce by tedy vypadala takto:
+
+<pre>
+cisloSlovem 1 = "Jednicka"
+cisloSlovem 2 = "Dvojka"
+cisloSlovem _ = "Neznam"
+</pre>
+</p>
+
+<p>
+Hugsu při vyhodnocování nezáleží na pořadí definic funkcí ve skriptu. To znamená, že pokud do skriptu napíšeme
+
+<pre>
+krat 0 _ = 0
+krat x y = plus y (krat (x - 1) y)
+
+plus x y = x + y
+</pre>
+
+vrátí nám aplikace <code>krat 3 2</code> správně vypočítaný součin nezáporného čísla <code>3</code> a celého čísla <code>2</code>, což je <code>6</code>. Pozor ale na <b>pořadí klauzulí</b>! Jak jsme si řekli výše, Hugs při vyhodnocování funkce postupně zkouší, zda se dá použít první klauzule, druhá klauzule, ... Pokud bychom klauzule definice funkce <code>krat</code> prohodili
+
+<pre>
+krat x y = plus y (krat (x - 1) y)
+krat 0 _ = 0
+</pre>
+
+výpočet by nikdy neskončil, neboť by se stále vyhodnocovalo podle první klauzule a docházelo by ke stále většímu rekurzivnímu zanoření.
+</p>
+
+
+== PARAGRAPH ==59== ATRIBUTE ==50== ATRIBUTE ==4== ATRIBUTE ==Rekurzivní definice== ATRIBUTE ==<h4>Příklad:</h4>
+
+<p>
+Definujte funkci <code>soucet</code>, která si bude brát přirozené číslo a vrátí součet všech přirozených čísel, které jsou menší nebo rovny zadanému číslu. Příklad vyhodnocení:
+
+<pre>
+soucet 3  ~>*  3 + 2 + 1  ~>*  6
+</pre>
+</p>
+
+<hr>
+
+<p>
+Se znalostí definice podle vzoru můžeme funkci <code>soucet</code> pro čísla <code>1</code> až <code>5</code> definovat následovně:
+
+<pre>
+soucet 1  =                  1
+soucet 2  =              2 + 1
+soucet 3  =          3 + 2 + 1
+soucet 4  =      4 + 3 + 2 + 1
+soucet 5  =  5 + 4 + 3 + 2 + 1
+</pre>
+</p>
+
+<p>
+My ale potřebujeme obecnou definici, která by umožnila výpočet funkce <code>soucet</code> nad všemi přirozenými čísly. V tuto chvíli přichází na řadu <b>rekurze</b>.
+</p>
+
+<p>
+Pěkné znázornění, co to rekurze je, můžete najít na <a href="http://necyklopedie.wikia.com/wiki/Rekurze">české necyklopedii</a>. Stručně řečeno, rekurzivní funkce je funkce, která se vyhodnotí na výraz obsahující sebe samu.
+</p>
+
+<p>
+Pokud se podíváme na definici <code>soucet 4</code>, zjistíme, že se skládá z funkce <code>(+)</code>, argumentu <code>4</code> a výrazu <code>3 + 2 + 1</code>, který se dá zapsat jako <code>soucet 3</code>. Takto můžeme zapsat všech pět klauzulí:
+
+<pre>
+soucet 1  =  1
+soucet 2  =  2 + soucet 1
+soucet 3  =  3 + soucet 2
+soucet 4  =  4 + soucet 3
+soucet 5  =  5 + soucet 4
+</pre>
+</p>
+
+<p>
+Z tohoto zápisu už můžeme odvodit obecný zápis funkce <code>soucet</code>:
+
+<pre>
+soucet x  =  x + soucet (x - 1)
+</pre>
+</p>
+
+<p>
+Pokud si ale necháme vyhodnotit výraz <code>soucet 3</code>, Hugs bude chvíli počítat a nakonec napíše, že mu přetekl zásobník. Proč k tomu došlo? Zkusme si rozepsat vyhodnocení výrazu <code>soucet 3</code>:<br><br>
+
+<pre>
+soucet 3
+
+~>  3 + soucet 2
+~>  3 + 2 + soucet 1
+</pre>
+
+V tomto místě bychom chtěli, aby se výpočet zastavil. On ale podle definice bude pokračovat dále:
+
+<pre>
+~>  3 + 2 + 1 + soucet 0
+~>  3 + 2 + 1 + 0 + soucet (-1)
+~>  3 + 2 + 1 + 0 + (-1) + soucet (-2)
+~>  ...
+</pre>
+
+Proto musíme k definici přidat <b>zastavující klauzuli</b>, která výraz <code>soucet 1</code> nahradí výrazem <code>1</code> a tím <b>ukončí rekurzivní volání</b>. Správná definice funkce <code>soucet</code> by tedy vypadala následovně:
+
+<pre>
+soucet 1  =  1
+soucet x  =  x + soucet (x - 1)
+</pre>
+</p>
+
+
+<h4>Poznámka</h4>
+
+<p>
+Jelikož je rekurze ve funkcionálním programování hojně využívaným prvkem, již existuje velké množství knihoven s funkcemi, které rekurzi řeší za nás. Z těchto většinou jednoduchých funkcí pak můžeme skládat funkce složitější.
+</p>== PARAGRAPH ==60== ATRIBUTE ==50== ATRIBUTE ==5== ATRIBUTE ==Lokální definice== ATRIBUTE ==<p>
+Už víme, jak definovat vlastní funkci. Jak ale říct její definici Hugsu? Máme dvě možnosti. Můžeme ji definovat buďto <b>lokálně</b>, nebo <b>globálně</b>. V tomto odstavci se podíváme na lokální definici.
+</p>
+
+<p>
+Lokální definice se zapisuje jako v tomto tvaru:
+
+<pre>
+<b>let</b> <i>definice</i> <b>in</b> <i>výraz</i>
+</pre>
+
+kde se místo <code><i>definice</i></code> napíše definice funkce nebo konstanty a místo <code><i>výraz</i></code> se napíše výraz, který se následně vyhodnotí za použití definice v části <code><i>definice</i></code>. Definici se říká lokální, protože je platná pouze v části <code><i>výraz</i></code> příslušného <code>let</code>-výrazu.
+</p>
+
+
+<h4>Příklady:</h4>
+
+<p>
+<pre>
+let pet  =  5 in 5 + pet  ~>  5 + 5  ~>  10
+let plus3 x y z  =  x + y + z  in  plus3 1 3 5
+    ~>  1 + 3 + 5  ~>*  9
+</pre>
+</p>
+
+<p>
+Pokud potřebujeme definovat více než jednu funkci nebo konstantu v jednom <code>let</code>-výrazu, uzavíráme je do <i>složených závorek</i> a oddělujeme <i>středníky</i>.
+
+<pre>
+let {dva = 2; tri = 3; pet = 5; plus3 x y z = x + y + z}
+    in plus3 tri pet dva
+~> 3 + 5 + 2 ~>* 10
+</pre>
+</p>
+
+<hr>
+
+<p>
+Druhá varianta lokální definice je lokální definice s <code>where</code>. Vypadá následovně:
+
+<pre>
+<i>výraz</i> <b>where</b> <i>definice</i>
+</pre>
+
+a chová se úplně stejně, jako <code>let</code>-výraz.
+</p>
+
+
+<h4>Příklad:</h4>
+
+<p>
+<pre>
+plus3 1 3 5  where  plus3 x y z  =  x + y + z
+</pre>
+</p>== PARAGRAPH ==62== ATRIBUTE ==44== ATRIBUTE ==1== ATRIBUTE ==O funkcionálním programování obecně== ATRIBUTE ==<h4>Co je funkcionální program?</h4>
+
+<p>
+Funkcionální program je <b>výraz</b>. Tento výraz se v průběhu výpočtu zjednodušuje až na nezjednodušitelný tvar.
+</p>
+
+<p>
+Takovým výrazem může být například <code>5 + 3</code>, což se výpočtem zjednoduší na nezjednodušitelný výraz <code>8</code>. Více v kapitole <i>Výrazy</i>.
+</p>
+
+
+<h4>Co je funkcionální paradigma?</h4>
+
+<p>
+Paradigma je myšlenkový postup, jak ze zadání dostat výsledek. Nám bude stačit vědět, že místo toho <b>jak</b> dostat výsledek nás bude zajímat <b>co</b> je výsledkem. Smysl tohoto tvrzení plně pochopíte, až si funkcionální programování trošku osaháte.
+</p>
+
+
+<h4>Proč funkcionální programování?</h4>
+
+<p>
+Díky tomu, že potřebujeme do programu napsat pouze <b>co</b> bude výsledkem, jsou zdrojové kódy funkcionálních programů často i <b>několikrát kratší</b> než je tomu u jazyků jako je <i>Pascal</i>, <i>C++</i> nebo <i>Java</i>. To s sebou nese ale i potřebu více abstraktního myšlení.
+</p>
+
+
+<h4>Co je Haskell?</h4>
+<p>
+<b>Haskell</b> je <b>funkcionální programovací jazyk</b>, se kterým budeme pracovat.
+</p>== PARAGRAPH ==63== ATRIBUTE ==46== ATRIBUTE ==3== ATRIBUTE ==A hlavně...== ATRIBUTE ==<p>... nezapomeňte:<br><br>
+
+<center>
+<img src="images/L01P01.jpg">
+</center>
+</p>== PARAGRAPH ==66== ATRIBUTE ==52== ATRIBUTE ==2== ATRIBUTE ==Vytváříme skript== ATRIBUTE ==<p>
+Pod názvem skript si nepředstavujte nic složitého. Haskellovský skript je klasický textový soubor s příponou <code>.hs</code>.
+</p>
+
+<p>
+Ve Windows otevřeme libovolný textový editor (např. <i>poznámkový blok</i>) a v menu <i>Soubor</i> zvolíme <i>Uložit jako...</i>. Jako název souboru můžeme napsat cokoli s příponou <code>.hs</code>, například <code>pokus.hs</code>. V otevírací nabídce níže přepneme <i>Textové soubory</i> na <i>Všechny soubory</i>, aby se k názvu souboru automaticky nedoplňovala přípona <code>.txt</code>.
+</p>
+
+<p>
+Na linuxu otevřeme v terminálu libovolný textový editor. Zde si ukážeme základní práci s editorem <code>nano</code>. Ten spustíme jednoduchým napsáním <code>nano</code> a stisknutím <i>Enter</i>u. Uložení souboru v editoru provedeme stisknutím kláves <i>Ctrl + O</i>. Jako název souboru napíšeme například <code>pokus.hs</code> a stiskneme <i>Enter</i>. Editor se vypíná klávesovou kombinací <i>Ctrl + X</i>.
+</p>
+
+<p>
+Tímto máme vytvořený prázdný skript, můžeme jej nahrát do Hugsu a poté se pustit do jeho editace.
+</p>== PARAGRAPH ==65== ATRIBUTE ==52== ATRIBUTE ==1== ATRIBUTE ==Úvodem== ATRIBUTE ==<p>
+Hugs si při zapnutí načte do paměti definice funkcí a konstant z knihovny <b>Prelude</b>. Tato knihovna mimo jiné obsahuje například definice funkcí <code>odd</code>, <code>even</code>, <code>div</code>, <code>mod</code> a konstanty <code>pi</code>. Od této chvíle můžeme tyto funkce používat.
+</p>
+
+
+<p>
+Chtěli bychom, aby k těmto definicím Hugs přidal i naše vlastní definice. Při jednorázovém používání můžeme do vyhodnocovaného výrazu vložit lokální definici. Při opakovaném používání těch samých funkcí by bylo nepraktické u každého výskytu naší funkce psát lokální definici. Proto budeme v těchto případech používat <b>globální definice</b> uložené ve <b>skriptu</b>.
+</p>== PARAGRAPH ==67== ATRIBUTE ==52== ATRIBUTE ==4== ATRIBUTE ==Editujeme skript== ATRIBUTE ==<p>
+Skript budeme upravovat v textovém editoru. Ten spustíme klasickým spuštěním textového editoru a otevřením skriptu jako textového souboru. Pokud již máme skript nahrán v Hugsu, můžeme jeho editaci vyvolat povelem <code>:e</code>. Po ukončení editace soubor uložíme.
+</p>
+
+<p>
+Ještě nám zbývá říct Hugsu, aby změněný soubor znovu načetl. To můžeme udělat buďto povelem <code><b>:load</b> <i>název souboru</i></code>, nebo povelem <code>:reload</code>, zkráceně <code>:r</code>.
+</p>== PARAGRAPH ==68== ATRIBUTE ==52== ATRIBUTE ==3== ATRIBUTE ==Nahráváme skript do Hugsu== ATRIBUTE ==<p>
+Ve WinHugsu máme dvě možnosti, jak skript do Hugsu nahrát.
+</p>
+
+<ul>
+<li>Tou první je kliknutí na tlačítko <i>Load modules from specified file</i> v horním menu a vybrání příslušného souboru na disku. 
+<li>Nebo můžeme soubor nahrát přes povel <code><b>:load</b> <i>název/cesta k souboru</i></code>, zkráceně <code><b>:l</b> <i>název/cesta k souboru</i></code>.
+</ul>
+
+
+<p>
+V linuxu nahrajeme soubor
+</p>
+
+<ul>
+<li>povelem <code><b>:load</b> <i>název souboru</i></code>. I zde můžeme použít zkrácenou verzi povelu <code><b>:l</b> <i>název souboru</i></code>.
+<li>přímo při spuštění Hugsu napsáním do terminálu <code><b>hugs</b> <i>souborSeSkriptem.hs</i></code>
+</p>
+
+<p>
+Pokud se příkazový řádek změní z <code>Hugs></code> na <code>Main></code>, znamená to, že byl skript úspěšně nahrán a můžeme od této chvíle používat definice v něm obsažené.
+</p>== PARAGRAPH ==69== ATRIBUTE ==53== ATRIBUTE ==1== ATRIBUTE ==Základní typy== ATRIBUTE ==<center>
+<img src="images/L08P01.gif" class="lessonImg"><br>
+<i>Typy jako krabičky</i>
+</center>
+
+
+<p>
+<b>Datový typ</b> je souhrnné označení hodnot se stejnými vlastnostmi.
+</p>
+
+<p>
+Krabičkově je to krabička, která obsahuje krabičky stejného tvaru.
+</p>
+
+<ul>
+<li><code>Integer</code>: všechna celá čísla
+<li><code>Int</code>: malá celá čísla (přibližně od − 500 000 000 do 500 000 000)
+<li><code>Bool</code>: logické hodnoty
+<li><code>Float</code>: desetinná čísla
+<li><code>Char</code>: znaky
+<li><code>String</code>: řetězce znaků
+</ul>
+</p>
+
+<p>
+Že je <code>1</code> typu <code>Integer</code>, napíšeme následovně pomocí dvou dvojteček. Tento zápis se nazývá <b>typová anotace</b>.
+
+<pre>
+1 :: Integer
+</pre>
+
+Podobně je to i s dalšími typy:
+
+<pre>
+'v'  :: Char
+True :: Bool
+5.0  :: Float
+</pre>
+</p>
+
+<p>
+Haskell si umí typ funkce odvodit sám, ale pokud mu jej napíšeme, lépe se nám pak budou hledat chyby v našich definicích. Pokud například chceme definovat unární funkci <code>kratPet</code>, která svůj celočíselný argument zpětinásobí. Mohli bychom napsat
+
+<pre>
+kratPet x = even x
+</pre>
+
+a Hugs by to bez připomínky vzal. Problém by nastal až v situaci, kdy bychom tuto funkci poprvé použili a zjistili bychom, že funkce nevrací <code>Integer</code>, ale <code>Bool</code>. Pokud bychom použili typovou anotaci
+
+<pre>
+kratPet  :: Integer -> Integer
+kratPet x = even x
+</pre>
+
+přišlo by se na chybu už při nahrávání skriptu do interpretu.
+</p>== PARAGRAPH ==70== ATRIBUTE ==53== ATRIBUTE ==2== ATRIBUTE ==Datové struktury== ATRIBUTE ==<h4>Uspořádané <i>n</i>-tice</h4>
+
+<p>
+Mějme například uspořádané dvojice <code>(2,'a')</code>, <code>(105,'#')</code> a <code>(-9,'Q')</code>. Všimněme si, že tyto dvojice mají jako svou první složku celé číslo a jako druhou složku znak. Můžeme tedy říct, že všechny tři jsou typu <code>(Integer,Char)</code>. Stejně bychom zapsali typ uspořádaných trojic, čtveřic, ...
+
+<pre>
+(True,7), (False,-1)               :: (Bool,Integer)
+("Jan",1.0,'w'), ("Jana",2.6, '$') :: (String,Float,Char)
+(5,(False,4)), (7,(False,-1))      :: (Integer,(Bool,Integer))
+()                                 :: () -- <i>uspořádaná <b>nultice</b></i>
+</pre>
+</p>
+
+
+
+
+
+<h4>Seznamy</h4>
+
+<p>
+Narozdíl od uspořádaných <i>n</i>-tic mohou být v seznamu hodnoty pouze jednoho typu. Například <code>[1,2,3,4,5]</code> je seznam celých čísel, čili typu <code>[Integer]</code>.
+
+<pre>
+[True,False,False,True]    :: [Bool]
+[5.0,6.105,10.89]          :: [Float]
+[(5,'a'),(7,'W')]          :: [(Integer,Char)]
+     -- <i>seznam dvojic</i>
+[[1,2,5],[],[11,14,15,16]] :: [[Integer]]
+     -- <i>seznam seznamů celých čísel</i>
+</pre>
+
+Prázdný seznam je sám o sobě bez dalšího upřesnění typu seznam čehokoli.<br>
+<code>[] :: [a]</code>
+</p>
+
+<p>
+Zvláštní typ seznamu je seznam znaků <code>[Char]</code>, který se často zapisuje jako <b>řetězec</b> <code>String</code>. Tyto dva typy jsou libovolně zaměnitelné. <code>[Char]</code> se dá použít v místě, kde se očekává <code>String</code> a <code>String</code> se dá použít v místě, kde se očekává seznam <code>[Char]</code>.
+
+<pre>
+String   ≡  [Char]
+"Ahoj"   ≡  ['A','h','o','j']
+"#&@?!"  ≡  ['#','&','@','?','!']
+</pre>
+</p>== PARAGRAPH ==71== ATRIBUTE ==53== ATRIBUTE ==3== ATRIBUTE ==Typy funkcí== ATRIBUTE ==<p>
+Typová anotace funkce vypadá následovně:<br><br>
+
+<pre>
+[funkce] :: <i>typ prvního argumentu</i> -> <i>typ druhého argumentu</i>
+            -> ... -> <i>typ výsledku</i>
+</pre>
+</p>
+
+
+
+<h4>Příklad:</h4>
+
+<p>
+Definujte funkci <code>plus2</code> včetně typové anotace, která si bere jako argumenty dvě celá čísla a vrátí celé číslo, coby jejich součet.
+</p>
+
+<hr>
+
+<p>
+Taková definice by mohla vypadat následovně:
+
+<pre>
+plus2     ::  Integer -> Integer -> Integer
+plus2 x y  =  x + y
+</pre>
+</p>== PARAGRAPH ==72== ATRIBUTE ==53== ATRIBUTE ==4== ATRIBUTE ==Polymorfní typy== ATRIBUTE ==<p>
+Funkce <code>id</code> si bere jeden argument</b>, který v nezměněné podobě vrátí. Je definována takto:
+
+<pre>
+id x = x
+</pre>
+</p>
+
+<p>
+Jaký je její typ? Pokud do ní vložíme celé číslo, vrátí celé číslo.
+
+<pre>
+id 5 ~> 5
+</pre>
+
+Takže by její typ mohl být <code>id :: Integer -> Integer</code>.
+</p>
+
+
+<p>
+Pokud bychom jí tento typ přiřadili, zbytečně bychom <b>omezili její použití</b>. Například bychom do ní nemohli vložit seznam Stringů.
+
+<pre>
+id ["abc","DeQ","ASDF"]  ~>  ["abc","DeQ","ASDF"]
+</pre>
+
+A co víc – my bychom chtěli, aby pracovala i s funkcemi.
+
+<pre>
+(id even) 5  ~>  even 5  ~>  False
+</pre>
+
+Tím pádem by musela mít typ
+
+<pre>
+id :: (Integer -> Bool) -> Integer -> Bool
+</pre>
+
+</p>
+
+
+<p>
+Proto se zavádí <b>polymorfní typy</b>. Zapisují se řetězcem začínajícím malým písmenem, většinou pouze jedním malým písmenem ze začátku abecedy. Tomuto zápisu se říká <b>typová proměnná</b>.
+</p>
+
+<p>
+Funkce <code>id</code> je tedy typu <code>id :: a -> a</code>, což znamená <i>dá se do ní vhodit <b>cokoli</b> a ona vrátí hodnotu toho samého typu, jako je hodnota, která do ní byla vhozena</i>.
+</p>== PARAGRAPH ==73== ATRIBUTE ==54== ATRIBUTE ==1== ATRIBUTE ==id== ATRIBUTE ==<p>
+Unární funkce vracející argument v nezměněné podobě.
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+id  :: a -> a
+id x = x
+</pre>
+</p>
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+id 5 ~> 5
+id "ahoj" ~> "ahoj"
+(id even) 3 ~> even 3 ~> False
+</pre>
+</p>
+
+
+<h4>Složitější příklad</h4>
+
+<p>
+<pre>
+comp     ::  Int -> (a -> a) -> a -> a
+comp 0 _  =  id
+comp n f  =  f . comp (n-1) f
+</pre>
+
+Výraz <code>comp n f x</code> se vyhodnotí tak, že se na prvek <code>x</code> aplikuje <code>n</code>-krát funkce <code>f</code>. Funkce <code>id</code> zde funguje jako zastavující hodnota pro případ, že hodnota v prvním argumentu se zmenší na nulu.
+
+<pre>
+comp 5 (+2) 10
+
+~>*  ( (+2) . (+2) . (+2) . (+2) . (+2) . id ) 10
+</pre>
+
+Operátor <code>(.)</code> je rozebrán v posledním odstavci.
+</p>== PARAGRAPH ==74== ATRIBUTE ==54== ATRIBUTE ==2== ATRIBUTE ==const== ATRIBUTE ==<p>
+Binární funkce vracející svůj první argument v nezměněné podobě.
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+const    :: a -> b -> a
+const x y = x
+</pre>
+</p>
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+const 5 'q' ~> 5
+const True (+8) ~> True
+(const div "ffuu") 10 3 ~> div 10 3 ~> 3
+</pre>
+</p>
+
+<h4>Doplňující info</h4>
+
+<p>
+Výraz <code>(const div "ffuu") 10 3</code> se vyhodnotí následovně:
+<ul>
+<li>Hugs začne vyhodnocovat zleva. To znamená, že se podívá na první věc zleva, což je funkce <code>const</code>.
+<li>Zjistí si, že funkce const je binární, to znamená, že ke svému plnému vyhodnocení potřebuje dva argumenty.
+<li>Jako první dvě věci, na které narazí, je funkce <code>div</code> a řetězec <code>"ffuu"</code>.
+<li>Tyto dva argumenty jí k vyhodnocení stačí, takže se vyhodnotí podle definice na svůj první argument, což je <code>div</code>.
+<li>Funkce <code>div</code> se aplikuje na čísla <code>10</code> a <code>3</code> standardním způsobem.
+</ul>
+</p>== PARAGRAPH ==75== ATRIBUTE ==54== ATRIBUTE ==3== ATRIBUTE ==flip== ATRIBUTE ==<p>
+Ternární funkce, která si bere jako argumenty:
+</p>
+
+<ul>
+<li>binární funkci <code>f</code> typu <code>a -> b -> c</code>
+<li>cokoli, co se dá použít jako druhý argument funkce <code>f</code>, typu <code>b</code>
+<li>cokoli, co se dá použít jako první argument funkce <code>f</code>, typu <code>a</code>
+</ul>
+
+<p>
+Následně prohodí pořadí druhého a třetího argumentu a tyto argumenty nechá zpracovat funkcí <code>f</code>, výsledek typu <code>c</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+flip       ::  (a -> b -> c) -> b -> a -> c
+flip f x y  =  f y x
+</pre>
+</p>
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+flip (-) 3 5  ~>  5 - 3  ~>  2
+flip const True "jj"  ~>  const "jj" True  ~>  "jj"
+</pre>
+</p>== PARAGRAPH ==76== ATRIBUTE ==54== ATRIBUTE ==5== ATRIBUTE ==fst== ATRIBUTE ==<p>
+Funkce, která z uspořádané dvojice vrátí její první složku.
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+fst      :: (a,b) -> a
+fst (x,_) = x
+</pre>
+</p>
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+fst ("#&!",10.5) ~> "#&!"
+</pre>
+</p>== PARAGRAPH ==77== ATRIBUTE ==54== ATRIBUTE ==6== ATRIBUTE ==snd== ATRIBUTE ==<p>
+Funkce, která z uspořádané dvojice vrátí její druhou složku.
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+snd       ::  (a,b) -> b
+snd (_,y)  =  y
+</pre>
+</p>
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+snd ("#&!",10.5)  ~>  10.5
+</pre>
+</p>== PARAGRAPH ==78== ATRIBUTE ==54== ATRIBUTE ==7== ATRIBUTE ==Složené funkce== ATRIBUTE ==<center>
+<img src="images/L09P01.gif" class="lessonImg"><br>
+<i>Krabičkové znázornění skládání funkcí</i>
+</center>
+
+<p>
+Ke skládání funkcí se používá ternární operátor <code>(.)</code>. Složená funkce <code>(f.g)</code> ve výrazu <code>(f.g) x</code> nejdříve prožene argument <code>x</code> funkcí <code>g</code> a následně funkcí <code>f</code>.
+
+<p>
+Argumenty operátoru <code>(.)</code> jsou:
+<ul>
+<li>druhá funkce, která se má na argument aplikovat, typ <code>(b -> c)</code>
+<li>první funkce, která se má na argument aplikovat, typ <code>(a -> b)</code>
+<li>argument, na který se složená funkce aplikuje, typ <code>a</code>
+</ul>
+</p>
+
+<p>
+Výsledkem výpočtu je argument <code>x</code> po aplikaci funkcí <code>g</code> a <code>f</code> v tomto pořadí. Typ <code>c</code>
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+(.)       ::  (b -> c) -> (a -> b) -> a -> c
+(f . g) x  =  f (g x)
+</pre>
+</p>
+
+<h4>Příklad</h4>
+
+<p>
+Definujte binární funkci <code>sndOdd</code>, která z uspořádané dvojice čehokoli a celého čísla vybere její druhou složku a zjistí, zda je její hodnota lichá. Příklad požadovaného vyhodnocení:
+
+<pre>
+sndOdd ("ahoj",5)  ~>*  True
+sndOdd (True,8)    ~>*  False
+</pre>
+</p>
+
+<hr>
+
+<p>
+Do funkce vhodím dvojici čehokoli a celého čísla a vypadne z ní <code>Bool</code>. Typ této funkce tedy bude následující:
+
+<pre>
+sndOdd  ::  (a,Integer) -> Bool
+</pre>
+
+Jednou z možností by bylo použít definici podle vzoru:
+
+<pre>
+sndOdd (_,y)  =  odd y
+</pre>
+
+My si zde ukážeme, jak tuto funkci definovat pomocí složené funkce. Chceme vytvořit funkci obecně znázorněnou modrou krabičkou na obrázku výše. Vhodíme do ní dvojici a vypadne z ní <code>Bool</code>.
+</p>
+
+<p>
+Jako první si z uspořádané dvojice vytáhneme její druhou složku pomocí funkce <code>snd</code>:
+
+<pre>
+snd (x,y)
+</pre>
+
+Poté na výsledek aplikujeme funkci <code>odd</code>:
+
+<pre>
+odd (snd (x,y))
+</pre>
+
+Což můžeme napsat pomocí operátoru <code>(.)</code> jako složenou funkci. Výsledná definice bude tedy vypadat následovně:
+
+<pre>
+sndOdd (x,y)  =  (odd.snd) (x,y)
+</pre>
+
+Pokud se nám podaří dostat argument funkce úplně doprava, můžeme jej ze zápisu vynechat. Takovému zápisu se říká <b>pointfree</b>. O převodu definice funkce do pointfree tvaru se budeme podrobně bavit později. Prozatím nám bude stačit vědět, že následující zápis je zaměnitelný s předchozím:
+
+<pre>
+sndOdd  =  odd.snd
+</pre>
+</p>
+
+<center>
+<img src="images/L09P02.gif" class="lessonImg"><br>
+<i>Vyhodnocení výrazu <code>(odd.snd) (True,8)</code></i>
+</center>== PARAGRAPH ==79== ATRIBUTE ==57== ATRIBUTE ==1== ATRIBUTE ==head== ATRIBUTE ==<p>
+Unární funkce vracející první prvek seznamu.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+head       ::  [a] -> a
+head (x:_)  =  x
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+head [1,2,3]  ~>  1
+head "ABC"  ~>  'A'
+head [[2.5, 3.0], [4.8, 10.69, 9.12], []]  ~>  [2.5, 3.0]
+</pre>== PARAGRAPH ==80== ATRIBUTE ==57== ATRIBUTE ==2== ATRIBUTE ==tail== ATRIBUTE ==<p>
+Unární funkce vracející seznam bez prvního prvku.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+tail       ::  [a] -> [a]
+tail (_:s)  =  s
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+tail [1,2,3]  ~>  [2,3]
+tail "ABC"  ~>  "BC"
+tail [[2.5, 3.0], [4.8, 10.69, 9.12], []]
+      ~>  [[4.8, 10.69, 9.12], []]
+</pre>== PARAGRAPH ==81== ATRIBUTE ==57== ATRIBUTE ==3== ATRIBUTE ==null== ATRIBUTE ==<p>
+Unární funkce vracející <code>True</code>, pokud je seznam prázdný, <code>False</code>, pokud obsahuje alespoň jeden prvek.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+null       ::  [a] -> Bool
+null []     =  True
+null (_:_)  =  False
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+null []  ~>  True
+null ""  ~>  True
+null [2,3]  ~>  False
+null "KK"  ~>  False
+</pre>== PARAGRAPH ==82== ATRIBUTE ==57== ATRIBUTE ==4== ATRIBUTE ==length== ATRIBUTE ==<p>
+Unární funkce vracející délku seznamu.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+length       ::  [a] -> Int
+length []     =  0
+length (x:s)  =  1 + length s
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+length []  ~>* 0
+length [1,2,3,4]  ~>*  4
+length "ABCDE"  ~>*  5
+length ["A", "AB", "&+#!$"]  ~>*  3
+</pre>
+
+<h4>Vzorové vyhodnocení</h4>
+
+<pre>
+length [1,2,3] <i>neboli</i> length 1:[2,3]
+
+    <i>za <b>x</b> se dosadí <b>1</b>, za <b>s</b> se dosadí <b>[2,3]</b></i>
+~>  1 + length [2,3]
+    <i>za <b>x</b> se dosadí <b>2</b>, za <b>s</b> se dosadí <b>[3]</b></i>
+~>  1 + 1 + length [3]
+    <i>za <b>x</b> se dosadí <b>3</b>, za <b>s</b> se dosadí <b>[]</b></i>
+~>  1 + 1 + 1 + length []
+    <i><b>length []</b> se vyhodnotí podle první klauzule</i>
+~>  1 + 1 + 1 + 0
+~>* 3
+</pre>
+
+<h4>Poznámka</h4>
+
+<p>
+Jelikož se v definici na pravé straně druhé klauzule nevyskytuje <code>x</code>, můžeme jej nahradit <b>podtržítkem</b>.
+
+<pre>
+length (_:s)  =  1 + length s
+</pre>
+</p>== PARAGRAPH ==83== ATRIBUTE ==57== ATRIBUTE ==5== ATRIBUTE ==Spojování seznamů== ATRIBUTE ==<p>
+Spojení dvou seznamů se provádí pomocí binárního operátoru <code>(++)</code>. Vyhodnocení probíhá tak, že se prvky prvního seznamu po jednom přeskládají do druhého.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+(++)       ::  [a] -> [a] -> [a]
+[]    ++ t  =  t
+(x:s) ++ t  =  x : (s ++ t)
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+[1,2] ++ [3,4,5] ~>* [1,2,3,4,5]
+"ABC" ++ "DE" ~>* "ABCDE"
+[] ++ [True, False] ~> [True, False]
+</pre>
+
+<h4>Vzorové vyhodnocení</h4>
+
+<pre>
+[1,2,3] ++ [4]  <i>což je zaměnitelné s <b>1:[2,3] ++ [4]</b></i>
+
+    <i>podle druhé klauzule
+    x = 1, s = [2,3], t = [4]</i>
+~>  1 : ([2,3] ++ [4])
+    <i>x = 2, s = [3], t = [4]</i>
+~>  1 : (2 : ([3] ++ [4]))
+    <i>x = 3, s = [], t = [4]</i>
+~>  1 : (2 : (3 : ([] ++ [4])))
+    <i>podle první klauzule</i>
+~>  1 : (2 : (3 : [4])) ≡ <i>[1,2,3,4]</i>
+</pre>
+
+<h4>Poznámka</h4>
+
+<p>
+Při každém spojování seznamů se prvky z prvního seznamu musí přeskládat do seznamu druhého. To znamená, že vyhodnocení výrazu <code>[1,2,3,4,5] ++ []</code> bude trvat podstatně <b>delší dobu</b>, než vyhodnocení výrazu <code>[] ++ [1,2,3,4,5]</code>, které bude hotové po <b>jednom kroku</b>.
+</p>== PARAGRAPH ==84== ATRIBUTE ==57== ATRIBUTE ==6== ATRIBUTE ==Výběr prvku== ATRIBUTE ==<p>
+Prvek se ze seznamu vybírá pomocí binárního operátoru <code>(!!)</code>. Výraz <code>s !! k</code> se vyhodnotí na <i>k</i>-tý prvek seznamu <code>s</code>.
+
+<ul>
+<li>indexuje se <b>od nuly</b>
+<li>předpokládá se, že <code>k < length s</code>, jinak dojde k chybě
+</ul>
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+(!!)       ::  [a] –> Int –> a
+(x:_) !! 0  =  x
+(_:s) !! k  =  s !! (k-1)
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+[1,2,3] !! 0  ~>*  1
+"ABCDE" !! 4  ~>*  'E'
+[[1,2], [3], [], [4,5]] !! 3  ~>*  [4,5]
+</pre>== PARAGRAPH ==85== ATRIBUTE ==57== ATRIBUTE ==7== ATRIBUTE ==take== ATRIBUTE ==<p>
+Binární funkce, kde výraz <code>take n s</code> se vyhodnotí na seznam obsahující prvních <code>n</code> prvků seznamu <code>s</code>. Pokud <code>n > length s</code>, vrátí se celý seznam <code>s</code>.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+take         ::  Int –> [a] –> [a]
+take 0 _      =  []
+take _ []     =  []
+take n (x:s)  =  x : take (n-1) s
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+take 2 [1,2,3,4] ~>* [1,2]
+take 3 [2] ~>* [2]
+take 1 "ABCD" ~>* "A"
+</pre>== PARAGRAPH ==86== ATRIBUTE ==57== ATRIBUTE ==8== ATRIBUTE ==drop== ATRIBUTE ==<p>
+Binární funkce, kde se výraz <code>drop n s</code> vyhodnotí na seznam <code>s</code> bez prvních <code>n</code> prvků. Pokud <code>n > length s</code>, výraz se vyhodnotí na <b>prázdný seznam</b>.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+drop         ::  Int –> [a] –> [a]
+drop 0 s      =  s
+drop _ []     =  []
+drop n (_:s)  =  drop (n-1) s
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+drop 2 [1,2,3,4,5]  ~>*  [3,4,5]
+drop 0 [1,2,3]  ~>*  [1,2,3]
+drop 8 [1,2,3]  ~>*  []
+</pre>== PARAGRAPH ==87== ATRIBUTE ==57== ATRIBUTE ==9== ATRIBUTE ==concat== ATRIBUTE ==<p>
+Unární funkce, která spojí seznamy v seznamu seznamů v jeden seznam.
+</p>
+
+<h4>Definice</h4>
+
+<pre>
+concat       ::  [[a]] –> [a]
+concat []     =  []
+concat (s:t)  =  s ++ concat t
+</pre>
+
+<h4>Příklad použití</h4>
+
+<pre>
+concat [[1,2], [3,4,5], [], [6,7]]  ~>*  [1,2,3,4,5,6,7]
+concat ["ABC", "", "DEF"]  ~>*  "ABCDEF"
+</pre>== PARAGRAPH ==88== ATRIBUTE ==55== ATRIBUTE ==1== ATRIBUTE ==Seznam jako vláček== ATRIBUTE ==<p>
+Jak jsme si řekli v kapitole o užitečných funkcích, seznamy se zapisují do hranatých závorek a jejich prvky se oddělují čárkami.
+
+<pre>
+[8,5,3]
+</pre>
+
+Prázdný seznam vyrobíme pomocí dvou hranatých závorek <code>[]</code> a pro vložení prvku do seznamu použijeme binární operátor <code>(:)</code>. Vložení prvku <code>10</code> do seznamu <code>[8,5,3]</code> se tedy provede následovně:
+
+<pre>
+10 : [8,5,3]
+</pre>
+
+Výraz <code>10:[8,5,3]</code> se již dále nevyhodnocuje, je v nezjednodušitelném tvaru a zaměnitelný s výrazem <code>[10,8,5,3]</code>. Obecněji jsou všechny z následujících výrazů libovolně zaměnitelné (<code>(:)</code> sdružuje zprava):
+
+<pre>
+[10,8,5,3]
+10:[8,5,3]
+10:8:[5,3]
+10:8:5:[3]
+10:8:5:3:[]
+</pre>
+</p>
+
+<p>
+Konečně, seznam zapsaný ve tvaru <code>8:5:3:[]</code> můžeme znázornit jako <b>vláček</b>. Od běžného vlaku se liší akorát tím, že místo živých cestujících převáží data a mašinka vagónky netáhne, ale tlačí je před sebou.
+</p>
+
+<p>
+Takže seznam je vláček, kde jeho prvky jsou znázorněny jako vagónky, operátor <code>(:)</code> jako spojovník vagónů a prázdný seznam jako mašinka.
+</p>
+
+<center>
+<img src="images/L10P01.gif" class="lessonImg"><br>
+<i>Seznam <code>[8,5,3]</code> jako vláček</i>
+</center>== PARAGRAPH ==89== ATRIBUTE ==55== ATRIBUTE ==2== ATRIBUTE ==Operace se seznamy== ATRIBUTE ==<p>
+Se seznamem umíme udělat tři věci:
+
+<ol>
+<li><b>přidat prvek</b> na jeho začátek (na levou stranu)
+<li>podívat se, jaký je jeho <b>první prvek</b> a jak vypadá seznam <b>bez prvního prvku</b>
+<li>otestovat, zda je <b>prázdný</b> (popřípadě jednoprvkový, dvouprvkový, ...)
+</ol>
+
+<b>Nic víc</b>. Všechny další operace se seznamy jsou postaveny na těchto třech základních.
+</p>
+
+
+<p>
+Například funkce <code>head</code>, která vrací první prvek seznamu, je definována následovně:
+
+<pre>
+head       ::  [a] -> a
+head (x:s)  =  x
+</pre>
+
+Ukažme si, jak vypadá vyhodnocení výrazu <code>head [1,2,3]</code>.
+</p>
+
+<ul>
+<li>seznam <code>[1,2,3]</code> rozepíšeme tak, že z něj vytáhneme první prvek: <code>1:[2,3]</code>
+<li>v levé straně definice funkce <code>head</code> dosadíme <code>1</code> za <code>x</code> a <code>[2,3]</code> za <code>s</code>.
+<li>výraz nahradíme pravou stranou definice, což je obecně <code>x</code>, zde dosazený prvek <code>1</code>.
+</ul>
+
+<p>
+Výsledkem je tedy <code>1</code>.
+</p>
+
+<p>
+Poznámka: Jelikož na pravé straně definice funkce <code>head</code> není proměnná <code>s</code> nikde použita, můžeme ji nahradit <b>podtržítkem</b>.
+
+<pre>
+head (x:_) = x
+</pre>
+</p>== PARAGRAPH ==90== ATRIBUTE ==56== ATRIBUTE ==1== ATRIBUTE ==Proč důkaz indukcí?== ATRIBUTE ==<h4>O čem bude tato lekce?</h4>
+
+<p>
+Na první pohled může vylekat její délka. Pro lepší porozumění se v prvních odstavcích snažím dojít k tomu, proč vlastně indukci potřebujeme. Od naivního postupu v první metodě až po indukci v metodě třetí. Koho tato motivační část nezajímá, může ji přeskočit a začít číst až odstavec <i>Začínáme</i>.
+</p>
+
+
+
+<h4>Zadání</h4>
+
+<p>Dokažte, že funkce <code>fact</code>
+
+<pre>
+fact   ::  Int -> Integer
+fact 0  =  1
+fact n  =  n * fact (n - 1)
+</pre>
+
+počítá faktoriál nezáporného čísla. Jinými slovy, že výraz <code>fact n</code> se vyhodnotí na <i>n!</i>.
+</p>== PARAGRAPH ==127== ATRIBUTE ==58== ATRIBUTE ==1== ATRIBUTE ==Proč vstupní a výstupní operace?== ATRIBUTE ==<p>
+Zatím jsme si ukázali, jak vyhodnocovat výrazy a jak definovat funkce. Mnohdy ale budeme od našich programů chtít, aby:
+</p>
+
+<ul>
+<li>načítaly vstup od uživatele
+<li>načítaly vstup ze souborů
+<li>informovaly uživatele o postupu výpočtu
+<li>...
+</ul>
+
+<p>
+K těmto úkonům slouží <b>vstupní a výstupní operace</b> běžně označované jako <b>IO-operace</b> (z anglického input/output) nebo prostě <b>IO</b>.
+</p>
+
+<p>
+Tyto operace se také nazývají <b>akce</b>.
+</p>== PARAGRAPH ==128== ATRIBUTE ==54== ATRIBUTE ==4== ATRIBUTE ==Konstruktor n-tic== ATRIBUTE ==<ul>
+<li>Uspořádané <b>dvojice</b> se tvoří pomocí binárního operátoru <code>(,)</code>.
+<li>Uspořádané <b>trojice</b> pak pomocí ternárního operátoru <code>(,,)</code>.
+<li><b>Čtveřice</b> pomocí operátoru <code>(,,,)</code> arity 4.
+<li>...
+</ul>
+
+
+<h4>Příklad použití</h4>
+
+<p>
+<pre>
+(,)  5     True        ~>  (5, True)
+(,,) "aAa" 5.0  False  ~>  ("aAa", 5.0, False)
+</pre>
+</p>== PARAGRAPH ==91== ATRIBUTE ==56== ATRIBUTE ==5== ATRIBUTE ==Začínáme== ATRIBUTE ==<p>
+Jako první musíme zvolit, <b>vůči čemu indukci povedeme</b>. Jinými slovy, co bude prvkem, pro jehož libovolnou velikost máme korektnost funkce dokázat. V našem příkladě máme unární funkci <code>fact n</code>, takže je náš výběr jednoduchý – indukci povedeme vůči jejímu argumentu <code>n</code>.
+</p>== PARAGRAPH ==92== ATRIBUTE ==56== ATRIBUTE ==6== ATRIBUTE ==Indukční báze== ATRIBUTE ==<p>
+Nejprve přímo ukážeme, že funkce počítá to, co má, pro <b>nejmenší hodnotu argumentu</b>. V našem příkladě ukážeme, že funkce <code>fact n</code> <b>je korektní</b> pro <code>n = 0</code>, tedy že <code>fact 0</code> se vyhodnotí na <i>0!</i> .
+</p>
+
+<p>
+<code>fact 0</code> se podle první klauzule vyhodnotí na <code>1</code>, což je <i>0!</i> .
+</p>
+
+<p>
+Můžeme tedy říct, že <b>báze indukce platí</b>.
+</p>== PARAGRAPH ==93== ATRIBUTE ==56== ATRIBUTE ==7== ATRIBUTE ==Indukční předpoklad== ATRIBUTE ==<p>
+<ul>
+<li>Korektnost <code>fact 0</code> máme dokázanou v bázi.
+<li>Korektnost <code>fact 1</code> dokážeme pomocí předpokladu, že <code>fact 0</code> počítá <i>0!</i> .
+<li>Korektnost <code>fact 2</code> dokážeme pomocí předpokladu, že <code>fact 1</code> počítá <i>1!</i> .
+<li>Korektnost <code>fact 3</code> dokážeme pomocí předpokladu, že <code>fact 2</code> počítá <i>2!</i> .
+<li>...
+</ul>
+</p>
+
+<p>
+A právě tento <b>předpoklad</b> musíme zapsat. Takový zápis by mohl vypadat následovně:
+</p>
+
+<p>
+Předpokládejme, že funkce <code>fact n</code> je korektní pro nějaké kladné celé číslo <i>k</i>. Jinými slovy, že <b><code>fact k</code> se vyhodnotí na <i>k!</i></b> .
+</p>== PARAGRAPH ==94== ATRIBUTE ==56== ATRIBUTE ==8== ATRIBUTE ==Indukční krok== ATRIBUTE ==<p>
+<ul>
+<li>Korektnost <code>fact 0</code> máme dokázanou v bázi.
+<li>Korektnost <code>fact 1</code> dokážeme pomocí předpokladu, že <code>fact 0</code> počítá <i>0!</i> .
+<li>Korektnost <code>fact 2</code> dokážeme pomocí předpokladu, že <code>fact 1</code> počítá <i>1!</i> .
+<li>Korektnost <code>fact 3</code> dokážeme pomocí předpokladu, že <code>fact 2</code> počítá <i>2!</i> .
+<li>...
+</ul>
+</p>
+
+<p>
+Obecně chceme ukázat, že výraz <code>fact (k + 1)</code> se vyhodnotí na <i>(k + 1)!</i> pomocí předpokladu, že <code>fact k</code> se vyhodnotí na <i>k!</i> . Tak tedy dokazujme. Budeme postupně vyhodnocovat výraz <code>fact (k + 1)</code>.
+
+<pre>
+fact (k + 1)  ~>  (k + 1) * fact k
+</pre>
+
+V tuto chvíli přichází na řadu indukční předpoklad. My totiž víme, že <code>fact k</code> se vyhodnotí na <i>k!</i> . Podle indukčního předpokladu tedy pokračujeme ve vyhodnocování.
+
+<pre>
+~>  (k + 1) * <i>k!</i>
+</pre>
+
+což je <i>(k + 1)!</i> .
+</p>
+
+
+<p>
+Dokázali jsme tedy, že výraz <code>fact (k + 1)</code> se vyhodnotí na hodnotu <i>(k + 1)!</i> . <b>Tímto je důkaz hotov</b>.
+</p>== PARAGRAPH ==95== ATRIBUTE ==56== ATRIBUTE ==9== ATRIBUTE ==Indukce na seznamech== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+
+<pre>
+length       ::  [a] -> Int
+length []     =  0
+length (x:s)  =  1 + length s
+</pre>
+
+Dokažte, že výraz <code>length s</code> se vyhodnotí na délku seznamu <code>s</code>.
+</p>
+
+
+<hr>
+
+
+<p>
+Korektnost funkce <code>fact n</code> jsme dokazovali indukcí podle <code>n</code>. Indukce na seznamech se ve většině případů vede podle délky seznamu. I zde budeme korektnost funkce <code>length s</code> dokazovat podle délky seznamu <code>s</code>.
+</p>
+
+
+<h4>Indukční báze</h4>
+
+<p>
+Chceme ukázat, že funkce <code>length</code> je korektně definována pro nejmenší možný argument. V tomto případě pro prázdný seznam. Ukážeme tedy, že <code>length []</code> se vyhodnotí na délku prázdného seznamu, což je nula.
+
+<pre>
+length []  ~>  0
+</pre>
+
+Báze tedy platí.
+</p>
+
+
+<h4>Indukční předpoklad</h4>
+
+<p>
+Předpokládejme tedy, že funkce je korektní pro všechny seznamy <code>s</code>, které mají délku <code>k</code>. To znamená, že <code>length s</code> se vyhodnotí na číslo <code>k</code>.
+</p>
+
+
+<h4>Indukční krok</h4>
+
+<p>
+U funkce <code>fact</code> jsme dokazovali, že je korektně definována pro nějaké <code>k + 1</code>. Zde bychom chtěli použít seznam, který je o jeden prvek delší než seznam <code>s</code> z indukčního předpokladu, který obsahuje <code>k</code> prvků. Přidejme tedy k seznamu <code>s</code> libovolný prvek <code>x</code> a dokazujme, že <code>length (x:s)</code> se vyhodnotí na <i>k + 1</i>.
+
+<pre>
+length (x:s)  ~>  1 + length s
+</pre>
+
+Podle indukčního předpokladu víme, že <code>length s</code> se vyhodnotí na <i>k</i>. Vyhodnocení bude podle indukčního předpokladu pokračovat následovně:
+
+<pre>
+~>  1 + <i>k</i>
+</pre>
+
+což jsme chtěli dokázat. Důkaz je u konce.
+</p>
+
+
+<hr>
+
+
+<h4>Poznámka</h4>
+
+<p>
+U prvního příkladu navíc předpokládáme, že argument funkce <code>fact</code> je pouze konečně velký. Stejně tak u druhého příkladu předpokládáme, že korektnost funkce <code>length</code> dokazujeme pro konečně dlouhý seznam.
+</p>== PARAGRAPH ==96== ATRIBUTE ==60== ATRIBUTE ==1== ATRIBUTE ==Úvodem== ATRIBUTE ==<p>
+V jedné z prvních lekcí jsme si řekli něco o aritě funkce. O tom, že jsou funkce unární, binární, ternární, atd... Zde si ukážeme, jak se dá na aritu nahlížet jinak.
+</p>
+
+<p>
+Mějme obecnou ternární funkci <code>f x y z</code> obecného typu <code>f :: a -> b -> c -> d</code>. Tato funkce dle našich dosavadních znalostí potřebuje ke svému plnému vyhodnocení tři argumenty.
+</p>
+
+<p>
+Co se ale stane, když jí dáme jen jeden argument? Z ternární funkce <code>f</code> se stane binární funkce <code>(f x) :: b -> c -> d</code>.
+</p>
+
+<p>
+Co se stane, když dáme binární funkci <code>(f x)</code> jeden argument? Stane se z ní unární funkce <code>(f x y) :: c -> d</code>.
+</p>
+
+<p>
+A konečně, co se stane, když dáme unární funkci <code>(f x y)</code> jeden argument? Stane se z ní nulární funkce <code>(f x y z) :: d</code>.
+</p>
+
+<p>
+Pokud tento výraz napíšeme do Hugsu, sám si jej ozávorkuje jako <code>((f x) y) z</code> a provede postupnou aplikaci, která je popsána výše.
+</p>== PARAGRAPH ==97== ATRIBUTE ==60== ATRIBUTE ==2== ATRIBUTE ==Příklad s (+)== ATRIBUTE ==<p>
+<code>(+)</code> je sama o sobě <b>binární funkce</b>, která si bere dvě čísla, jež sečte.
+</p>
+
+<center>
+<img src="images/L50P01.gif" class="lessonImg"><br>
+<i>Krabičkové znázornění funkce <code>(+)</code></i>
+</center>
+
+<p>
+Co se stane, když jí dáme pouze jeden argument, například <code>5</code>? Stane se z ní unární funkce <code>((+) 5)</code>, která si jako argument bere číslo, které přičte k číslu <code>5</code>.
+</p>
+
+<center>
+<img src="images/L50P02.gif" class="lessonImg"><br>
+<i>Krabičkové znázornění funkce <code>(5+)</code></i>
+</center>
+
+<p>
+<pre>
+((+) 5) 3 ~> 5 + 3 ~> 8
+((+) 5) 4 ~> 5 + 4 ~> 9
+((+) 5) 6 ~> 5 + 6 ~> 11
+</pre>
+
+Funkci <code>((+) 5)</code> můžeme zapsat infixově jako <code>(5+)</code>. Stejně jako <code>(div 4)</code> můžeme zapsat <code>(4 `div`)</code>.
+</p>
+
+<p>
+Jelikož je sčítání komutativní, je nám jedno, jestli napíšeme <code>3 + 5</code> nebo <code>5 + 3</code>. Problém může nastat například při funkci <code>(^)</code>, kdy už nám <b>záleží</b> na tom, zda se provede <i>dvě na x-tou</i> nebo <i>x na druhou</i>. Funkci, která realizuje výpočet <i>dvě na x-tou</i> zapíšeme <code>(2^)</code> a funkci, která počítá <i>x na druhou</i> zapíšeme <code>(^2)</code>.
+
+<pre>
+(2^) 5 ~>* 32
+(^2) 5 ~>* 25
+</pre>
+</p>== PARAGRAPH ==98== ATRIBUTE ==60== ATRIBUTE ==3== ATRIBUTE ==Příklad s zipWith== ATRIBUTE ==<p>
+Řekli jsme si, že funkce <code>zipWith</code> je ternární. To znamená, že potřebuje tři argumenty ke svému vyhodnocení. Co se stane, když ji aplikujeme na jeden argument, například na funkci <code>(*)</code>? Stane se z ní binární funkce <code>(zipWith (*))</code>, která vezme dva seznamy, jejichž prvky mezi sebou vynásobí.
+</p>
+
+<p>
+Co se stane, když funkci <code>(zipWith (*))</code> aplikujeme například na seznam <code>[1,2,3]</code>? Stane se z ní unární funkce <code>(zipWith (*) [1,2,3])</code>, která udělá ze seznamu maximálně tříprvkový seznam tvořený prvním prvkem daného seznamu, dvojnásobkem druhého prvku a trojnásobkem třetího prvku.
+</p>
+
+<p>
+Co se stane, když funkci <code>(zipWith (*) [1,2,3])</code> aplikujeme na seznam <code>[5,5,5,5]</code>? Stane se z ní nulární funkce <code>zipWith (*) [1,2,3] [5,5,5,5]</code>, což je plně vyhodnotitelný výraz, který se vyhodnotí na seznam <code>[5,10,15]</code>.
+</p>
+
+<p>
+<pre>
+zipWith
+   :: (a -> b -> c) -> [a] -> [b] -> [c]
+
+zipWith (++)
+   :: [[a]] -> [[a]] -> [[a]]
+
+zipWith (++) [[1,2], [3,4,5]]
+   :: [[Integer]] -> [[Integer]]
+
+zipWith (++) [[1,2], [3,4,5]] [[10,11,12], [13,14]]
+   :: [[Integer]]
+</pre>
+
+Poslední výraz se vyhodnotí následovně:
+
+<pre>
+    zipWith (++) [[1,2], [3,4,5]] [[10,11,12], [13,14]]
+
+~>* [[1,2] ++ [10,11,12], [3,4,5] ++ [13,14]]
+~>* [  [1,2,10,11,12]   ,   [3,4,5,13,14]   ]
+</pre>
+</p>== PARAGRAPH ==99== ATRIBUTE ==59== ATRIBUTE ==1== ATRIBUTE ==Co je eta-redukce?== ATRIBUTE ==<p>
+Eta-redukce je metoda odstranění formálních parametrů funkce.
+</p>
+
+<ul>
+<li>Pokud je úplně napravo levé i pravé strany definice stejný parametr, můžeme jej z definice vynechat.
+<li>Pokud ne, provedeme úpravu pravé strany tak, aby význam výrazu zůstal nezměněn.
+</ul>
+
+<p>
+Například funkce
+
+<pre>
+plus x y  =  x + y
+</pre>
+
+se dá vyjádřit bez formálních parametrů takto:
+</p>
+
+<ul>
+<li>Výraz <code>x + y</code> převedeme do prefixu.
+<pre>
+plus x y  =  (+) x y
+</pre>
+
+<li>Úplně napravo je parametr <code>y</code>, který můžeme ze zápisu vynechat.
+<pre>
+plus x  =  (+) x
+</pre>
+
+<li>Nyní je úplně napravo i parametr <code>x</code>, který také můžeme vynechat.
+
+<pre>
+plus  =  (+)
+</pre>
+
+Vyjádřili jsme funkci <code>plus</code> bez formálních parametrů.
+</ul>== PARAGRAPH ==100== ATRIBUTE ==61== ATRIBUTE ==4== ATRIBUTE ==Složitější příklad== ATRIBUTE ==<p>
+Napište nejobecnější typ funkce <code>(.(,)) . (.) . (,)</code>.
+</p>
+
+<p>
+Možností jak tuto úlohu řešit je mnoho. Zde si ukážeme převod do <b>pointwise</b> tvaru a jeho následné <b>otypování</b>.
+</p>
+
+<p>
+Jako první musíme rozhodnout, zda máme výraz ozávorkovat
+
+<pre>
+<span class="red">(</span>(.(,)) . (.)<span class="red">)</span> . (,)
+</pre>
+
+nebo
+
+<pre>
+(.(,)) . <span class="red">(</span>(.) . (,)<span class="red">)</span>
+</pre>
+
+Podle tabulky priorit a sdružování zjistíme, že <code>(.)</code> sdružuje <b>zprava</b>, to znamená, že správné ozávorkování je následující:
+
+<pre>
+(.(,)) . <span class="red">(</span>(.) . (,)<span class="red">)</span>
+</pre>
+
+A nyní již můžeme přistoupit k samotnému převodu do pointwise. Jak jsme při převodu do pointfree argumenty odebírali, zde je budeme <b>přidávat</b>. Aplikujeme tedy naši funkci na argument <code>x</code>.
+
+<pre>
+<span class="red">\x -> (</span>(.(,)) . ((.) . (,))<span class="red">) x</span>
+</pre>
+
+Výraz upravíme podle definice <code>(.)</code> klasickým způsobem zleva doprava: (poznámka: značka <code>===></code>, která je zde dále použitá je námi definovaná značka pro zkrácení zápisu, která znamená <i>toto převedeme na toto</i>, není to haskellovský operátor)
+
+<pre>
+\x -> ((.(,)) . ((.) . (,))) x
+      (--f--- . -----g-----) x
+
+===>
+
+\x -> (.(,)) (((.) . (,)) x)
+      -- f - (---- g ---- x)
+</pre>
+
+Nyní můžeme využít znalosti toho, že <code>(+5) 3</code> můžeme napsat jako <code>3 + 5</code>.
+
+<pre>
+\x -> (.(,)) (((.) . (,)) x)
+      (+ 5 ) (----- 3 -----)
+
+===>
+
+\x -> (((.) . (,)) x) . (,) 
+      (----- 3 -----) +  5
+</pre>
+
+Teď převedeme <code>((.) . (,)) x</code> podle definice tečky.
+
+<pre>
+\x -> (((.) . (,)) x) . (,) 
+       ( f  .  g ) x
+
+===>
+
+\x -> ((.) ((,) x)) . (,)
+        f  ( g  x)
+</pre>
+
+Nyní jsme vyčerpali všechny možnosti a funkce stále není v pointwise tvaru. Přidáme tedy do aplikace <b>nový obecný argument</b>, například <code>y</code>.
+
+<pre>
+\x <span class="red">y</span> -> <span class="red">(</span>((.) ((,) x)) . (,)<span class="red">) y</span>
+</pre>
+
+A opět můžeme použít definici tečky.
+
+<pre>
+\x y -> (((.) ((,) x)) . (,)) y
+        (----- f ----- .  g ) y
+
+===>
+
+\x y -> ((.) ((,) x)) ((,) y)
+        ----- f ----- ( g  x)
+</pre>
+
+V tomto momentě máme výraz ve tvaru <code>((+) 3) 5</code>, který přepíšeme na <code>3 + 5</code>
+
+<pre>
+\x y -> ((.) ((,) x)) ((,) y)
+        ((+) -- 3 --) -- 5 --
+
+===>
+
+\x y -> ((,) x) . ((,) y)
+        -- 3 -- + -- 5 --
+</pre>
+
+Nyní jsme v situaci, kdy již zápis nemůžeme nijak upravit, ale stále to ještě není plně vyhodnotitelný výraz. Proto celý výraz aplikujeme na nový argument, který pojmenujeme například <code>z</code>.
+
+<pre>
+\x y <span class="red">z</span> -> <span class="red">(</span>((,) x) . ((,) y)<span class="red">) z</span>
+</pre>
+
+Dále odstraníme tečku standardním způsobem.
+
+<pre>
+\x y z -> (((,) x) . ((,) y)) z
+          (-- f -- . -- g --) x
+
+===>
+
+\x y z -> ((,) x) (((,) y) z)
+          -- f -- (-- g -- x)
+</pre>
+
+Všechny tečky jsou odstraněny, nyní už jen převedeme zápis <b>do infixu</b>, aby byl přehlednější. Nejdříve do infixu převedeme podvýraz <code>((,) y) z</code>.
+
+<pre>
+\x y z -> ((,) x) (((,) y) z)
+                   ((+) 3) 5
+
+===>
+
+\x y z -> ((,) x) (y,z)
+                   3+5
+</pre>
+
+A následně i celý výraz.
+
+<pre>
+\x y z -> ((,) x) (y,z)
+          ((+) 3) - 5 -
+
+===>
+
+\x y z -> (x,(y,z))
+           3+ -5-
+</pre>
+</p>
+
+
+
+<h4>Co jsme získali?</h4>
+
+<p>
+O funkci v pointfree tvaru <code>(.(,)) . (.) . (,)</code> jsme nedokázali říct <b>vůbec nic</b>. Zato o funkci <code>\x y z -> (x,(y,z))</code> již můžeme říci mnohé. Například, že je <b>ternární</b> a že ze <b>tří argumentů</b> udělá <b>uspořádanou dvojici</b>, kde její první složka je její první argument a druhá složka je tvořena dvojicí druhého a třetího argumentu.
+</p>
+
+<p>
+Jaký je tedy typ funkce <code>(.(,)) . (.) . (,)</code>? Naprosto stejný, jako typ funkce <code>\x y z -> (x,(y,z))</code>. Operátor <code>(,)</code> nemá <b>žádná typová omezení</b>. Můžeme mu dát dvakrát (klidně různé) <b>cokoli</b> a on nám z nich udělá <b>dvojici</b>. Typ naší funkce tedy bude:
+
+<pre>
+(.(,)) . (.) . (,) :: a -> b -> c -> (a,(b,c))
+</pre>
+
+Kdyby bylo cokoli nejasné, <b>pište do diskuze</b>.
+</p>== PARAGRAPH ==101== ATRIBUTE ==61== ATRIBUTE ==1== ATRIBUTE ==Jednoduchý příklad 1== ATRIBUTE ==<p>
+Jaký je typ funkce <code>(odd . snd)</code>?
+</p>
+
+<hr>
+
+<p>
+Krabičkové znázornění této funkce naleznete v lekci Užitečné funkce. Pro zopakování: Co je to <b>typ funkce</b>? Je to zápis <b>typů hodnot</b>, které do funkce <b>vstupují</b> a <b>typ hodnoty</b>, na kterou se funkce <b>vyhodnotí</b>. To vše odděleno <b>šipkami</b> <code>-></code>.
+</p>
+
+<p>
+Typem složené funkce je tedy to, co do funkce <b>na začátku vstupuje</b> a co z ní <b>na konci vystupuje</b>. Nezajímá nás, jaký je typ hodnoty v mezivýsledku.
+</p>
+
+<p>
+Jak je vidět z obrázku, do funkce <code>(odd . snd)</code> vstupuje <b>dvojice</b>, která je tvořená <b>čímkoli</b> a <b>celým číslem</b>. Výstupem funkce je pak <b>pravdivostní hodnota</b>. Typ naší funkce je tedy:
+
+<pre>
+odd . snd :: (a, Integer) -> Bool
+</pre>
+</p>== PARAGRAPH ==102== ATRIBUTE ==61== ATRIBUTE ==2== ATRIBUTE ==Jednoduchý příklad 2== ATRIBUTE ==<p>
+Jaký je typ funkce <code>head . head</code>?
+</p>
+
+<hr>
+
+<p>
+Funkce <code>head</code> si bere <b>seznam</b> a vrací jeho <b>první prvek</b>. Například takto:
+
+<pre>
+head [3,4,5]  ~>  3
+</pre>
+</p>
+
+<p>
+Pokud ale na ten samý seznam aplikujeme funkci <code>head . head</code>, výpočet skončí <b>chybou</b>:
+
+<pre>
+   (head . head) [3,4,5]
+~> head (head [3,4,5])
+~> head 3
+~/>
+</pre>
+</p>
+
+<p>
+Potřebovali bychom, aby první aplikace funkce <code>head</code> vrátila <b>seznam</b>, aby z něj následně druhá aplikace funkce <code>head</code> vytáhla <b>první prvek</b>. Jak to uděláme? Do funkce <code>head . head</code> vložíme <b>seznam seznamů</b>.
+
+<pre>
+   (head . head) [[3,10,14], [8,4,13,15], []]
+~> head (head [[3,10,14], [8,4,13,15], []])
+~> head [3,10,14]
+~> 3
+</pre>
+</p>
+
+<p>
+Jelikož funkci <code>head</code> nezáleží na typu seznamu, který do ní vstupuje, můžeme jí na vstup dát <b>seznam čehokoli</b>. Výsledný typ je potom následující:
+
+<pre>
+head . head :: [[a]] -> a
+</pre>
+</p>== PARAGRAPH ==103== ATRIBUTE ==61== ATRIBUTE ==3== ATRIBUTE ==Převádíme do pointwise== ATRIBUTE ==<p>
+Pointwise je opačný zápis pointfree. V pointfree výrazu je lambda nahrazená operátory <code>(.)</code>, v pointwise jsou tečky nahrazeny lambdou.
+</p>
+
+<p>
+Pro převod z pointfree do pointwise nám budou stačit <b>tři pravidla</b>:
+
+<ol>
+<li>definice funkce <code>(.)</code> ve směru zleva doprava:
+
+<pre>
+(f . g) x = f (g x)
+</pre>
+
+<li>Způsob zapsání aplikace binární funkce na argumenty. Jinými slovy, že následující výrazy jsou <b>zaměnitelné</b>:
+
+<pre>
+5 + 3
+(+) 5 3
+(5+) 3
+(+3) 5
+</pre>
+
+<li><b>přidání argumentu</b> na pravou stranu výrazu
+
+<pre>
+[výraz] = \x -> ([výraz]) x
+</pre>
+</ol>
+
+Pomocí těchto tří pravidel jsme schopní převést libovolný výraz v pointfree do pointwise tvaru.
+</p>== PARAGRAPH ==105== ATRIBUTE ==47== ATRIBUTE ==6== ATRIBUTE ==if-then-else== ATRIBUTE ==V Haskellu máme konstrukci
+
+<pre>
+<b>if</b> <i>podminka</i> <b>then</b> <i>splneno</i> <b>else</b> <i>nesplneno</i>
+</pre>
+
+kde
+
+<ul>
+<li><code><i>podminka</i></code> je výraz, který se vyhodnotí na pravdivostní hodnotu <code>True</code> nebo <code>False</code>
+<li><code><i>splneno</i></code> je výraz, na který se výraz <code>if-then-else</code> vyhodnotí v případě splnění podmínky
+<li><code><i>nesplneno</i></code> je výraz, na který se výraz <code>if-then-else</code> vyhodnotí v případě nesplnění podmínky
+</ul>
+
+<hr>
+
+Několik důležitých vlastností <code>if-then-else</code> výrazů:
+
+<ul>
+<li>V Haskellu neexistuje konstrukce
+
+<pre>
+<b>if</b> <i>podminka</i> <b>then</b> <i>splneno</i>
+</pre>
+
+Ve funkcionálním programování požadujeme, aby byl každý výraz vyhodnotitelný. Pokud bychom neuvedli, jak se má výraz vyhodnotit v případě nesplnění podmínky, výpočet by neměl jak pokračovat.
+
+<li>Výrazy <code><i>splneno</i></code> a <code><i>nesplneno</i></code> musí být oba <b>stejného typu</b>. Pokud například do části <code><i>splneno</i></code> napíšeme číslo, musí být číslo i v části <code><i>nesplneno</i></code>.
+</ul>
+</p>
+
+
+<h4>Příklad:</h4>
+
+<p>
+Zkonstruujte výraz, který zjistí, zda je číslo <code>5</code> sudé číslo. Pokud ano, ať se celý výraz vyhodnotí na písmeno 'A', pokud ne, ať se výraz vyhodnotí na písmeno 'N'.
+
+<hr>
+
+<p>
+Jako podmínku zvolíme tedy výraz <code>even 5</code>, jako výraz při splnění podmínky napíšeme <code>'A'</code> a jako výraz při nesplnění napíšeme <code>'N'</code>. Výsledný výraz tedy bude vypadat následovně:
+
+<pre>
+if even 5 then 'A' else 'N'
+</pre>
+
+což se vyhodnotí následovně:
+
+<pre>
+   if <b>even 5</b> then 'A' else 'N'
+~> if False then 'A' else 'N'
+~> 'N'
+</pre>
+</p>== PARAGRAPH ==106== ATRIBUTE ==64== ATRIBUTE ==3== ATRIBUTE ==take== ATRIBUTE ==<h4>Popis</h4>
+
+<p>
+Funkce <code>take x s</code> vrátí seznam prvních <code>x</code> prvků ze seznamu <code>s</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+Poznámka: Zde uvedená definice je zjednodušená. Ve skutečnosti může <code>take</code> jako první argument přijmout i záporné číslo. V takovém případě se vyhodnotí na prázdný seznam.
+
+<pre>
+take 0 _     =  []
+take _ []    =  []
+take n (x:s) =  x : take (n-1) s
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+take 3 [1,2,3,4,5]     ~>*  [1,2,3]
+take 4 "Ahoj ty tam!"  ~>*  "Ahoj"
+take 0 [True, True]    ~>*  []
+take 5 []              ~>*  []
+</pre>
+</p>== PARAGRAPH ==107== ATRIBUTE ==64== ATRIBUTE ==4== ATRIBUTE ==drop== ATRIBUTE ==<p>
+Výraz <code>drop n s</code> se vyhodnotí na seznam <code>s</code> bez prvních <code>n</code> prvků.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+drop 0 s      =  s
+drop _ []     =  []
+drop n (_:s)  =  drop (n-1) s
+</pre>
+
+<b>Poznámka:</b> Stejně jako u funkce <code>take</code> je i tato definice zjednodušená. Funkce <code>drop</code> může jako první parametr přijmout i záporné číslo. V tom případě vrátí celý seznam v druhém argumentu.
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+drop 2 [1,2,3,4,5]    ~>*  [3,4,5]
+drop 0 [1,2,3,4,5]    ~>*  [1,2,3,4,5]
+drop 8 [True, False]  ~>*  []
+</pre>
+</p>== PARAGRAPH ==108== ATRIBUTE ==64== ATRIBUTE ==1== ATRIBUTE ==map== ATRIBUTE ==<p>
+<code>map</code> je <b>binární funkce</b>, která si jako argumenty bere:
+</p>
+
+<ul>
+<li>unární funkci <code>f</code>, která z <code>a</code> dělá <code>b</code>
+<li>seznam <code>s</code> typu <code>[a]</code>, na jehož prvky se dá aplikovat funkce <code>f</code>
+</ul>
+
+<p>
+Výraz <code>map f s</code> se vyhodnotí na seznam <code>s</code>, <b>na jehož každý prvek je aplikována funkce <code>f</code></b>, typu <code>[b]</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+map         ::  (a -> b) -> [a] -> [b]
+map _ []     =  []
+map f (x:s)  =  f x : map f s
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+map (+1) [1,2,3]  ~>* [2,3,4]
+map even [1,2,3]  ~>* [False, True, False]
+map (*8) []       ~>* []
+</pre>
+</p>
+
+
+<hr>
+
+
+<h4>Příklad vyhodnocení</h4>
+
+<p>
+Teď nastává ten okamžik, kdy využijeme přirovnání seznamu k <b>vláčku</b>. Pokud si seznam představíme jako vláček, pak funkce <code>map</code> je tunel.
+</p>
+
+<table width="100%" border="1px" cellspacing=0 style="table-layout: fixed" cellpadding="5px">
+
+<tr>
+<th>Vláčkový model
+<th>Haskell
+</tr>
+
+<tr>
+<td>
+Mějme funkci <code>naloz</code>, která dělá to, že na prázdný vagónek naloží uhlí a plný vagónek nechá plný.
+<td>
+Mějme funkci <code>naloz</code>, která je definována následovně:
+<pre>
+naloz      :: Bool -> Bool
+naloz False = True
+naloz True  = True
+</pre>
+</tr>
+
+<tr>
+<td>Tunel se chová následovně:
+<ul>
+<li>Pokud je v něm vagónek, naloží na něj uhlí a posune vláček.
+<li>Pokud je v něm mašinka, nechá ji projet a ukončí svou činnost.
+</ul>
+<td>Funkce <code>map</code> se chová následovně:
+<ul>
+<li>Pokud je aplikována na funkci <code>f</code> a neprázdný seznam <code>x:s</code>, na první prvek seznamu, čili na <code>x</code>, aplikuje funkci <code>f</code>, výsledek připojí na začátek výsledného seznamu a pokračuje aplikací funkce <code>map</code> na zbytek seznamu <code>s</code>.
+<li>Pokud je aplikována na libovolnou funkci a prázdný seznam, vyhodnotí se na prázdný seznam.
+</tr>
+
+<tr>
+<td>
+Pošleme tedy do tunelu, který nakládá uhlí, vláček, který má tři prázdné vagónky.
+<td>
+Aplikujme tedy funkci <code>map</code> na funkci <code>naloz</code> a na seznam <code>[False,False,False]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P01.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je prázdný vagónek, takže se na něj naloží uhlí a vláček se posune.
+<td>
+Jelikož je druhým argumentem neprázdný seznam, vyhodnocujeme podle druhé klauzule funkce <code>map</code>. Aplikujeme funkci <code>naloz</code> na první prvek seznamu, což je <code>False</code>. Tím nám vznikne <code>True</code>, které připojíme na začátek a pokračujeme vyhodnocováním <code>map naloz [False,False]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P02.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je prázdný vagónek, takže se na něj naloží uhlí a vláček se posune.
+<td>
+Opět vyhodnocujeme podle druhé klauzule. Za <code>x</code> se dosadí <code>False</code>, za <code>s</code> se dosadí <code>[False]</code>. Na začátek se tedy připojí <code>naloz False</code>, což se vyhodnotí na <code>True</code>, a pokračuje se vyhodnocováním <code>map naloz [False]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P03.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+Stejná situace, naloží se uhlí a posune se vláček.
+<td>
+Opět podle druhé klauzule: Za <code>x</code> se dosadí <code>False</code>, za <code>s</code> se dosadí <code>[]</code>, čili vyhodnocení vypadá následovně:
+<pre>
+   map naloz (False : [])
+~> (naloz False) : map naloz []
+</pre>
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P04.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je mašinka, která jen projede, a jsme hotovi.
+<td>
+Výraz <code>map naloz []</code> se vyhodnotí podle první klauzule na prázdný seznam.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P05.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+Výsledkem je vláček se třemi naloženými vagónky.
+<td>
+Výsledkem je tříprvkový seznam <code>[True,True,True]</code>.
+</tr>
+
+</table>== PARAGRAPH ==109== ATRIBUTE ==64== ATRIBUTE ==2== ATRIBUTE ==filter== ATRIBUTE ==<p>
+<code>filter</code> je binární funkce. Jejími argumenty jsou:
+</p>
+
+<ul>
+<li>
+podmínka <code>p</code>, což je funkce, která z čehokoli udělá pravdivostní hodnotu, její typ je tedy <code>a -> Bool</code>
+<li>
+seznam <code>s</code>, jehož prvky se dají vložit do funkce <code>p</code>, typ tohoto seznamu je <code>[a]</code>
+</ul>
+
+<p>
+Výraz <code>filter p s</code> se vyhodnotí na seznam, jehož prvky budou prvky seznamu <code>s</code>, které vyhovují podmínce <code>p</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+filter         ::  (a -> Bool) -> [a] -> [a]
+filter _ []     =  []
+filter p (x:s)  =  if p x then x : filter p s
+                          else     filter p s
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+filter (>5) [1,6,2,8,5,7]       ~>*  [6,8,7]
+filter even [1,6,2,8,5,7]       ~>*  [6,2,8]
+filter not  [False,True,False]  ~>*  [False,False]
+</pre>
+</p>
+
+
+<h4>Příklad vyhodnocení</h4>
+
+<p>
+Funkci <code>filter</code> můžeme, jako funkci <code>map</code>, znázornit tunelem. Bude se ale chovat trochu jinak.
+</p>
+
+<table width="100%" border="1px" cellspacing=0 style="table-layout: fixed" cellpadding="5px">
+
+<tr>
+<th>Vláčkový model
+<th>Haskell
+</tr>
+
+<tr>
+<td>
+Mějme funkci <code>jePlny</code>, která zjišťuje, zda je vagónek do ní vložený naložený uhlím.
+<td>
+Mějme funkci <code>jePlny</code>, která je definována následovně:
+<pre>
+jePlny       ::  Bool -> Bool
+jePlny True   =  True
+jePlny False  =  False
+</pre>
+nebo zkráceně
+<pre>
+jePlny   ::  Bool -> Bool
+jePlny x  =  x
+</pre>
+nebo ještě kratčeji
+<pre>
+jePlny ::  Bool -> Bool
+jePlny  =  id
+</pre>
+</tr>
+
+<tr>
+<td>
+Tunel se chová následovně:
+<ul>
+<li>
+Pokud funkce <code>jePlny</code> zjistí, že vagónek v tunelu je naložen uhlím, pustí jej z tunelu a posune vláček.
+<li>
+Pokud funkce <code>jePlny</code> zjistí, že vagónek v tunelu je prázdný, vagónek zahodí a posune vláček.
+</ul>
+<td>
+Funkce <code>filter</code> se chová následovně:
+<ul>
+<li>
+Pokud je aplikována na funkci <code>p</code> a neprázdný seznam <code>x:s</code>, postupuje se následovně:
+<ul>
+<li>
+Pokud se aplikace <code>p x</code> vyhodnotí na <code>True</code>, připojí se prvek <code>x</code> na začátek výsledného seznamu a dále se vyhodnocuje výraz <code>filter p s</code>.
+<li>
+Pokud se aplikace <code>p x</code> vyhodnotí na <code>False</code>, prvek <code>x</code> se zahodí a rovnou se vyhodnocuje <code>filter p s</code>.
+</ul>
+<li>
+Pokud je aplikována na jakoukoli funkci a prázdný seznam, vyhodnotí se na prázdný seznam.
+</ul>
+</tr>
+
+<tr>
+<td>
+Do tunelu, který vybírá pouze naložené vagónky, tedy pošleme třívagónkový vláček s vagónky: naložený, prázdný, naložený.
+<td>
+Aplikujme tedy funkci <code>filter</code> na funkci <code>jePlny</code> a seznam <code>[True,False,True]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P11.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je naložený vagónek, který tím pádem chceme ponechat i ve výsledném vláčku. Takže se tento vagónek dostane z tunelu a posune se vláček.
+<td>
+Druhým argumentem je neprázdný seznam, vyhodnocuje se podle druhé klauzule. Aplikace funkce <code>p</code> na <code>x</code>, po dosazení <code>jePlny True</code>, se vyhodnotí na <code>True</code>. <code>if</code>-výraz se tedy vyhodnotí na <code>then</code>-větev, což je <code>x : filter p s</code>. Po dosazení <code>True : filter jePlny [False,True]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P12.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+Nyní je v tunelu prázdný vagónek, který ve výsledném vláčku nechceme. Takže jej zahodíme a posuneme vláček.
+<td>
+Opět je druhým argumentem neprázdný seznam, vyhodnocuje se podle druhé klauzule. Protože se výraz <code>jePlny False</code> vyhodnotí na <code>False</code>, <code>if</code>-výraz se vyhodnotí na <code>else</code>-větev, čili na výraz <code>filter jePlny [True]</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P13.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je naložený vagónek, takže jej pošleme dál a posuneme vláček.
+<td>
+Opět se vyhodnocuje podle druhé klauzule. Tentokrát je podmínka <code>p</code> splněna, takže se <code>if</code>-výraz vyhodnotí na <code>then</code>-větev, čili na výraz <code>True : filter jePlny []</code>.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P14.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+V tunelu je mašinka, kterou necháme projet a jsme hotovi.
+<td>
+Druhým argumentem je prázdný seznam, takže vyhodnocujeme podle první klauzule na prázdný seznam.
+</tr>
+
+<tr>
+<td colspan="2">
+<center>
+<img class="lessonImg" src="images/L16P15.gif">
+</center>
+</tr>
+
+<tr>
+<td>
+Výsledkem je vláček se dvěma naloženými vagónky.
+<td>
+Výsledkem je dvojprvkový seznam <code>[True,True]</code>.
+</tr>
+
+
+</table>== PARAGRAPH ==110== ATRIBUTE ==64== ATRIBUTE ==5== ATRIBUTE ==repeat== ATRIBUTE ==<p>
+Funkce <code>repeat x</code> vytvoří <b>nekonečný seznam</b> <code>x</code>.
+
+<pre>
+[x,x,x,x,x,x,x, ... ]
+</pre>
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+repeat   ::  a -> [a]
+repeat x  =  x : repeat x
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+repeat 1              ~>*  [1,1,1,1,1, ... ]
+repeat 'c'            ~>*  "ccccccccc ... "
+repeat [True, False]  ~>*  [[True, False],[True, False], ... ]
+</pre>
+</p>
+
+
+<h4>Poznámka</h4>
+
+<p>
+Pokud si necháme vyhodnotit například výraz <code>repeat 1</code>, Hugs začne do nekonečna vypisovat seznam jedniček, dokud jej nezastavíme kombinací kláves <b>Ctrl+C</b>.
+</p>== PARAGRAPH ==111== ATRIBUTE ==64== ATRIBUTE ==6== ATRIBUTE ==replicate== ATRIBUTE ==<p>
+<code>replicate n x</code> vytvoří <code>n</code>-prvkový seznam <code>x</code>-ů.</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+replicate     ::  Int -> a -> [a]
+replicate n x  =  take n (repeat x)
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+replicate 4  1          ~>*  [1,1,1,1]
+replicate 3  "Haskell"  ~>*  ["Haskell","Haskell","Haskell"]
+replicate 10 'c'        ~>*  "cccccccccc"
+</pre>
+</p>== PARAGRAPH ==117== ATRIBUTE ==56== ATRIBUTE ==2== ATRIBUTE ==První metoda== ATRIBUTE ==<p>
+Dokázat korektnost definice funkce znamená ukázat, že funkce počítá, co má, pro každou vstupní hodnotu. Naivní přístup by tedy mohl vypadat následovně:
+
+<ul>
+<li>Chceme ukázat, že <code>fact 0 ~>*</code> <i>0!</i><br>
+<code>fact 0</code> se podle první klauzule vyhodnotí na <code>1</code>, což je <i>0!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 0</code>.
+<hr>
+<li>Chceme ukázat, že <code>fact 1 ~>*</code> <i>1!</i><br>
+<code>fact 1</code> se vyhodnotí následovně:
+<pre>
+fact 1 ~> 1 * fact 0 ~> 1 * 1 ~> 1
+</pre>
+což je <i>1!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 1</code>.
+<hr>
+<li>Chceme ukázat, že <code>fact 2 ~>*</code> <i>2!</i><br>
+<code>fact 2</code> se vyhodnotí následovně:
+<pre>
+fact 2 ~> 2 * fact 1 ~> 2 * 1 * fact 0 ~> 2 * 1 * 1 ~>* 2
+</pre>
+což je <i>2!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 2</code>.
+<hr>
+<li>Chceme ukázat, že <code>fact 3 ~>*</code> <i>3!</i><br>
+<code>fact 3</code> se vyhodnotí následovně:
+<pre>
+   fact 3
+~> 3 * fact 2
+~> 3 * 2 * fact 1
+~> 3 * 2 * 1 * fact 0
+~> 3 * 2 * 1 * 1
+~>* 6
+</pre>
+což je <i>3!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 3</code>.
+<hr>
+<li>Chceme ukázat, že <code>fact 4 ~>*</code> <i>4!</i><br>
+<code>fact 4</code> se vyhodnotí následovně:
+<pre>
+   fact 4
+~> 4 * fact 3
+~> 4 * 3 * fact 2
+~> 4 * 3 * 2 * fact 1
+~> 4 * 3 * 2 * 1 * fact 0
+~> 4 * 3 * 2 * 1 * 1
+~>* 24
+</pre>
+což je <i>4!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 4</code>.
+<hr>
+<li>Chceme ukázat, že <code>fact 5 ~>*</code> <i>5!</i><br>
+...
+<li>...
+</ul>
+
+Takto bychom mohli pokračovat do konce života a stejně by se našel nějaký šťoural, který by našel číslo, pro které jsme korektnost funkce nedokázali.
+</p>== PARAGRAPH ==118== ATRIBUTE ==56== ATRIBUTE ==3== ATRIBUTE ==Druhá metoda== ATRIBUTE ==<p>
+Musíme ukázat, že se <code>fact n</code> vyhodnotí na <i>n!</i>, to se nemění. Půjdeme na to ale trošku jinou cestou.
+</p>
+
+<p>
+<ul>
+<li>Dokazujeme, že <code>fact 0 ~>*</code> <i>0!</i><br>
+<code>fact 0</code> se podle první klauzule vyhodnotí na <code>1</code>, což je <i>0!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 0</code>.
+<hr>
+<li>Dokazujeme, že <code>fact 1 ~>*</code> <i>1!</i><br>
+<code>fact 1</code> se vyhodnotí následovně:
+<pre>
+fact 1 ~> 1 * fact 0
+</pre>
+Podle předchozího pozorování víme, že se <code>fact 0</code> vyhodnotí na <i>0!</i>, tím pádem <code>fact 1 ~></code> <i>1 * 0!</i>, což je <i>1!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 1</code>.
+<hr>
+<li>Dokazujeme, že <code>fact 2 ~>*</code> <i>2!</i><br>
+<code>fact 1</code> se vyhodnotí následovně:
+<pre>
+fact 2 ~> 2 * fact 1
+</pre>
+Podle předchozího pozorování víme, že se <code>fact 1</code> vyhodnotí na <i>1!</i>, tím pádem <code>fact 2 ~></code> <i>2 * 1!</i>, což je <i>2!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 2</code>.
+<hr>
+<li>Dokazujeme, že <code>fact 3 ~>*</code> <i>3!</i><br>
+<code>fact 3</code> se vyhodnotí následovně:
+<pre>
+fact 3 ~> 3 * fact 2
+</pre>
+Podle předchozího pozorování víme, že se <code>fact 2</code> vyhodnotí na <i>2!</i>, tím pádem <code>fact 3 ~></code> <i>3 * 2!</i>, což je <i>3!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 3</code>.
+<hr>
+<li>Dokazujeme, že <code>fact 4 ~>*</code> <i>4!</i><br>
+<code>fact 4</code> se vyhodnotí následovně:
+<pre>
+fact 4 ~> 4 * fact 3
+</pre>
+Podle předchozího pozorování víme, že se <code>fact 3</code> vyhodnotí na <i>3!</i>, tím pádem <code>fact 4 ~></code> <i>4 * 3!</i>, což je <i>4!</i>. Funkce <code>fact</code> je tedy korektně definována pro <code>n = 4</code>.
+<li>Dokazujeme, že <code>fact 5 ~>*</code> <i>5!</i><br>
+...
+<li>...
+
+</ul>
+</p>
+
+<p>
+Jak vidíme, už nám délka důkazu <b>nenarůstá</b> s rostoucím argumentem, ale stále bychom při této technice museli tento důkaz napsat pro <b>všechna přirozená čísla</b> včetně nuly. 
+</p>== PARAGRAPH ==119== ATRIBUTE ==56== ATRIBUTE ==4== ATRIBUTE ==Třetí metoda== ATRIBUTE ==<p>
+V druhé metodě jsme ukázali následující:
+<ol>
+<li>funkce <code>fact n</code> je korektně definována pro <code>n = 0</code>
+<li>funkce <code>fact n</code> je korektně definována pro <code>n = 1</code> za předpokladu, že je korektně definována pro <code>n = 0</code>
+<li>funkce <code>fact n</code> je korektně definována pro <code>n = 2</code> za předpokladu, že je korektně definována pro <code>n = 1</code>
+<li>funkce <code>fact n</code> je korektně definována pro <code>n = 3</code> za předpokladu, že je korektně definována pro <code>n = 2</code>
+<li>funkce <code>fact n</code> je korektně definována pro <code>n = 4</code> za předpokladu, že je korektně definována pro <code>n = 3</code>
+<li>...
+</ol>
+
+Protože se důkaz korektnosti funkce <code>fact n</code> dokazuje pomocí <b>předpokladu</b>, že funkce je korektní pro hodnotu o jedna menší, můžeme předchozí důkaz <b>zobecnit</b> pro každé přirozené číslo:
+
+<ol>
+<li>Dokážeme, že se <code>fact 0</code>vyhodnotí na <i>0!</i>.
+<li>Dokážeme, že se <code>fact (k + 1)</code> vyhodnotí na <i>(k + 1)!</i> za předpokladu, že <code>fact k</code> se vyhodnotí na <i>k!</i>.
+</ol>
+
+Pak, když za námi přijde nějaký nedůvěřivec a řekne:
+<ul>
+<li>"Ukaž mi, že <code>fact 0</code> opravdu počítá <i>0!</i> !"
+</ul>
+A my mu na to řekneme:
+<ul>
+<ul>
+<li>"Tak se podívej, <code>fact 0 ~> 1</code>, což je <i>0!</i> ."
+</ul>
+</ul>
+Přímo jsme odpověděli na jeho otázku. Tím pádem mu nezbývá, než nám odpovědět:
+
+<ul>
+<li>"Dobrá, teď už ti věřím."
+</ul>
+
+A bude s otázkami pokračovat:
+<ul>
+<li>Jak víš, že <code>fact 1</code> počítá <i>1!</i> ?
+  <ul>
+    <li>Protože <code>fact 1 ~> 1 * fact 0</code> a <code>fact 0 ~>*</code> <i>0!</i> . Takže <code>fact 1 ~>*</code> <i>1 * 0!</i> , což je <i>1!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 0</code> počítá <i>0!</i> ?
+  <ul>
+    <li>To ti klidně ukážu: <code>fact 0 ~> 1</code>, což je <i>0!</i> .
+  </ul>
+<li>Dobrá, teď už ti věřím.
+</ul>
+
+A bude pokračovat:
+
+<ul>
+<li>Jak víš, že <code>fact 2</code> počítá <i>2!</i> ?
+  <ul>
+    <li>Protože <code>fact 2 ~> 2 * fact 1</code> a <code>fact 1 ~>*</code> <i>1!</i> . Takže <code>fact 2 ~>*</code> <i>2 * 1!</i> , což je <i>2!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 1</code> počítá <i>1!</i> ?
+  <ul>
+    <li>Protože <code>fact 1 ~> 1 * fact 0</code> a <code>fact 0 ~>*</code> <i>0!</i> . Takže <code>fact 1 ~>*</code> <i>1 * 0!</i> , což je <i>1!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 0</code> počítá <i>0!</i> ?
+  <ul>
+    <li>To ti klidně ukážu: <code>fact 0 ~> 1</code> , což je <i>0!</i> .
+  </ul>
+<li>Dobrá, teď už ti věřím.
+</ul>
+
+A bude pokračovat:
+
+<ul>
+<li>Jak víš, že <code>fact 3</code> počítá <i>3!</i> ?
+  <ul>
+    <li>Protože <code>fact 3 ~> 3 * fact 2</code> a <code>fact 2 ~>*</code> <i>2!</i> . Takže <code>fact 3 ~>*</code> <i>3 * 2!</i> , což je <i>3!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 2</code> počítá <i>2!</i> ?
+  <ul>
+    <li>Protože <code>fact 2 ~> 2 * fact 1</code> a <code>fact 1 ~>*</code> <i>1!</i> . Takže <code>fact 2 ~>*</code> <i>2 * 1!</i> , což je <i>2!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 1</code> počítá <i>1!</i> ?
+  <ul>
+    <li>Protože <code>fact 1 ~> 1 * fact 0</code> a <code>fact 0 ~>*</code> <i>0!</i> . Takže <code>fact 1 ~>*</code> <i>1 * 0!</i> , což je <i>1!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 0</code> počítá <i>0!</i> ?
+  <ul>
+    <li>To ti klidně ukážu: <code>fact 0 ~> 1</code> , což je <i>0!</i> .
+  </ul>
+<li>Dobrá, teď už ti věřím.
+</ul>
+
+...<br>
+A bude pokračovat:<br>
+...
+
+<ul>
+<li>Jak víš, že <code>fact 100</code> počítá <i>100!</i> ?
+  <ul>
+    <li>Protože <code>fact 100 ~> 100 * fact 99</code> a <code>fact 99 ~>*</code> <i>99!</i> . Takže <code>fact 100 ~>*</code> <i>100 * 99!</i> , což je <i>100!</i> .
+  </ul>
+<li>No jo, ale jak víš, že <code>fact 99</code> počítá <i>99!</i> ?
+  <ul>
+    <li>Protože <code>fact 99 ~> 99 * fact 98</code> a <code>fact 98 ~>*</code> <i>98!</i> . Takže <code>fact 99 ~>*</code> <i>99 * 98!</i> , což je <i>99!</i> .
+  </ul>
+...
+<li>No jo, ale jak víš, že <code>fact 0</code> počítá <i>0!</i> ?
+  <ul>
+    <li>To ti klidně ukážu: <code>fact 0 ~> 1</code>, což je <i>0!</i> .
+  </ul>
+<li>Dobrá, teď už ti věřím.
+</ul>
+
+Protože vidíme, že tvrzení můžeme v konečném čase pro libovolné přirozené číslo, můžeme tuto důkazovou techniku zahrnout do naší  teorie a říkáme jí <b>matematická indukce</b>.
+</p>== PARAGRAPH ==126== ATRIBUTE ==69== ATRIBUTE ==2== ATRIBUTE ==Matematické operátory== ATRIBUTE ==<p>
+Nejjednodušší výrazy, které můžeme v Haskellu zapisovat, jsou výrazy s matematickými operátory.
+</p>
+
+<p>
+Patří sem <b>sčítání</b>, <b>odčítání</b>, <b>násobení</b> a <b>dělení</b>.
+
+<pre>
+3 + 5 ~> 8
+5 - 3 ~> 2
+4 * 8 ~> 32
+9 / 2 ~> 4.5
+9 / 3 ~> 3.0
+</pre>
+
+<i>Pozn</i>: Operátor <code>/</code> provádí desetinné dělení i nad celými čísly. Pro celočíselné dělení je zde funkce <code>div</code>.
+</p>== PARAGRAPH ==121== ATRIBUTE ==69== ATRIBUTE ==1== ATRIBUTE ==Úvod== ATRIBUTE ==<p>
+V této kapitole zmíníme pár základních funkcí pouze se slovním popisem a příkladem použití.
+</p>
+
+<p>
+Šipka <code>~></code> znamená, že se výraz nalevo vyhodnotí na výraz napravo. Zápis
+
+<pre>
+3 + 5 ~> 8
+</pre>
+
+zjednodušeně znamená, že když Hugsu zadáme k vypočtení <code>3 + 5</code>, tak nám jako výsledek vypíše <code>8</code>. Více v kapitole <i>Vyhodnocování</i>.
+</p>== PARAGRAPH ==122== ATRIBUTE ==69== ATRIBUTE ==3== ATRIBUTE ==odd== ATRIBUTE ==<p>
+Unární funkce <code>odd</code> si bere <b>jedno číslo</b>, o kterém rozhodne, zda je <b>liché</b>.
+</p>
+
+<p>
+Výraz <code>odd x</code> se vyhodnotí na <code>True</code>, pokud je <code>x</code> liché, a na <code>False</code>, pokud je <code>x</code> sudé.
+</p>
+
+
+<h4>Příklady:</h4>
+
+<pre>
+odd 5 ~> True
+odd 8 ~> False
+</pre>== PARAGRAPH ==123== ATRIBUTE ==69== ATRIBUTE ==4== ATRIBUTE ==even== ATRIBUTE ==<p>
+Funkce <code>even</code> si bere <b>jedno číslo</b>, o kterém rozhodne, zda je <b>sudé</b>.
+</p>
+
+<p>
+Výraz <code>even x</code> se vyhodnotí na <code>True</code>, pokud je <code>x</code> sudé, a na <code>False</code>, pokud je <code>x</code> liché.
+</p>
+
+
+<h4>Příklady:</h4>
+
+<pre>
+even 6 ~> True
+even 1 ~> False
+</pre>== PARAGRAPH ==124== ATRIBUTE ==69== ATRIBUTE ==5== ATRIBUTE ==div== ATRIBUTE ==<p>
+<code>div</code> je funkce počítající <b>celočíselné dělení</b>. Výraz <code>div x y</code> se vyhodnotí na celočíselný podíl <code>x</code> děleno <code>y</code>.
+</p>
+
+
+<h4>Příklady:</h4>
+
+<pre>
+div 8  3 ~> 2
+div 2  5 ~> 0
+div 20 3 ~> 6
+</pre>== PARAGRAPH ==125== ATRIBUTE ==69== ATRIBUTE ==6== ATRIBUTE ==mod== ATRIBUTE ==<p>
+<code>mod</code> je funkce, která počítá <b>zbytek po celočíselném dělení</b>.
+</p>
+
+<p>
+Výraz <code>mod x y</code> se vyhodnotí na zbytek, který vznikne podělením čísla <code>x</code> číslem <code>y</code>.
+</p>
+
+
+<h4>Příklady:</h4>
+
+<pre>
+mod 9  2 ~> 1
+mod 10 5 ~> 0
+mod 20 6 ~> 2
+</pre>== PARAGRAPH ==129== ATRIBUTE ==58== ATRIBUTE ==2== ATRIBUTE ==Základní operace== ATRIBUTE ==<p>
+Pokud si necháme vyhodnotit výraz <code>"bbbccc"</code>, Hugs zjistí, že jde o výraz a vypíše nám jej v nezměněné podobě. Pokud si ale necháme vyhodnotit výraz
+
+<pre>
+putStr "bbbccc"
+</pre>
+
+Hugs zjistí, že <code>putStr</code> je akce, kterou následně provede. Akce <code>putStr</code> dělá to, že na obrazovku <b>vypíše</b> řetězec, který jí dáme v argumentu. Při provádění akce se <b>nevypisuje výsledek</b>. Vypsání na obrazovku je pouze efektem akce <code>putStr</code>.
+</p>
+
+
+<p>
+Funkce <code>putStr</code> navíc umí zobrazovat i speciální znaky. Například vykonání akce
+
+<pre>
+putStr "aaa<b>\n</b>bbb<b>\n</b>ccc"
+</pre>
+
+dopadne tak, že <code><b>\n</b></code> se nahradí odřádkováním a na obrazovku se vypíše
+
+<pre>
+aaa
+bbb
+ccc
+</pre>
+</p>
+
+
+<p>
+Zmiňme některé další jednoduché IO akce:
+</p>
+
+<ul>
+<li><code>putStrLn</code> to samé, co <code>putStr</code>, ale po vypsání argumentu navíc odřádkuje
+<li><code>getLine</code> počká na vstup od uživatele, jehož hodnotu poté vrátí
+<li><code>readFile</code> načte obsah souboru
+</ul>== PARAGRAPH ==130== ATRIBUTE ==58== ATRIBUTE ==3== ATRIBUTE ==Řetězení operací== ATRIBUTE ==<p>
+Většinou nebudeme chtít provést jen jednu IO operaci, ale budeme jich chtít za sebe poskládat více. Například budeme chtít <b>načíst</b> nějakou hodnotu od uživatele, tu <b>zpracovat</b> a <b>vypsat</b> uživateli výsledek.
+</p>
+
+<p>
+K řetězení operací se používá <b>konstrukce <code>do</code></b>. Například nulární funkce <code>vypis</code>, která vypíše řetězce <code>"abc"</code>, <code>"def"</code> a <code>"ghi"</code> bude definována následovně:
+
+<pre>
+vypis = do putStrLn "abc"
+           putStrLn "def"
+           putStrLn "ghi"
+</pre>
+
+<b>Pozor na zarovnání!</b> Opět platí, že příkazy, které se mají v <code>do</code>-bloku provést, musí být zarovnány <b>pod sebe</b>. Existuje i varianta zápisu na jeden řádek:
+
+<pre>
+vypis = do {putStrLn "abc"; putStrLn "def"; putStrLn "ghi"}
+</pre>
+</p>
+
+<p>
+Mimo samotné operace si v <code>do</code>-bloku můžeme <b>"uložit"</b> výsledek vstupní operace a dále pracovat jen s odkazem na něj.
+
+<pre>
+<i>názevOdkazu</i> <- <i>vstupníOperace</i>
+</pre>
+
+<p>
+"Uložit" je v uvozovkách, protože se nejedná přímo o zapsání dat na nějaké místo v paměti. Proč tomu tak je si povíme později.
+</p>
+
+<p>
+Ukládání mezivýsledku můžeme provádět <b>pouze v <code>do</code>-bloku</b>. Pokud jej použijeme mimo <code>do</code>-blok, překlad skončí chybou.
+</p>
+
+
+<h4>Příklad</h4>
+
+<p>
+Definujte nulární funkci <code>main :: IO ()</code>, která získá od uživatele řetězec, vypíše na výstup <code>Napsal jsi: </code> a poté vypíše získaný vstup.
+</p>
+
+<hr>
+
+<p>
+Definici zapíšeme přesně tak, jak nám říká zadání:
+
+<ol>
+<li>Získáme od uživatele vstup, který si uložíme.
+<li>Vypíšeme na obrazovku řetězec <code>"Napsal jsi: "</code>.
+<li>Vypíšeme získaný řetězec, který jsme si uložili na začátku.
+</ol>
+
+<pre>
+main = do s <- getLine
+          putStr "Napsal jsi: "
+          putStr s
+</pre>
+
+</p>== PARAGRAPH ==131== ATRIBUTE ==62== ATRIBUTE ==1== ATRIBUTE ==Vytváříme nové krabičky== ATRIBUTE ==<p>
+Jak jsme si ukázali v lekci <i>Typy I</i>, v Haskellu máme k dispozici krabičku všech celých čísel, krabičku všech znaků nebo třeba krabičku dvou logických hodnot. Někdy je výhodné vytvořit si novou krabičku a do ní nasypat hodnoty, se kterými chceme pracovat.
+</p>
+
+
+<h4>Příklad</h4>
+
+<p>
+Vytvořte <b>datový typ</b>, který bude obsahovat všechny <i>čtverce</i> zadané <b>délkou strany</b> a všechny <i>obdélníky</i> zadané délkou své <b>výšky</b> a <b>šířky</b>. Délku vyjádřete celým číslem.
+</p>
+
+<hr>
+
+<p>
+Pojmenujme si náš nový datový typ například <code>Obrazec</code>. <b>Pozor na velké počáteční 'O'!</b>
+</p>
+
+<p>
+Například čtverec o délce strany 4 bude vypadat <code>Ctverec 4</code>, čtverec o délce strany 10 bude vypadat <code>Ctverec 10</code>, atd. <b>Pozor na velké počáteční 'C'!</b> 
+</p>
+
+<p>
+Obdélník šířky 7 a délky 2 bude vypadat <code>Obdelnik 7 2</code>, obdélník šířky 1 a výšky 6 bude vypadat <code>Obdelnik 1 6</code>, atd.
+</p>
+
+<center>
+<img src="images/L15P01.gif" class="lessonImg">
+</center>
+
+<p>
+Obecně chceme vytvořit krabičku <code>Obrazec</code> ve které budou <b>všechny hodnoty</b> ve tvaru <code>Ctverec Integer</code> a <code>Obdelnik Integer Integer</code>. Což zapíšeme následovně:
+
+<pre>
+data Obrazec = Ctverec Integer | Obdelnik Integer Integer
+</pre>
+
+<i>
+Poznámka: Pokud bychom chtěli pracovat s obrazci, které nebudou mít celočíselné rozměry, místo typu <code>Integer</code> použijeme <code>Float</code> nebo <code>Double</code>.
+</i>
+</p>
+
+<hr>
+
+<p>
+Umíme tedy definovat datový typ <code>Obrazec</code>, který obsahuje všechny čtverce ve tvaru <code>Ctverec Integer</code> a všechny obdélníky ve tvaru <code>Obdelnik Integer Integer</code>, kde za <code>Integer</code> můžeme dosadit libovolné celé číslo.
+</p>
+
+<p>
+Mohli bychom například vytvořit datový typ <code>Slovnik</code> definovaný následovně:
+
+<pre>
+data Slovnik  =  Slovo String
+</pre>
+
+Zde můžeme <code>String</code> nahradit libovolným řetězcem. Tento datový typ obsahuje například hodnoty:
+
+<pre>
+Slovo "Ahoj"
+Slovo "Haskell"
+Slovo "@{&#Đđ÷"
+</pre>
+</p>== PARAGRAPH ==132== ATRIBUTE ==47== ATRIBUTE ==7== ATRIBUTE ==Komentáře== ATRIBUTE ==<p>
+Do zdrojového kódu si můžeme psát i naše poznámky, které bude překladač ignorovat. Zakomentování kódu provedeme napsáním <b>dvou pomlček</b> <code>--</code>. Vše od těchto pomlček až do konce řádku se nebude překládat jako kód.
+
+<pre>
+<i>kód programu</i> -- komentář, který bude při překladu ignorován
+<i>další překládaný kód programu</i>
+</pre>
+</p>
+
+<p>
+Mimo psaní poznámek můžeme komentáře použít i pro zamezení překladu kusu kódu.
+
+<pre>
+f 0 = 0
+-- f 1 = 1   <i>tento řádek jakoby tu nebyl</i>
+f x = x + 1
+</pre>
+
+Toto použití komentářů je obzvláště užitečné při <b>ladění</b> programu. Pokud chceme, aby se nějaký kus kódu nepřekládal, ale nevíme, zda jej nebudeme v budoucnu ještě potřebovat, místo smazání jej pouze zakomentujeme. Jeho znovuzpřístupnění se provede pouhým odstraněním pomlček.
+</p>
+
+<p>
+Pokud potřebujeme vytvořit komentář přes více řádků, uzavřeme jej mezi znaky <code>{-</code> a <code>-}</code>.
+
+<pre>
+<i>překládaný kód programu</i> {- komentář komentář
+pořád komentář
+ještě pořád komentář
+-}
+<i>další kód programu</i>
+</pre>
+</p>== PARAGRAPH ==133== ATRIBUTE ==62== ATRIBUTE ==2== ATRIBUTE ==Pracujeme s novými krabičkami== ATRIBUTE ==<p>
+Nyní, když máme vytvořenou krabičku všech čtverců a obdélníků, s ní můžeme začít pracovat jako s <b>každým jiným datovým typem</b>.
+</p>
+
+
+<h4>Příklad</h4>
+
+<p>
+Definujte funkce <code>obvod</code> a <code>obsah</code>, které budou počítat <b>obvod</b> a <b>obsah</b> hodnot typu <code>Obrazec</code>.
+</p>
+
+<hr>
+
+<p>
+Nejdříve ze všeho musíme uvést naši definici datového typu <code>Obrazec</code>.
+
+<pre>
+data Obrazec = Ctverec Integer | Obdelnik Integer Integer
+</pre>
+</p>
+
+<p>
+Obě funkce budou typu <code>Obrazec -> Integer</code>, takže si rovnou nadepíšeme <b>typové anotace</b>:
+
+<pre>
+obvod :: Obrazec -> Integer
+obsah :: Obrazec -> Integer
+</pre>
+</p>
+
+<p>
+A teď již k samotným definicím. Už ze základní školy víme, že obvod čtverce, který má délku strany <code>x</code> se rovná <code>4 * x</code>. A přesně to samé napíšeme:
+
+<pre>
+obvod            :: Obrazec -> Integer
+obvod (Ctverec x) = 4 * x
+</pre>
+</p>
+
+<p>
+<b>Pozor na závorky!</b> V typové anotaci uvádíme, že funkce <code>obvod</code> má být <b>unární</b>, což znamená, že si bere <b>jeden argument</b>. Pokud bychom napsali
+
+<pre>
+obvod Ctverec x = 4 * x
+</pre>
+
+Hugs by funkci <code>obvod</code> přiřadil jako parametr datový konstruktor <code>Ctverec</code> a proměnnou <code>x</code>. Přitom funkce <code>obvod</code> očekává, že dostane jednu hodnotu typu <code>Obrazec</code>.
+</p>
+
+<p>
+Tuto definici můžeme hned doplnit i na <b>obvod obdélníka</b>. Víme totiž, že obvod obdélníka šířky <code>x</code> a výšky <code>y</code> se rovná <code>2 * (x + y)</code>.
+
+<pre>
+obvod               :: Obrazec -> Integer
+obvod (Ctverec x)    = 4 * x
+obvod (Obdelnik x y) = 2 * (x + y)
+</pre>
+</p>
+
+<p>
+Obdobně zadefinujeme funkci <code>obsah</code>:
+
+<pre>
+obsah               :: Obrazec -> Integer
+obsah (Ctverec x)    = x ^ 2
+obsah (Obdelnik x y) = x * y
+</pre>
+</p>
+
+<p>
+Když se s takto zadefinovanými funkcemi zeptáme Hugse, jaký je obvod obdélníka 5 × 3, bude nám správně sděleno, že 16.
+
+<pre>
+   obvod (Obdelnik 5 3)
+~> 2 * (5 + 3)
+~> 2 * 8
+~> 16
+</pre>
+</p>== PARAGRAPH ==134== ATRIBUTE ==68== ATRIBUTE ==1== ATRIBUTE ==takeWhile== ATRIBUTE ==<p>
+<code>takeWhile</code> je binární funkce, jejímiž argumenty jsou:
+</p>
+
+<ul>
+<li>podmínková funkce <code>p</code>, která z čehokoli udělá <code>Bool</code>,  typ <code>a -> Bool</code>
+<li>seznam čehokoli, co se dá dát funkci <code>p</code> jako argument, typ <code>[a]</code>
+</ul>
+
+<p>
+Výraz <code>takeWhile p s</code> se vyhodnotí na takový začátek seznamu <code>s</code>, kde všechny jeho prvky vyhoví podmínce <code>p</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+takeWhile         ::  (a -> Bool) -> [a] -> [a]
+takeWhile _ []     =  []
+takeWhile p (x:s)  =  if p x then x : takeWhile p s
+                             else []
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+takeWhile (<5) [1,2,6,7,3,4]      ~>*  [1,2]
+takeWhile even [2,4,6,5,7,8]      ~>*  [2,4,6]
+takeWhile  id  [False,True,True]  ~>*  []
+</pre>
+</p>== PARAGRAPH ==135== ATRIBUTE ==68== ATRIBUTE ==2== ATRIBUTE ==dropWhile== ATRIBUTE ==<p>
+<code>dropWhile</code> je binární funkce, která si, stejně jako funkce <code>takeWhile</code>, bere následující argumenty:
+</p>
+
+<ul>
+<li>podmínkovou funkci <code>p</code>, která z čehokoli udělá <code>Bool</code>,  typ <code>a -> Bool</code>
+<li>seznam čehokoli, co se dá dát funkci <code>p</code> jako argument, typ <code>[a]</code>
+</ul>
+
+<p>
+Výraz <code>dropWhile p s</code> se vyhodnotí na takový konec seznamu <code>s</code>, že se zahodí všechny prvky z jeho začátku, které vyhoví podmínce <code>p</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+dropWhile         ::  (a -> Bool) -> [a] -> [a]
+dropWhile _ []     =  []
+dropWhile p (x:s)  =  if p x then dropWhile p s
+                             else (x:s)
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+dropWhile (<5) [1,2,6,7,3,4]         ~>*  [6,7,3,4]
+dropWhile even [2,4,6,9,8,7]         ~>*  [9,8,7]
+dropWhile  id  [True, False, False]  ~>*  [False,False]
+</pre>
+</p>== PARAGRAPH ==136== ATRIBUTE ==68== ATRIBUTE ==3== ATRIBUTE ==zip== ATRIBUTE ==<p>
+<code>zip</code> je binární funkce, která si jako argumenty bere dva seznamy čehokoli, <code>s</code> a <code>t</code>, ze kterých udělá seznam dvojic <code>(x,y)</code>, kde <code>x</code> je ze seznamu <code>s</code> a <code>y</code> ze seznamu <code>t</code>. Výsledný seznam je pak dlouhý jako kratší ze seznamů <code>s</code> a <code>t</code>.
+</p>
+
+
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+zip             ::  [a] -> [b] -> [(a,b)]
+zip  []    _     =  []
+zip  _     []    =  []
+zip (x:s) (y:t)  =  (x,y) : zip s t
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+zip [1,2,3] [4,5,6]       ~>*  [(1,4),(2,5),(3,6)]
+zip "abcde" [True,False]  ~>*  [('a',True),('b',False)]
+zip [] ["ab","cd"]        ~>*  []
+</pre>
+</p>== PARAGRAPH ==137== ATRIBUTE ==68== ATRIBUTE ==4== ATRIBUTE ==unzip== ATRIBUTE ==<p>
+<code>unzip</code> je unární funkce, která ze seznamu dvojic <!--code>(x,y)</code--> udělá dvojici seznamů, kde v prvním seznamu budou všechny první složky dvojic a ve druhém seznamu budou všechny složky druhé.
+</p>
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+unzip            ::  [(a,b)] -> ([a],[b])
+unzip  []         =  ([],[])
+unzip  ((x,y):s)  =  (x:t,y:u)
+                        where (t,u) = unzip s
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+unzip [(1,2),(3,4),(5,6)]       ~>*  ([1,3,5],[2,4,6])
+unzip [(True,'c'),(False,'s')]  ~>*  ([True,False],"cs")
+</pre>
+</p>== PARAGRAPH ==138== ATRIBUTE ==68== ATRIBUTE ==5== ATRIBUTE ==zipWith== ATRIBUTE ==<p>
+<code>zipWith</code> je ternární funkce, která si bere:
+</p>
+
+<ul>
+<li>binární funkci <code>f</code>, která z nějakého <code>a</code> a <code>b</code> udělá <code>c</code>, typ <code>a -> b -> c</code>
+<li>seznam čehokoli, co se dá dát funkci <code>f</code> jako první argument, typ <code>[a]</code>
+<li>seznam čehokoli, co se dá dát funkci <code>f</code> jako druhý argument, typ <code>[b]</code>
+</ul>
+
+<p>
+Výraz <code>zipWith f s t</code> se pak vyhodnotí na seznam tvořený výsledky aplikace funkce <code>f</code> na prvky seznamů <code>s</code> a <code>t</code>, typ <code>[c]</code>. Výsledný seznam bude dlouhý jako kratší ze seznamů <code>s</code> a <code>t</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+zipWith _ [] _         =  []
+zipWith _ _ []         =  []
+zipWith f (x:s) (y:t)  =  (f x y) : zipWith f s t
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+zipWith (+) [3,5,4] [2,1,5,8]  ~>*  [3 + 2, 5 + 1, 4 + 5]
+zipWith (:) "abc" ["def","ghi"]  ~>*  ["adef","bghi"]
+</pre>
+</p>
+
+
+<h4>Poznámka</h4>
+
+<p>
+Funkci <code>zip</code> můžeme se znalostí funkce <code>zipWith</code> definovat následovně:
+
+<pre>
+zip  =  zipWith (,)
+</pre>
+</p>== PARAGRAPH ==139== ATRIBUTE ==70== ATRIBUTE ==1== ATRIBUTE ==Proč funkce nad hodnotami Bool?== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>velkeSude :: Integer -> Char</code>, kde výraz <code>velkeSude x</code> se vyhodnotí na znak <code>'A'</code>, pokud je <code>x</code> <b>sudé</b> a zároveň <b>větší než 10</b>, a na znak <code>'N'</code> v opačném případě.
+</p>
+
+<hr>
+
+<p>
+Řešení, které by nás napadlo asi jako první, by bylo nejspíše následující:
+</p>
+
+<ul>
+  <li>Zjisti, zda je <code>x</code> sudé.
+  <ul>
+    <li>Pokud ano, zjisti, zda je <code>x</code> větší než 10.
+    <ul>
+      <li>Pokud ano, vyhodnoť výraz na <code>'A'</code>.
+      <li>Pokud ne, vyhodnoť výraz na <code>'N'</code>.
+    </ul>
+    <li>Pokud ne, vyhodnoť výraz na <code>'N'</code>.
+  </ul>
+</ul>
+
+<p>
+Zapsáno v Haskellu:
+
+<pre>
+velkeSude   ::  Integer -> Char
+velkeSude x  =  if even x then if x > 10 then 'A'
+                                         else 'N'
+                          else 'N'
+</pre>
+
+Asi nemá cenu zdůrazňovat, že kdyby byly podmínky tři nebo čtyři a požadovali bychom, aby byly všechny splněny, kód by se stal velice <b>nepřehledným</b>. Proto máme funkce nad hodnotami <code>Bool</code>.
+</p>== PARAGRAPH ==140== ATRIBUTE ==70== ATRIBUTE ==2== ATRIBUTE ==A zároveň== ATRIBUTE ==<p>
+<b>A zároveň</b>, neboli <b>logická konjunkce</b> je binární funkce zapisovaná operátorem <code>(&&)</code>. Jako argumenty si bere dvě hodnoty typu <code>Bool</code>. Výraz <code>x && y</code> se vyhodnotí na <code>True</code>, pokud jsou <code>True</code> i obě hodnoty <code>x</code> a <code>y</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+(&&)         ::  Bool -> Bool -> Bool
+True && True  =  True
+_    && _     =  False
+</pre>
+
+Tato definice předpokládá, že již známe vyhodnocené hodnoty obou argumentů. Pokud se ale první argument vyhodnotí na <code>False</code>, <b>nemusíme</b> už druhý argument vůbec vyhodnocovat, protože ať je jeho hodnota <b>jakákoli</b>, výsledná hodnota bude opět <code>False</code>.
+</p>
+
+<p>
+Naopak, pokud se první argument vyhodnotí na <code>True</code>, pak se celý výraz vyhodnotí na výsledek vyhodnocení druhého argumentu.
+</p>
+
+<p>
+Proto se používá definice následující:
+
+<pre>
+False && _  =  False
+True  && x  =  x
+</pre>
+</p>
+
+
+<h4>Příklad</h4>
+
+<p>
+Vezměme si ukázkový příklad z prvního odstavce. Jeho definice pomocí <code>(&&)</code> by mohla vypadat následovně:
+
+<pre>
+velkeSude x  =  if  even x  &&  x > 10  then 'A'
+                                        else 'N'
+</pre>
+</p>== PARAGRAPH ==141== ATRIBUTE ==70== ATRIBUTE ==3== ATRIBUTE ==Nebo== ATRIBUTE ==<p>
+Funkci <b>nebo</b>, neboli <b>logickou disjunkci</b> použijeme tehdy, pokud chceme vytvořit složenou podmínku, která má uspět, pokud je <b>alespoň jedna</b> vnitřní podmínka splněna. Zapisuje se dvěma svislítky: <code>(||)</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+False || False  =  False
+_     || _      =  True
+</pre>
+
+Podobně jako funkce <code>(&&)</code> má i funkce <code>(||)</code> efektivnější variantu. Pokud se totiž první argument vyhodnotí na <code>True</code>, nepotřebujeme už znát hodnotu druhého argumentu. Neboť již v této chvíli víme, že se celý výraz vyhodnotí na <code>True</code>.
+
+<pre>
+True  || _  =  True
+False || x  =  x
+</pre>
+</p>
+
+
+<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>mezi :: Integer -> String</code>, kde se výraz <code>mezi x</code> vyhodnotí na <code>"Ano"</code>, pokud je <code>x</code> celé číslo <b>mimo hodnoty 10 až 20</b>, a na <code>"Ne"</code> v opačném případě.
+</p>
+
+<hr>
+
+<p>
+Definujeme tedy funkci, která otestuje, zda je číslo menší jak 10 <b>nebo</b> větší jak 20.
+
+<pre>
+mezi   ::  Integer -> String
+mezi x  =  if  x < 10  ||  x > 20  then  "Ano"
+                                   else  "Ne"
+</pre>
+</p>== PARAGRAPH ==142== ATRIBUTE ==70== ATRIBUTE ==4== ATRIBUTE ==Not== ATRIBUTE ==<p>
+Unární funkce <code>not</code> nedělá nic jiného, než <b>logickou negaci</b>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+not       ::  Bool -> Bool
+not True   =  False
+not False  =  True
+</pre>
+</p>== PARAGRAPH ==143== ATRIBUTE ==63== ATRIBUTE ==1== ATRIBUTE ==Co budeme potřebovat?== ATRIBUTE ==<p>
+Co je to <b>kalkulačka</b>? Je to <b>zařízení</b>, kterému zadáme <b>výraz</b> (například <code>5 + 3 * 2</code>) a ono nám zobrazí <b>výsledek</b> (v našem příkladě <code>11</code>).
+</p>
+
+<p>
+Naprogramujeme si tedy kalkulačku, která umí <b>sčítat</b>, <b>odčítat</b> a <b>násobit</b>. Abychom tak mohli učinit, budeme potřebovat dvě věci:
+</p>
+
+<ol>
+<li>Zadefinovat <b>výrazy</b>, které budeme chtít, aby kalkulačka vyhodnocovala. Budeme je definovat jako nový datový typ, který pojmenujeme například <code>Vyraz</code>.
+<li>Zadefinovat <b>funkci</b>, která bude výrazy vyhodnocovat, čili z hodnot typu <code>Vyraz</code> bude dělat hodnoty typu <code>Integer</code>. Pojmenujeme ji například <code>vyhodnot</code> a bude tedy typu <code>vyhodnot :: Vyraz -> Integer</code>.
+</ol>== PARAGRAPH ==144== ATRIBUTE ==63== ATRIBUTE ==2== ATRIBUTE ==Definujeme vstupní výrazy== ATRIBUTE ==<p>
+Do běžné kalkulačky zadáváme výrazy ve tvaru <code>5 + 3 * 2</code> (myšleno do kalkulačky, do které se napíše nejdřív celý výraz a pak se stiskne rovnítko). V Haskellu jsou ale celá čísla a operátory <code>(+)</code>, <code>(-)</code> a <code>(*)</code> zabrané, takže si budeme muset definovat <b>vlastní</b>.
+</p>
+
+<p>
+Vytvoříme tedy nový datový typ, který bude obsahovat <b>všechna celá čísla</b>.
+
+<pre>
+data Vyraz  =  Cislo Integer
+</pre>
+
+Tímto jsme definovali krabičku, ve které jsou hodnoty <code>Cislo 1</code>, <code>Cislo 2</code>, <code>Cislo -5</code>, ...
+</p>
+
+<p>
+K těmto číslům přidáme také výraz, který bude znázorňovat <b>sčítání výrazů</b>:
+
+<pre>
+data Vyraz  =  Cislo Integer  |  Plus Vyraz Vyraz
+</pre>
+
+V této krabičce budou například následující výrazy:
+<pre>
+Plus (Cislo 2) (Cislo 5)
+Plus (Cislo 4) (Cislo 8)
+Plus (Cislo 2) (Plus (Cislo 2) (Cislo 3))
+</pre>
+</p>
+
+<p>
+A podobně doplníme i výrazy znázorňující <b>odčítání</b> a <b>násobení</b>:
+
+<pre>
+data Vyraz  =  Cislo Integer
+            |  Plus  Vyraz Vyraz
+            |  Minus Vyraz Vyraz
+            |  Krat  Vyraz Vyraz
+</pre>
+
+V této krabičce už bude i výraz znázorňující <code>5 + 3 * 2</code>. Zapíšeme jej následovně:
+
+<pre>
+Plus (Cislo 5) (Krat (Cislo 3) (Cislo 2))
+</pre>
+</p>== PARAGRAPH ==145== ATRIBUTE ==63== ATRIBUTE ==3== ATRIBUTE ==Definujeme vyhodnocující funkci== ATRIBUTE ==<p>
+Nyní máme definovány výrazy a potřebujeme funkci, která nám například výraz
+
+<pre>
+Plus (Cislo 5) (Krat (Cislo 3) (Cislo 2))
+</pre>
+
+vyhodnotí na číslo <code>11</code>. Tak tedy začněme.
+</p>
+
+<p>
+Začneme vyhodnocením výrazu <code>Cislo x</code>. Chtěli bychom, aby se například výraz <code>Cislo 2</code> vyhodnotil na číslo <code>2</code>. Nebo výraz <code>Cislo 5</code> na číslo <code>5</code> atd. Definice tedy bude vypadat následovně:
+
+<pre>
+vyhodnot           ::  Vyraz -> Integer
+vyhodnot (Cislo x)  =  x
+</pre>
+
+<b>Pozor na závorky!</b> Funkce <code>vyhodnot</code> je <b>unární</b>, proto musíme výraz <code>Cislo x</code> ozávorkovat, aby byl brán jako jedna hodnota.
+</p>
+
+<p>
+Dále musíme definovat <b>vyhodnocení sčítacího výrazu</b>. Chceme, aby se například výraz <code>Plus (Cislo 2) (Cislo 3)</code> vyhodnotil na <code>2 + 3</code> a to následně na <code>5</code>. Jak takové vyhodnocení zapsat?
+</p>
+
+<p>
+Výraz <code>Plus x y</code> vyhodnotíme následovně:
+</p>
+
+<ol>
+<li>Rekurzivně pomocí funkce <code>vyhodnot</code> vyhodnotíme výraz <code>x</code>.
+<li>Stejně vyhodnotíme výraz <code>y</code>.
+<li>A jelikož víme, že funkce <code>vyhodnot</code> nám vrátí celé číslo, můžeme výsledky vyhodnocení <code>vyhodnot x</code> a <code>vyhodnot y</code> sečíst klasickým operátorem <code>(+)</code>.
+</ol>
+
+<p>
+Do definice tedy můžeme doplnit klauzuli
+
+<pre>
+vyhodnot (Plus x y)  =  (vyhodnot x) + (vyhodnot y)
+</pre>
+
+A podobně zadefinujeme i odčítání a násobení:
+
+<pre>
+vyhodnot (Minus x y)  =  (vyhodnot x) - (vyhodnot y)
+vyhodnot (Krat  x y)  =  (vyhodnot x) * (vyhodnot y)
+</pre>
+</p>
+
+<p>
+Celá definice tedy bude vypadat následovně:
+
+<pre>
+vyhodnot             ::  Vyraz -> Integer
+vyhodnot (Cislo x)    =  x
+vyhodnot (Plus  x y)  =  (vyhodnot x) + (vyhodnot y)
+vyhodnot (Minus x y)  =  (vyhodnot x) - (vyhodnot y)
+vyhodnot (Krat  x y)  =  (vyhodnot x) * (vyhodnot y)
+</pre>
+</p>== PARAGRAPH ==146== ATRIBUTE ==63== ATRIBUTE ==4== ATRIBUTE ==Vzorové vyhodnocení== ATRIBUTE ==<p>
+Krok po kroku vyhodnotíme výraz <code>5 + 3 * 2</code>:
+
+<pre>
+    <b>vyhodnot (Plus (Cislo 5) (Krat (Cislo 3) (Cislo 2)))</b>
+~>  <b>(vyhodnot (Cislo 5))</b>  +  (vyhodnot (Krat (Cislo 3) (Cislo 2)))
+~>          5             +  <b>(vyhodnot (Krat (Cislo 3) (Cislo 2)))</b>
+~>  5  +  (<b>(vyhodnot (Cislo 3))</b>  *  (vyhodnot (Cislo 2)))
+~>  5  +  (          3           *  <b>(vyhodnot (Cislo 2))</b>)
+~>  5  +  <b>(          3           *           2          )</b>
+~>  <b>5  +  6</b>
+~>  11
+</pre>
+</p>== PARAGRAPH ==147== ATRIBUTE ==62== ATRIBUTE ==3== ATRIBUTE ==Rekurzivní datové typy== ATRIBUTE ==<p>
+Nyní jsme v situaci, kdy umíme zadefinovat jednoduchý datový typ. Někdy se ale může stát, že budeme potřebovat definovat typ složitější. Například bychom chtěli vytvořit datový typ <code>Nat</code> znázorňující <b>přirozená čísla s nulou</b> ve tvaru <code>Zero</code>, což je <b>nula</b>, nebo <code>Succ x</code>, což je <b>následník</b> (z angl. successor) čísla <code>x</code>, kde <code>x</code> je typu <code>Nat</code>. Jinými slovy vytvořit krabičku, která by obsahovala například následující hodnoty:
+
+<pre>
+<b>Zero</b>
+  -- nula
+<b>Succ Zero</b>
+  -- následník nuly - jedna
+<b>Succ (Succ Zero)</b>
+  -- následník následníka nuly - dva
+<b>Succ (Succ (Succ Zero))</b>
+  -- následník následníka následníka nuly - tři
+...
+</pre>
+
+Jak takový typ zadefinovat? Musíme popsat všechny jeho hodnoty. V příkladu z předchozího odstavce byly hodnoty typu <code>Obrazec</code> buďto <code>Ctverec Integer</code> nebo <code>Obdelnik Integer Integer</code>, kde za <code>Integer</code> můžeme dosadit libovolné celé číslo. Zde máme takové tvary dva:
+</p>
+
+<ul>
+<li><code>Zero</code>
+<li><code>Succ Nat</code>
+</ul>
+
+<p>
+Kde za <code>Nat</code> můžeme rekurzivně dosadit libovolnou hodnotu typu <code>Nat</code>. Typ <code>Nat</code> tedy můžeme definovat následovně:
+
+<pre>
+data Nat  =  Zero  |  Succ Nat
+</pre>
+
+Takto definovaný datový typ pouze udává strukturu uložení dat v paměti. Není řečeno, jak se mají jeho hodnoty v případě potřeby vypisovat na obrazovku. Nejjednodušší způsob, jak vypisování zprovoznit, je doplnit definici datového typu o řetězec <code>deriving Show</code>. <b>Pozor na malé 'd' a velké 'S'!</b>. Definice typu <code>Nat</code> s umožněným vypisováním na obrazovku tedy bude vypadat následovně:
+
+<pre>
+data Nat  =  Zero  |  Succ Nat  <b>deriving Show</b>
+</pre>
+</p>== PARAGRAPH ==148== ATRIBUTE ==62== ATRIBUTE ==4== ATRIBUTE ==Funkce nad rekurzivními typy== ATRIBUTE ==<p>
+Zde si zadefinujeme jednoduchou funkci nad typem <code>Nat</code> z předchozího odstavce. Pro lepší pochopení je u každého kroku uvedena analogie se <b>sčítáním jablek</b>.
+</p>
+
+<h4>Příklad</h4>
+
+<table width="100%" border="1px" cellspacing="0px" cellpadding="5px" valign="top" style="table-layout: fixed">
+<tr>
+<th>Jablka
+<th><code>Nat</code>
+<tr>
+<td>Definujte funkci <code>plusJablka</code>, které dáme jako argumenty <b>dvě nádoby s jablky</b> a ona nám vrátí nádobu, ve které bude tolik jablek, jako ve dvou vstupních nádobách <b>dohromady</b>.
+<td>Definujte funkci <code>plusNat :: Nat -> Nat -> Nat</code>, která bude <b>sčítat dvě čísla typu <code>Nat</code></b>.
+</tr>
+</table>
+
+<hr>
+
+<p>
+Čím začít? Uvědomme si, co můžeme s hodnotami typu <code>Nat</code> podle naší definice dělat. Můžeme pouze <b>zjistit</b>, zda je hodnota tvaru <code>Zero</code>, nebo <code>Succ (...)</code>. Nic víc. To znamená, že do funkce <code>plusNat</code> nám může jako první argument vstoupit buďto <code>Zero</code>, nebo <code>Succ (...)</code>. Jak se v jednotlivých situacích zachovat?
+</p>
+
+<table width="100%" border="1px" cellspacing="0px" cellpadding="5px" valign="top" style="table-layout: fixed">
+<tr>
+<td>V prvním argumentu je <b>prázdná nádoba</b>. Můžeme říct, že v obou nádobách je dohromady stejně jablek jako v nádobě druhé. Výsledkem je tedy <b>druhá nádoba</b>.
+<td>Vyhodnocujeme výraz <code>plusNat Zero y</code>. Chceme, aby výsledkem sčítání hodnoty <code><b>Zero</b></code> s hodnotou <code><b>y</b></code> byla hodnota <code><b>y</b></code>. Výraz tedy vyhodnotíme na <code><b>y</b></code>.
+</tr>
+
+<tr>
+<td>V prvním argumentu je nádoba s <b>alespoň jedním jablkem</b>. Jablko <b>přehodíme</b> do nádoby druhé a znovu zkusíme, jestli už je první nádoba <b>prázdná</b>.
+<td>Vyhodnocujeme výraz <code>plusNat (Succ x) y</code>. A to na výraz <code>plusNat x (Succ y)</code>, čímž číslo v prvním argumentu o jedničku <b>zmenšíme</b> a číslo ve druhém od jedničku <b>zvětšíme</b>.
+</tr>
+
+<tr>
+<td>Jelikož je v první nádobě jen <b>konečně mnoho</b> jablek, víme, že první nádoba se jednou musí úplně <b>vyprázdnit</b>.
+<td>Jelikož číslo v prvním argumentu je pouze <b>konečně velké</b> a při každém vyhodnocení podle této větve se o jedničku zmenší, nastane chvíle, kdy se zmenší <b>na nulu</b>.
+</tr>
+
+<tr>
+<td>Přeskládali jsme všechna jablka z první nádoby do druhé a jako výsledek vzali druhou nádobu.
+<td>Postupným zmenšováním prvního argumentu a současným zvětšováním druhého argumentu jsme v prvním argumentu dosáhli nuly a v tuto chvíli vyhodnotili výraz na druhý argument.
+</tr>
+</table>
+
+<p>
+Funkci <code>plusNat</code> tedy můžeme definovat následovně:
+
+<pre>
+plusNat            ::  Nat -> Nat -> Nat
+plusNat  Zero    y  =  y
+plusNat (Succ x) y  =  plusNat x (Succ y)
+</pre>
+</p>== PARAGRAPH ==149== ATRIBUTE ==66== ATRIBUTE ==2== ATRIBUTE ==curry== ATRIBUTE ==<p>
+<code>curry</code> je <b>ternární funkce</b>. Jejími argumenty jsou:
+</p>
+
+<ul>
+<li><b>unární funkce</b> <code>f</code>, která si bere jako argument dvojici, typ <code>(a,b) -> c</code>
+<li><code>x</code> typu <code>a</code>, které se dá použít jako <b>první složka</b> argumentu funkce <code>f</code>
+<li><code>y</code> typu <code>b</code>, které se dá použít jako <b>druhá složka</b> argumentu funkce <code>f</code>
+</ul>
+
+<p>
+Funkce <code>curry</code> se při vyhodnocování výrazu <code>curry f x y</code> zachová tak, že argumenty <code>x</code> a <code>y</code> <b>zabalí do dvojice</b> <code>(x,y)</code> a na tuto dvojici aplikuje funkci <code>f</code>. Výsledek je typu <code>c</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+curry       ::  ((a,b) -> c) -> a -> b -> c
+curry f x y  =  f (x,y)
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+curry fst  5  True   ~>  fst (5,True)     ~>  5
+curry snd 'y' "bbb"  ~>  snd ('y',"bbb")  ~>  "bbb"
+</pre>
+</p>== PARAGRAPH ==150== ATRIBUTE ==66== ATRIBUTE ==1== ATRIBUTE ==Úvodem== ATRIBUTE ==<p>
+Víme, že existují <b>binární funkce</b>. Například <code>(+)</code>, <code>(-)</code> nebo <code>const</code>. Pak také existují <b>unární funkce</b>, které si jako argument berou <b>dvojici</b>. Například <code>fst</code> nebo <code>snd</code>.
+</p>
+
+<p>
+Vidíme, že funkce <code>const</code> a <code>fst</code> mají <b>podobné chování</b>. <code>const x y</code> se vyhodnotí na svůj první argument <code>x</code>, <code>fst (x,y)</code> se vyhodnotí na první složku svého argumentu, čili na <code>x</code>.
+</p>
+
+<p>
+Jelikož jsou obě funkce jednoduše definovatelné, nedělá nám problém je definovat nezávisle na sobě. Někdy je ale výhodnější použít právě funkci <code>curry</code> nebo <code>uncurry</code>.
+</p>== PARAGRAPH ==151== ATRIBUTE ==66== ATRIBUTE ==3== ATRIBUTE ==uncurry== ATRIBUTE ==<p>
+Funkce <code>uncurry</code> má opačný účel jako funkce <code>curry</code>. Je to <b>binární funkce</b>, jejímiž argumenty jsou:
+</p>
+
+<ul>
+<li><b>binární funkce</b> <code>f</code> typu <code>a -> b -> c</code>
+<li><b>dvojice</b> <code>(x,y)</code> typu <code>(a,b)</code>, kde první složka se dá použít jako <b>první argument</b> funkce <code>f</code> a druhá složka se dá použít jako <b>druhý argument</b> funkce <code>f</code>.
+</ul>
+
+<p>
+Funkce <code>uncurry</code> při vyhodnocování výrazu <code>uncurry f (x,y)</code> rozbalí dvojici <code>(x,y)</code> a aplikuje funkci <code>f</code> na argumenty <code>x</code> a <code>y</code>.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+uncurry         ::  (a -> b -> c) -> (a,b) -> c
+uncurry f (x,y)  =  f x y
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+uncurry const (False,8)  ~>  const False 8  ~>  False
+
+uncurry (flip const) ("ccc",'a')
+  ~>  flip const "ccc" 'a'
+  ~>  const 'a' "ccc"
+  ~>  'a'
+</pre>
+</p>== PARAGRAPH ==152== ATRIBUTE ==65== ATRIBUTE ==1== ATRIBUTE ==Hromadný výčet== ATRIBUTE ==<p>
+Doposud jsme seznamy zapisovali běžným vypsáním jednotlivých prvků. Tzn. když jsme potřebovali seznam celých čísel od jedné do pěti, zapsali jsme jej takto: <code>[1,2,3,4,5]</code> Zapsat takový seznam nám nedělá žádný větší problém. Toto řešení ovšem začíná být nevhodné, pokud budeme potřebovat například seznam čísel od jedné do sta. Nebo třeba od jedné do milionu. A nebo ještě lépe – nekonečný seznam od jedné do nekonečna. V tuto chvíli nám pomůže <b>zápis seznamů hromadným výčtem</b>.
+</p>
+
+
+<p>
+Seznam čísel od jedné do pěti zapíšeme <code>[1..5]</code>. Tím pádem nám nedělá problém zapsat seznam od jedné do milionu: <code>[1..1000000]</code> Seznam od jedné do nekonečna zapíšeme podobně, bez udání vrchní hranice: <code>[1..]</code> Pokud si výraz <code>[1..]</code> necháme vyhodnotit, Hugs začne do nekonečna vypisovat na obrazovku čísla od jedné do nekonečna. Zastavit jej můžeme klávesovou kombinací <b>Ctrl+C</b>.
+</p>
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+[1..10]        ~>*  [1,2,3,4,5,6,7,8,9,10]
+[10..]          =   [10,11,12,13,14,15, ... ]
+take 3 [10..]  ~>*  [10,11,12]
+[20..10]       ~>*  []
+['a'..'f']     ~>*  "abcdef"
+</pre>
+</p>
+
+<hr>
+
+<p>
+Dále by se nám určitě hodil seznam všech lichých čísel od jedné do desíti. Ten zapíšeme následovně: <code>[1,3..10]</code>, obecně <code>[m,s..n]</code>. Hodnota <code>m</code> udává první prvek seznamu, <code>s</code> druhý, rozdíl mezi <code>s</code> a <code>m</code> udává rozdíl mezi sousedními prvky seznamu a <code>n</code> udává horní (při rostoucím seznamu) nebo dolní (při klesajícím seznamu) hranici.
+</p>
+
+<p>
+Pokud je <code>s</code> <b>větší</b> než <code>m</code>, bude výsledný seznam <b>rostoucí</b>. Pokud je <code>s</code> <b>menší</b> než <code>m</code>, bude výsledný seznam <b>klesající</b>. Pokud <code>s == m</code>, bude výsledný seznam <b>konstantní</b>. I zde můžeme použít nekonečnou variantu bez horní / dolní hranice.
+</p>
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+[1,3..10]       ~>*  [1,3,5,7,9]
+[10,20..]        =   [10,20,30,40,50 ... ]
+[1,2..0]        ~>*  []
+[10,9..1]       ~>*  [10,9,8,7,6,5,4,3,2,1]
+[10,9..20]      ~>*  []
+['f','d'..'a']  ~>*  "fdb"
+['&','&'..]      =   "&&&&&&&&&&&& ... "
+</pre>
+</p>== PARAGRAPH ==153== ATRIBUTE ==65== ATRIBUTE ==2== ATRIBUTE ==Intenzionální zápis== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Vytvořte rostoucí seznam všech čísel od jedné do milionu, která jsou buď sudá nebo dělitelná pěti.
+</p>
+
+<hr>
+
+
+<p>
+Z matematiky víme, jak bychom zapsali množinu čísel splňující zadané podmínky:
+
+<pre>
+{ x | x je z množiny {1,..., 1000000},
+      x je sudé nebo x je dělitelné pěti}
+</pre>
+
+V Haskellu je zápis velice podobný:
+
+<pre>
+[ x | x <- [1..1000000], even x || x `mod` 5 == 0]
+</pre>
+
+Jak bude probíhat vyhodnocení takového výrazu? Hugs postupně projde všechny prvky ze seznamu <code>[1..1000000]</code> a každý otestuje, zda vyhovuje podmínce
+
+<pre>
+even x || x `mod` 5 == 0
+</pre>
+
+Pokud vyhoví, přidá se do výsledného seznamu. Pokud nevyhoví, testuje se další prvek.
+</p>
+
+<p>
+Konstrukci <code>x <- s</code>, kde <code>s</code> je seznam, se říká <b>generátor</b>.
+</p>
+
+<hr>
+
+
+<p>
+Co když se nám v zápise objeví generátorů více? Uveďme si krátký příklad:
+
+<pre>
+[ (x,y) | x <- [1..3], y <- [1..x] ]
+</pre>
+
+Jak bude vypadat vyhodnocení tohoto seznamu?
+</p>
+
+<ul>
+  <li>Za <code>x</code> se dosadí <code>1</code>.
+    <ul>
+      <li>Za <code>y</code> se dosadí <code>1</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(1,1)</code>.
+    </ul>
+  <li>Za <code>x</code> se dosadí <code>2</code>.
+    <ul>
+      <li>Za <code>y</code> se dosadí <code>1</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(2,1)</code>.
+      <li>Za <code>y</code> se dosadí <code>2</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(2,2)</code>.
+    </ul>
+  <li>Za <code>x</code> se dosadí <code>3</code>.
+    <ul>
+      <li>Za <code>y</code> se dosadí <code>1</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(3,1)</code>.
+      <li>Za <code>y</code> se dosadí <code>2</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(3,2)</code>.
+      <li>Za <code>y</code> se dosadí <code>3</code>.
+      <li>Do výsledného seznamu se přidá dvojice <code>(3,3)</code>.
+    </ul>
+</ul>
+
+<p>
+Výsledný seznam tedy bude vypadat následovně:
+
+<pre>
+[ (1,1), (2,1), (2,2), (3,1), (3,2), (3,3) ]
+</pre>
+
+Podobně by vyhodnocení vypadalo, kdyby se generovalo ze tří generátorů.
+</p>
+
+
+<h4>Další příklady</h4>
+
+<p>
+<pre>
+[ 2*x | x <- [1..5] ]  ~>*  [2,4,6,8,10]
+
+map    f s  =  [ f x | x <- s ]
+filter p s  =  [  x  | x <- s, p x ]
+</pre>
+</p>== PARAGRAPH ==154== ATRIBUTE ==67== ATRIBUTE ==1== ATRIBUTE ==Proč výrazy s lambdou?== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>zvetsiSeznam :: [Integer] -> [Integer]</code>, které dáme jako argument seznam celých čísel a ona každé číslo zdvojnásobí a přičte k němu pět.
+
+<pre>
+zvetsiSeznam [1,2,5]  ~>*  [1*2+5, 2*2+5, 5*2+5]  ~>*  [7,9,15]
+</pre>
+</p>
+
+<hr>
+
+<p>
+Nejjednodušší bude použít funkci <code>map</code>, které dáme jako první argument funkci, která svůj argument zdvojnásobí a přičte k němu pět. Zadefinujme si tedy tuto pomocnou funkci:
+
+<pre>
+zvetsi   ::  Integer -> Integer
+zvetsi x  =  x*2+5
+</pre>
+
+Následně můžeme definovat i námi požadovanou funkci:
+
+<pre>
+zvetsiSeznam   ::  [Integer] -> [Integer]
+zvetsiSeznam s  =  map zvetsi s
+</pre>
+
+A jsme hotovi. Pokud bychom ale funkci <code>zvetsi</code> k ničemu jinému nepotřebovali, je její definování tímto způsobem docela zbytečné. Můžeme totiž použít tzv. <b>anonymní funkce</b>.
+</p>== PARAGRAPH ==155== ATRIBUTE ==67== ATRIBUTE ==2== ATRIBUTE ==Výrazy s lambdou== ATRIBUTE ==<p>
+Výrazy s lambdou nejvíce oceníme v situacích, kdy potřebujeme rychle definovat funkci, kterou použijeme pouze na jednom místě. Například funkce, která zdvojnásobuje svůj argument, může vypadat následovně:
+
+<pre>
+\x -> 2 * x
+</pre>
+
+Toto je anonymní unární funkce, do které vhodíme číslo a vypadne z ní jeho dvojnásobek. Aneb <i>"Vezmi <code>x</code> a udělej z něj <code>2 * x</code>."</i>
+</p>
+
+<p>
+Binární funkce, do které hodíme dvě čísla a ona nám je sečte, může vypadat například takto:
+
+<pre>
+\x y -> x + y
+</pre>
+
+Aneb <i>"Vezmi <code>x</code> a <code>y</code> a udělej z nich <code>x + y</code>."</i>
+</p>
+
+<p>
+Příklady vyhodnocení:
+
+<pre>
+(\x -> 2 * x)   5    ~>  2 * 5  ~>  10
+(\x y -> x + y) 3 5  ~>  3 + 5  ~>  8
+</pre>
+</p>
+
+<p>
+Funkci z předchozího odstavce můžeme tedy definovat pomocí anonymní funkce takto:
+
+<pre>
+zvetsiSeznam   ::  [Integer] -> [Integer]
+zvetsiSeznam s  =  map (\x -> x*2+5) s
+</pre>
+</p>
+
+<hr>
+
+<p>
+Pomocí lambdy můžeme i jiným zápisem definovat funkce <code>curry</code> a <code>uncurry</code>.
+
+<pre>
+curry   g  =  \x y   -> g (x,y)
+uncurry f  =  \(x,y) -> f x y
+</pre>
+
+Z tohoto zápisu je i lépe vidět častý způsob použití těchto dvou funkcí. Například můžeme zadefinovat funkci <code>fst</code> pomocí funkce <code>const</code> a naopak.
+
+<pre>
+fst    =  uncurry const
+const  =  curry fst
+</pre>
+</p>== PARAGRAPH ==156== ATRIBUTE ==71== ATRIBUTE ==1== ATRIBUTE ==foldr a foldl== ATRIBUTE ==<p>
+<code>foldr</code> i <code>foldl</code> jsou <b>ternární funkce</b>, jejímiž argumenty jsou:
+</p>
+
+<ul>
+<li>binární funkce <code>f</code> typu
+  <ul>
+  <li><code>foldr</code>: <code>b -> a -> a</code>
+  <li><code>foldl</code>: <code>a -> b -> a</code>
+  </ul>
+<li>hodnota <code>v</code> typu <code>a</code> <i>(na tuto hodnotu se výraz vyhodnotí v případě prázdného seznamu ve třetím argumentu, většinou se používá neutrální hodnota k funkci <code>f</code>)</i>
+<li>seznam <code>[x1,x2,...,xn]</code>, jehož prvky jsou stejného typu jako argumenty funkce <code>f</code>, typ <code>[a]</code>
+</ul>
+
+<p>
+Funkce <code>foldr</code> s funkcí <code>f</code>, hodnotou <code>v</code> a seznamem <code>[x1,x2,...,xn]</code> udělá to, že mezi prvky <code>x1, x2,...,xn</code> nacpe funkci <code>f</code> a úplně nakonec vloží hodnotu <code>v</code>. Jednotlivé aplikace ozávorkuje zprava.
+
+<pre>
+foldr f v [x1,x2,...,xn]  ~>*  f x1 (f x2 (... (f xn v)))
+</pre>
+
+Zapsáno infixově:
+
+<pre>
+foldr f v [x1,x2,...,xn]  ~>*  x1 `f` (x2 `f` (... (xn `f` v)))
+</pre>
+</p>
+
+<p>
+Funkce <code>foldl</code> udělá to samé, akorát aplikace ozávorkuje <b>zleva</b> a hodnotu <code>v</code> vloží <b>na začátek</b>.
+
+<pre>
+foldl f v [x1,x2,...,xn]  ~>*  f (f (... (f v x1) x2) ... ) xn
+</pre>
+
+Infixově:
+
+<pre>
+foldl f v [x1,x2,...,xn]  ~>*   ((v `f` x1) `f` x2) ... `f` xn
+</pre>
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+foldr           ::  (b –> a –> a) –> a –> [b] –> a
+foldr _ v []     =  v
+foldr f v (x:s)  =  f x (foldr f v s)
+
+foldl           ::  (a –> b –> a) –> a –> [b] –> a
+foldl _ v []     =  v
+foldl f v (x:s)  =  foldl f (f v x) s
+</pre>
+<p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+foldr (+) 0 [1..5]  ~>*  1 + (2 + (3 + (4 + (5 + 0))))  ~>*  15
+foldl (+) 0 [1..5]  ~>*  ((((0 + 1) + 2) + 3) + 4) + 5  ~>*  15
+
+foldr (^) 1 [2..4]  ~>*  2 ^ (3 ^ (4 ^ 1))
+                    ~>*  2417851639229358349412352
+
+foldl (^) 1 [2..4]  ~>*  ((1 ^ 2) ^ 3) ^ 4
+                    ~>*  1
+</pre>
+<p>== PARAGRAPH ==157== ATRIBUTE ==71== ATRIBUTE ==2== ATRIBUTE ==foldr1 a foldl1== ATRIBUTE ==<p>
+<code>foldr1</code> a <code>foldl1</code> jsou binární funkce fungující stejně, jako funkce <code>foldr</code> a <code>foldl</code>, s tím rozdílem, že <b>nejsou definované na prázdných seznamech</b>. Tím pádem odpadá nutnost hodnoty <code>v</code>, na kterou se výraz vyhodnocuje v případě aplikace na prázdný seznam.
+</p>
+
+
+<h4>Definice</h4>
+
+<p>
+<pre>
+foldr1         ::  (a –> a –> a) –> [a] –> a
+foldr1 _ [x]    =  x
+foldr1 f (x:s)  =  f x (foldr1 f s)
+
+foldl1         ::  (a –> a –> a) –> [a] –> a
+foldl1 f (x:s)  =  foldl f x s
+</pre>
+</p>
+
+
+<h4>Příklady</h4>
+
+<p>
+<pre>
+foldr1 (+) [1..5]  ~>*  1 + (2 + (3 + (4 + 5)))
+foldl1 (+) [1..5]  ~>*  (((1 + 2) + 3) + 4) + 5
+</pre>
+</p>== PARAGRAPH ==158== ATRIBUTE ==71== ATRIBUTE ==3== ATRIBUTE ==Funkce definované pomocí foldr nebo foldl== ATRIBUTE ==<h4>and</h4>
+
+<p>
+<pre>
+and  ::  [Bool] -> Bool
+and   =  foldr (&&) True
+</pre>
+</p>
+
+
+<h4>or</h4>
+
+<p>
+<pre>
+or  ::  [Bool] -> Bool
+or   =  foldr (||) False
+</pre>
+</p>
+
+
+<h4>sum</h4>
+
+<p>
+<pre>
+sum  ::  Num a => [a] -> a
+sum   =  foldr (+) 0
+</pre>
+</p>
+
+
+<h4>product</h4>
+
+<p>
+<pre>
+product  ::  Num a => [a] -> a
+product   =  foldr (*) 1
+</pre>
+</p>
+
+
+<h4>compose</h4>
+
+<p>
+<pre>
+compose  ::  [a -> a] -> a -> a
+compose   =  foldr (.) id
+</pre>
+</p>
+
+
+<h4>minimum</h4>
+
+<p>
+<pre>
+minimum  ::  Ord a => [a] –> a
+minimum   =  foldl1 min
+</pre>
+</p>
+
+
+<h4>maximum</h4>
+
+<p>
+<pre>
+maximum  ::  Ord a => [a] –> a
+maximum   =  foldl1 max
+</pre>
+</p>== PARAGRAPH ==181== ATRIBUTE ==63== ATRIBUTE ==5== ATRIBUTE ==Proč to děláme?== ATRIBUTE ==<p>
+Může vyvstat otázka — k čemu je to dobré? Vždyť Hugs umí sčítat i násobit sám od sebe, tak proč se zatěžovat definováním nového datového typu a funkce nad ním?
+</p>
+
+<p>
+Zkusme si představit, že násobení na velkých číslech je mnohokrát výpočetně náročnější než sčítání. Například vyhodnocení výrazu <code>3 * (5 + 6)</code> by vypadalo tak, že se nejdřív sečte pětka s šestkou a pak se tento výsledek vynásobí třemi. Jelikož známe distributivní zákon, víme, že <i>3 * (5 + 6)</i> je to samé jako <i>(3 * 5) + (3 * 6)</i>.
+</p>
+
+<p>
+Protože jsme si na začátku řekli, že násobení je na velkých číslech <b>mnohonásobně</b> náročnější než sčítání, vidíme, že výraz <i>(3 * 5) + (3 * 6)</i> se vyhodnotí rychleji než výraz <i>3 * (5 + 6)</i>. Chtěli bychom tedy výrazy ve tvaru <i>x * (y + z)</i> převést do tvaru <i>(x * y) + (x * z)</i> a pak teprve začít vyhodnocovat. Jak bude vypadat funkce, která bude takové zjednodušení provádět?
+
+<pre>
+zjednodus                     ::  Vyraz -> Vyraz
+zjednodus (Krat x (Plus y z))  =
+                Plus (Krat (zjednodus x) (zjednodus y))
+                     (Krat (zjednodus x) (zjednodus z))
+zjednodus _                    =  _
+</pre>
+
+K optimalizovanému vyhodnocení tedy nepoužijeme pouze funkci <code>vyhodnot</code>, ale složenou funkci <code>(vyhodnot . zjednodus)</code>.
+</p>== PARAGRAPH ==159== ATRIBUTE ==73== ATRIBUTE ==1== ATRIBUTE ==O binárních stromech== ATRIBUTE ==<center>
+<img src="images/L27P01.gif" class="lessonImg"><br>
+<i>Binární strom</i>
+</center>
+
+<p>
+<b>Binární strom</b> je datová struktura. Může být buďto prázdný nebo neprázdný. Neprázdný strom se skládá z
+</p>
+
+<ul>
+<li>kořene a hodnoty v kořeni
+<li>levého podstromu
+<li>pravého podstromu
+</ul>
+
+<p>
+V Haskellu jej budeme definovat následovně:
+
+<pre>
+data BinTree a  =  Empty  |  Node a (BinTree a) (BinTree a)
+</pre>
+
+kde <code>Empty</code> označuje prázdný strom. Neprázdný strom je definován jako 
+
+<pre>
+Node a (BinTree a) (BinTree a)
+</pre>
+
+kde ve výrazu <code>Node x l r</code> označuje <code>x</code> hodnotu v kořeni, <code>l</code> levý podstrom a <code>r</code> pravý podstrom.
+</p>
+
+<center>
+<img src="images/L27P02.gif" class="lessonImg"><br>
+<i>Ukázky binárních stromů typu <code>BinTree Int</code></i>
+</center>== PARAGRAPH ==160== ATRIBUTE ==73== ATRIBUTE ==2== ATRIBUTE ==Funkce na binárních stromech== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>size :: BinTree a -> Int</code>, kde výraz <code>size tree</code> se vyhodnotí na počet uzlů stromu <code>tree</code>.
+</p>
+
+<hr>
+
+<p>
+Jak začít? Drtivá většina funkcí na binárních stromech vypadá následovně:
+</p>
+
+<ul>
+<li>Pokud je strom prázdný, vyhodnoť se na určitou hodnotu.
+<li>Pokud je strom neprázdný, aplikuj funkci rekurzivně na levý a pravý podstrom. Z těchto výsledků a z hodnoty kořene poskládej výsledek, na který se vyhodnoť.
+</ul>
+
+<p>
+Můžeme si tedy nadepsat definici:
+
+<pre>
+size              ::  BinTree a  ->  Int
+size Empty         =
+size (Node x l r)  =
+</pre>
+</p>
+
+<p>
+Kolik uzlů je v prázdném stromě? Přesně nula. Můžeme tedy doplnit první klauzuli.
+
+<pre>
+size Empty  =  0
+</pre>
+</p>
+
+<p>
+Kolik uzlů je v neprázdném stromě? Na tuto otázku už není možné odpovědět tak rychle, jako na předchozí. Podívejme se, co máme k dispozici. Je to hodnota v kořeni, levý podstrom a pravý podstrom. <b>Nic víc</b>.
+</p>
+
+<center>
+<img src="images/L27P03.gif" class="lessonImg">
+</center>
+
+<p>
+Kolik je uzlů v takovém stromě? Přesně tolik, kolik je dohromady v levém podstromu, v pravém podstromu a v kořeni. Čili rekurzivně spočítáme uzly v levém podstromu, spočítáme uzly v pravém podstromu a přičteme jedničku za uzel v kořeni. A přesně tak to zapíšeme.
+
+<pre>
+size (Node x l r)  =  size l  +  size r  +  1
+</pre>
+
+Vidíme, že nám nezáleží na hodnotě v kořeni, takže můžeme <code>x</code> nahradit podtržítkem. Celá definice tedy vypadá následovně:
+
+<pre>
+size              ::  BinTree a  ->  Int
+size Empty         =  0
+size (Node _ l r)  =  size l  +  size r  +  1
+</pre>
+</p>
+
+
+
+<h4>Vzorové vyhodnocení</h4>
+
+<p>
+Ukážeme si, jak vypadá počítání uzlů tříuzlového stromu.
+
+<pre>
+size (Node 5                  <i>-- x</i>
+        (Node 2 Empty Empty)  <i>-- l</i>
+        (Node 4 Empty Empty)  <i>-- r</i>
+      )
+
+~>  <b>size (Node 2 Empty Empty)</b> + size (Node 4 Empty Empty) +  1
+
+~>  <b>size Empty</b> + size Empty + 1 + size (Node 4 Empty Empty) +  1
+
+~>       0     + <b>size Empty</b> + 1 + size (Node 4 Empty Empty) +  1
+
+~>       0     +      0     + 1 + <b>size (Node 4 Empty Empty)</b> +  1
+
+~>  0 + 0 + 1 + <b>size Empty</b> + size Empty + 1 +  1
+
+~>  0 + 0 + 1 +      0     + <b>size Empty</b> + 1 +  1
+
+~>  <b>0 + 0 + 1 +      0     +      0     + 1 +  1</b>
+
+~>* 3
+</pre>
+</p>== PARAGRAPH ==161== ATRIBUTE ==73== ATRIBUTE ==3== ATRIBUTE ==n-ární stromy== ATRIBUTE ==<p>
+Kromě binárních stromů můžeme definovat i stromy <i>n</i>-ární. Od binárních stromů se liší tím, že každý uzel může mít <b>libovolný počet následníků</b>. Tvar n-árního stromu má například běžná adresářová struktura.
+</p>
+
+<center>
+<img src="images/L27P04.gif" class="lessonImg"><br>
+<i>Ukázka n-árního stromu typu <code>NTree Char</code></i>
+</center>
+
+<p>
+V Haskellu budeme n-ární stromy definovat následovně:
+
+<pre>
+data NTree a  =  Nnode a [ NTree a ]
+</pre>
+
+kde ve výrazu <code>Nnode x s</code> je <code>x</code> <b>hodnota uzlu</b> a <code>s</code> <b>seznam následníků</b>.
+</p>
+
+<center>
+<img src="images/L27P05.gif" class="lessonImg"><br>
+<i>Příklady n-árních stromů</i>
+</center>
+
+<p>
+Všimněme si, že nemáme definován <b>prázdný strom</b>. Pokud bychom jej měli, tento zápis by vedl k <b>nejednoznačnosti</b> zápisu jednotlivých stromů. Například jednouzlový strom by mohl být definován následně:
+
+<pre>
+data NTree a  =  Empty  |  Nnode a [ NTree a ]
+
+Nnode 3 []
+Nnode 3 [Empty]
+Nnode 3 [Empty, Empty]
+Nnode 3 [Empty, Empty, Empty]
+Nnode 3 [Empty, Empty, Empty, Empty]
+...
+</pre>
+</p>== PARAGRAPH ==162== ATRIBUTE ==73== ATRIBUTE ==4== ATRIBUTE ==funkce na n-árních stromech== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>treeSum :: NTree Integer -> Integer</code>, která sečte hodnoty všech uzlů v n-árním stromě.
+</p>
+
+<hr>
+
+<p>
+Když se podíváme, jak n-ární strom vypadá, logicky nám vyplyne následující postup:
+</p>
+
+<ul>
+<li>rekurzivně sečteme hodnoty ve všech podstromech
+<li>sečteme tyto spočítané hodnoty dohromady
+<li>k výsledku přičteme hodnotu kořene
+</ul>
+
+<p>
+K rekurzivnímu sečtení všech stromů v seznamu podstromů použijeme funkci <code>map</code>, k sečtení těchto hodnot použijeme funkci <code>sum</code>. A pak už jen přičteme hodnotu v kořeni.
+
+<pre>
+treeSum             ::  NTree Integer -> Integer
+treeSum (Nnode x s)  =  sum (map treeSum s)  +  x
+</pre>
+</p>
+
+
+<h4>Vzorové vyhodnocení</h4>
+
+<p>
+<pre>
+treeSum (Nnode 5 [
+             Nnode 4 [],
+             Nnode 6 [],
+             Nnode 8 []
+         ])
+
+~>   sum (map treeSum [ Nnode 4 [], Nnode 6 [], Nnode 8 [] ]) + 5
+
+~>*  sum              [      4    ,      6    ,      8     ]  + 5
+
+~>*                             18                            + 5
+
+~>   23
+</pre>
+</p>== PARAGRAPH ==163== ATRIBUTE ==74== ATRIBUTE ==1== ATRIBUTE ==>>, >>=, return== ATRIBUTE ==<p>
+V lekci Vstup a výstup I jsme si ukázali konstrukci <code>do</code>.
+
+<pre>
+vypis = do putStrLn "abc"
+           putStrLn "def"
+           putStrLn "ghi"
+</pre>
+
+čili <i>vypiš "abc", pak vypiš "def" a nakonec "ghi"</i>. Tuto posloupnost příkazů můžeme zapsat pomocí operátoru <code>>></code>. Vyhodnocení výrazu <code>akce1 >> akce2 >> akce3</code> proběhne tak, že se nejdřív provede <code>akce1</code>, následně <code>akce2</code> a nakonec <code>akce3</code>. V našem příkladu tedy:
+
+<pre>
+putStrLn "abc"  >>  putStrLn "def"  >>  putStrLn "ghi"
+</pre>
+</p>
+
+
+<p>
+V předchozím případě proběhly akce nezávisle na sobě. My ale budeme chtít například načíst hodnotu od uživatele a s ní pak dále pracovat. Čili <b>předat vnitřní hodnotu jedné akce akci druhé</b>. To provedeme operátorem <code>>>=</code>. Výraz, který načte hodnotu od uživatele a následně ji vypíše, bude vypadat následovně:
+
+<pre>
+getLine  >>=  putStr
+</pre>
+
+Čili <i>načti vstup od uživatele, tuto hodnotu předej dál a aplikuj na ni funkci <code>putStr</code></i>.
+</p>
+
+
+<p>
+S předanou hodnotou můžeme udělat i více akcí. Stačí si uvědomit, že předchozí zápis je jen do pointfree převedený výraz
+
+<pre>
+getLine  >>=  \s -> putStr s
+</pre>
+
+Nic nám tedy nebrání vypsat předanou hodnotu dvakrát za sebou:
+
+<pre>
+getLine  >>=  ( \s -> putStrLn s  >> putStrLn s )
+</pre>
+
+Čili <i>načti vstup, jehož hodnotu předej funkci, která svůj argument dvakrát vypíše</i>.
+</p>
+
+
+<p>
+Akce <code>getLine</code> je typu <code>IO String</code>, která slouží k načtení řetězce. Načtený řetězec se stává vnitřní hodnotou akce <code>getLine</code>, která je dostupná jen operátoru <code>(>>=)</code>. Pokud bychom chtěli vypsat například výsledek sčítání <code>3 + 5</code>, musíme jej nejdříve převést na <code>String</code> (funkcí <code>show</code>). To ale nestačí. Operátor <code>>>=</code> musí mít první argument typu <code>IO a</code>. Takže musíme z hodnoty typu <code>String</code> udělat hodnotu typu <code>IO String</code>. A právě tohle dělá funkce <code>return :: a -> IO a</code> (její typ je ještě obecnější, nám bude stačit tento).
+
+<pre>
+return (show (3 + 5))  >>=  putStr
+</pre>
+</p>== PARAGRAPH ==164== ATRIBUTE ==76== ATRIBUTE ==1== ATRIBUTE ==Proč typové třídy?== ATRIBUTE ==<p>
+Z předchozích lekcí o typech víme, že typ je krabička obsahující hodnoty se společnými vlastnostmi. Například <code>Integer</code> je krabička obsahující všechna celá čísla.
+</p>
+
+<p>
+Jakého typu je funkce <code>(==)</code>? Umí porovnávat celá čísla, takže bychom mohli říct, že je typu <code>Integer -> Integer -> Bool</code>. Dále umí porovnávat znaky, takže bychom mohli říct, že je typu <code>Char -> Char -> Bool</code>. V tuto chvíli nás napadnou polymorfní typy, takže řekneme, že funkce <code>(==)</code> je typu <code>a -> a -> Bool</code>. To by ovšem znamenalo, že i námi definované binární stromy se dají porovnávat na rovnost, což není pravda.
+</p>
+
+<p>
+Jak tedy <code>(==)</code> otypovat? V tuto chvíli přichází na řadu <b>typové třídy</b>.
+</p>== PARAGRAPH ==165== ATRIBUTE ==76== ATRIBUTE ==2== ATRIBUTE ==Krabičky krabiček== ATRIBUTE ==<center>
+<img src="images/L29P01.gif" class="lessonImg"><br>
+<i>Znázornění typové třídy <code>Eq</code></i>
+</center>
+
+<p>
+Tak toto je krabička <code>Eq</code> (z anglického <i>equal</i>), která obsahuje všechny typy hodnot, které se dají testovat na rovnost. Typ funkce <code>(==)</code> bude tedy následující:
+
+<pre>
+(==)  ::  Eq a  =>  a -> a -> Bool
+</pre>
+
+Znamená to <i>funkce <code>(==)</code> může dostat dva argumenty jakéhokoli typu, který je z typové třídy <code>Eq</code></i>.
+</p>
+
+
+
+<p>
+Jakého typu je funkce <code>(+)</code>? Umí sčítat celá čísla, umí sčítat desetinná čísla, ale neumí sčítat například hodnoty <code>Bool</code>. Chtěli bychom tedy říct, že umí sčítat cokoli číselného. Krabička všech čísel se jmenuje <code>Num</code>.
+</p>
+
+<center>
+<img src="images/L29P02.gif" class="lessonImg"><br>
+<i>Znázornění typové třídy <code>Num</code></i>
+</center>
+
+<p>
+Typ funkce <code>(+)</code> je tedy následující:
+
+<pre>
+(+)  ::  Num a  =>  a -> a -> a
+</pre>
+
+Třída <code>Num</code> zahrnuje mimo jiné i podtřídy <code>Integral</code>, což jsou všechna celá čísla, a <code>Floating</code>, což jsou všechna desetinná čísla. Nám bude stačit, když budeme znát krabičku <code>Num</code>.
+</p>
+
+<p>
+Ještě zbývá zmínit krabičku <code>Ord</code>, kam patří všechno, co se dá seřadit podle velikosti. Jinak řečeno, všechny hodnoty, které lze mezi sebou porovnat operátory <code><</code> a <code>></code>.
+</p>
+
+<p>
+Operátory <code><</code> a <code>></code> jsou tedy typu
+
+<pre>
+(<)  ::  Ord a  =>  a -> a -> Bool
+</pre>
+</p>== PARAGRAPH ==166== ATRIBUTE ==76== ATRIBUTE ==3== ATRIBUTE ==Vkládáme krabičky do krabiček== ATRIBUTE ==<p>
+Nyní už víme, že existují funkce, které si jako argumenty berou "cokoli, co se dá testovat na rovnost". Například funkce
+
+<pre>
+zipWith (==)  ::  Eq a => [a] -> [a] -> [Bool]
+</pre>
+
+si bere dva seznamy čehokoli porovnatelného a vrací seznam pravdivostních hodnot. My bychom chtěli tuto funkci aplikovat například na dva seznamy typu <code>[Nat]</code>, což jsou přirozená čísla, která jsme si definovali dříve. Jsou definována následovně:
+
+<pre>
+data Nat  =  Zero  |  Succ Nat
+</pre>
+
+Chtěli bychom, aby bylo možné provést následující vyhodnocení výrazu:
+
+<pre>
+zipWith  (==)  [Zero, Succ Zero]  [Zero, Succ (Succ Zero)]
+
+~>*  [True, False]
+</pre>
+
+Takové vyhodnocení ale není možné, protože <code>Nat</code> nepatří do třídy <code>Eq</code>. Co s tím? Vložíme typ <code>Nat</code> do třídy <code>Eq</code>. Provedeme to tak, že zadefinujeme rovnost dvou hodnot typu <code>Nat</code>.
+</p>
+
+
+<hr>
+
+
+<p>
+Kdy se dvě hodnoty typu <code>Nat</code> rovnají?
+</p>
+
+<ul>
+<li>když jsou obě hodnoty <code>Zero</code>
+<li>když je první hodnota <code>Succ x</code>, druhá hodnota <code>Succ y</code> a <code>x</code> se rovná <code>y</code>, což se zjistí rekurzivně
+<li>ostatní případy (<code>Zero</code>, <code>Succ x</code> nebo <code>Succ x</code>, <code>Zero</code>) se sobě nerovnají
+</ul>
+
+<p>
+A přesně tak to zapíšeme. Nejprve musíme zmínit, co vlastně děláme. Vkládáme typ <code>Nat</code> do krabičky <code>Eq</code>, čili definujeme novou <b>instanci</b> třídy <code>Eq</code>.
+
+<pre>
+instance Eq Nat
+</pre>
+
+Doplníme definici rovnosti dvou prvků typu <code>Nat</code> podle výše uvedeného rozboru.
+
+<pre>
+instance Eq Nat
+
+  where Zero   == Zero    =  True
+        Succ x == Succ y  =  x == y
+        _      == _       =  False
+</pre>
+kde v klauzuli <code>Succ x == Succ y  =  x == y</code> je <code>==</code> na pravé straně rekurzivně volaná ta samá funkce, neboť <code>x</code> i <code>y</code> jsou opět typu <code>Nat</code>, čili můžou být pouze ve tvaru <code>Zero</code> nebo <code>Succ x</code>.
+</p>
+
+<p>
+A to je celé. Nyní můžeme hodnoty typu <code>Nat</code> používat všude, kde je vyžadován typ z třídy <code>Eq</code>.
+</p>
+
+<p>
+Aby mohl být typ v typové třídě <code>Ord</code>, musí být zadefinována operace <code><=</code>. U třídy <code>Num</code> už je to o něco složitější. Aby mohl být typ v třídě <code>Num</code>, musí být definovány následující operace:
+</p>
+
+<ul>
+<li><code>(+)</code> (sčítání)
+<li><code>(-)</code> (odčítání)
+<li><code>(*)</code> (násobení)
+<li><code>abs</code> (absolutní hodnota)
+<li><code>fromInteger</code> (funkce, která z celočíselného argumentu udělá číslo vkládaného typu)
+<li><code>signum</code> (funkce, kde se výraz <code>signum x</code> vyhodnotí na <code>1</code>, pokud je <code>x</code> kladné, na <code>-1</code>, pokud je <code>x</code> záporné, a na <code>0</code>, pokud je <code>x</code> nula)
+</ul>== PARAGRAPH ==168== ATRIBUTE ==72== ATRIBUTE ==1== ATRIBUTE ==Proč Maybe?== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Definujte funkci <code>find</code>, které dáme seznam typu <code>Eq a => [a]</code> a hodnotu typu <code>Eq a => a</code>. Výraz <code>find s x</code> se má vyhodnotit na číslo označující index prvního výskytu prvku <code>x</code> v seznamu <code>s</code>.
+
+<pre>
+find [1,2,<b>3</b>,4,5] <b>3</b>  ~>*  3
+find "qwer<b>t</b>z"   '<b>t</b>' ~>*  5
+</pre>
+</p>
+
+<hr>
+
+<p>
+Může se zdát, že to přece nemůže být nic těžkého. Problém přichází v případě, že prvek <code>x</code> se v seznamu <code>s</code> <b>nevyskytuje</b>. Chtěli bychom tedy, aby se výraz <code>find s x</code> vyhodnotil na index prvního výskytu prvku <code>x</code> v seznamu <code>s</code> a na nějakou hodnotu <i>"nenašel jsem"</i> v případě, že se <code>x</code> v seznamu <code>s</code> nevyskytuje. Přesně pro takové případy zde máme datový typ <code>Maybe a</code>.
+</p>== PARAGRAPH ==169== ATRIBUTE ==72== ATRIBUTE ==2== ATRIBUTE ==Možná něco vrátím, možná ne== ATRIBUTE ==<p>
+Typ <code>Maybe a</code> je definován následovně:
+
+<pre>
+data Maybe a  =  Nothing  |  Just a
+</pre>
+
+Krabička <code>Maybe Int</code> obsahuje například hodnoty
+
+<pre>
+Just 5
+Just 4
+Just (-6)
+Nothing
+Just 3
+Just 0
+</pre>
+</p>
+
+<p>
+Funkci <code>find</code> tedy můžeme definovat následovně:
+
+<pre>
+find     ::  Eq a  =>  [a] -> a -> Maybe Int
+find s x  =  find1 s x 1
+
+find1           ::  Eq a  =>  [a] -> a -> Int -> Maybe Int
+find1 []    _ _  =  Nothing
+find1 (y:s) x n  =  if y == x then n
+                              else find1 s x (n+1)
+</pre>
+
+Funkce <code>find1</code> je pomocná funkce. Definovali jsme ji z toho důvodu, že si potřebujeme při procházení seznamu uchovávat informaci o tom, kolik prvků jsme již prošli. Tato informace se vždy nachází ve třetím argumentu.
+</p>== PARAGRAPH ==170== ATRIBUTE ==77== ATRIBUTE ==1== ATRIBUTE ==Od zadání k výsledku== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Vyhodnoťte krok po kroku výraz <code>trikrat (5 + 2)</code>, kde
+
+<pre>
+trikrat x = x + x + x
+</pre>
+</p>
+
+<hr>
+
+<p>
+Jak začít? Vyhodnotit první <code>5 + 2</code>, nebo to celé rozepsat podle definice funkce <code>trikrat</code>?
+</p>
+
+<p>
+Odpověď zní: záleží na zvolené <b>redukční strategii</b>. Máme na výběr z následujícíh tří:
+</p>
+
+<ul>
+<li>normální redukční strategie
+<li>striktní redukční strategie
+<li>líná redukční strategie
+</ul>
+
+<p>
+Haskell bez dalšího upřesnění vyhodnocuje <b>líně</b>.
+</p>== PARAGRAPH ==171== ATRIBUTE ==77== ATRIBUTE ==2== ATRIBUTE ==Vyhodnocujeme normálně== ATRIBUTE ==<p>
+Normální redukční stratregie spočívá ve vyhodnocování <b>zvnějšku</b>. Řečeno konkrétněji, pokud je vyhodnocovaný výraz ve tvaru <code>F X</code> a <code>F</code> se dá aplikovat na <code>X</code>, aplikuj <code>F</code> na <code>X</code>. V opačném případě vyhodnoť samotné <code>F</code>, opět podle normální strategie.
+</p>
+
+<p>
+Kratčeji: Bez ohledu na vyhodnocení argumentů aplikuj funkci <code>F</code>.
+</p>
+
+<p>
+Náš ukázkový výraz by se tedy podle normální strategie vyhodnotil následovně:
+
+<pre>
+<b>trikrat (5 + 2)</b>
+
+~>  <b>(5 + 2)</b> + (5 + 2) + (5 + 2)
+~>     7    + <b>(5 + 2)</b> + (5 + 2)
+~>     7    +    7    + <b>(5 + 2)</b>
+~>     <b>7    +    7</b>    +    7
+~>          <b>14        +    7</b>
+~>  21
+</pre>
+</p>== PARAGRAPH ==172== ATRIBUTE ==77== ATRIBUTE ==3== ATRIBUTE ==Vyhodnocujeme striktně== ATRIBUTE ==<p>
+Striktní redukční stratregie spočívá ve vyhodnocování <b>zevnitř</b>. Řečeno konkrétněji, nejprve vyhodnoť argumenty na nezjednodušitelné výrazy a teprve potom aplikuj funkci.
+</p>
+
+<p>
+Náš ukázkový výraz by se tedy podle striktní strategie vyhodnotil následovně:
+
+<pre>
+trikrat (<b>5 + 2</b>)
+
+~>  <b>trikrat 7</b>
+~>  <b>7 + 7</b> + 7
+~>    <b>14  + 7</b>
+~>  21
+</pre>
+</p>== PARAGRAPH ==173== ATRIBUTE ==77== ATRIBUTE ==4== ATRIBUTE ==Vyhodnocujeme líně== ATRIBUTE ==<p>
+Líné vyhodnocování funguje na stejném principu jako vyhodnocování normální. S tím rozdílem, že si <b>pamatujeme výsledky</b> vyhodnocení jednotlivých výrazů. Před každým vyhodnocením se nejdřív podíváme, jestli jsme již takový výraz někdy nevyhodnocovali. Pokud ano, použijeme výsledek z prvního vyhodnocení.
+</p>
+
+<p>
+Náš příklad vyhodnocený líně by tedy vypadal takto:
+
+<pre>
+<b>trikrat (5 + 2)</b>
+
+~>  <b>(5 + 2)</b> + <b>(5 + 2)</b> + <b>(5 + 2)</b>
+~>  <b>7 + 7</b> + 7
+~>    <b>14  + 7</b>
+~>  21
+</pre>
+</p>== PARAGRAPH ==174== ATRIBUTE ==77== ATRIBUTE ==5== ATRIBUTE ==Proč různé strategie?== ATRIBUTE ==<p>
+Vždyť se přece zdá, že striktní strategie je nejefektivnější. Nemusí se kontrolovat, zda se výraz již jednou nepočítal, a je nejrychlejší. Tak proč další dvě strategie?
+</p>
+
+<p>
+Například kvůli vyhodnocení výrazu <code>take 3 [1..]</code>. Seznam prvních tří prvků z nekonečného seznamu začínajícího jedničkou je <code>[1,2,3]</code>. Jak by vypadalo striktní vyhodnocení?
+
+<pre>
+take 3 [1..]
+
+~>  take 3 ( 1: [2..] )
+~>  take 3 ( 1: 2: [3..] )
+~>  take 3 ( 1: 2: 3: [4..] )
+~>  take 3 ( 1: 2: 3: 4: [5..] )
+~>  take 3 ( 1: 2: 3: 4: 5: [6..] )
+~>  take 3 ( 1: 2: 3: 4: 5: 6: [7..] )
+~>  ...
+</pre>
+
+Výpočet by <b>neskončil</b>, jelikož striktní vyhodnocení požaduje úplné zjednodušení svých argumentů, což u vygenerování nekonečného seznamu, nedosáhneme. Normální strategií dospějeme k tomuto:
+
+<pre>
+take 3 <b>[1..]</b>
+
+~>  <b>take 3 ( 1: [2..] )</b>
+
+~>  1 : take 2 <b>[2..]</b>
+
+~>  1 : <b>take 2 ( 2: [3..] )</b>
+
+~>  1 : 2 : take 1 <b>[3..]</b>
+
+~>  1 : 2 : <b>take 1 ( 3: [4..] )</b>
+
+~>  1 : 2 : 3 : <b>take 0 [4..]</b>
+
+~>  1 : 2 : 3 : []
+</pre>
+
+Jiným příkladem by mohlo být vyhodnocení logických výrazů.
+
+<pre>
+False && _  =  False
+True  && x  =  x
+------------------------
+
+False && ( and [True, True..] )
+
+~>  False
+</pre>
+
+Při striktním vyhodnocování by výpočet <b>neskončil</b>. Normálním/líným vyhodnocením se dobereme k výsledku po <b>jednom kroku</b>.
+</p>
+
+<p>
+O línou nádstavbu jsme normální strategii doplnili proto, abychom <b>zabránili vícenásobnému vyhodnocování</b> stejných výrazů.
+</p>== PARAGRAPH ==175== ATRIBUTE ==78== ATRIBUTE ==1== ATRIBUTE ==Proč se bavíme o časové složitosti?== ATRIBUTE ==<h4>Příklad</h4>
+
+<p>
+Určete, která z následujících funkcí rychleji počítá umocňování na přirozený exponent.
+
+<pre>
+umocni1 _ 0  =  1
+umocni1 x n  =  x * umocni x (n-1)
+</pre>
+
+<pre>
+umocni2 _ 0  =  1
+umocni2 x n  =  if even n then r else x * r
+                where r = umocni2 (x * x) (n ‘div‘ 2)
+</pre>
+</p>
+
+<hr>
+
+<p>
+Zkusme si pro představu vyhodnotit výrazy <code>umocni1 5 1</code> a <code>umocni2 5 1</code>.
+
+<pre>
+umocni1 5 1
+
+~>  5 * umocni1 5 (1-1)
+~>  5 * umocni1 5 0
+~>  5 * 1
+~>  5
+</pre>
+
+<pre>
+umocni2 5 1
+
+~>  if even 1 then r else 5 * r
+    where r = umocni2 (5 * 5) (1 ‘div‘ 2)
+~>  if False  then r else 5 * r
+    where r = umocni2 (5 * 5) (1 ‘div‘ 2)
+~>  5 * umocni2 (5 * 5) (1 ‘div‘ 2)
+~>  5 * umocni2 (5 * 5) 0
+~>  5 * 1
+~>  5
+</pre>
+
+Umocnění pětky na první za použití funkce <code>umocni1</code> trvalo 4 kroky. To samé umocnění pomocí funkce <code>umocni2</code> trvalo 6 kroků. Mohli bychom tedy říci, že funkce <code>umocni2</code> je <b>časově složitější</b> než funkce <code>umocni1</code>. Pokud ale budeme chtít umocnic pětku na desátou, výpočet dopadne trochu jinak:
+
+<pre>
+umocni1 5 10
+
+~>2   5 * umocni 5 9
+~>2   5 * 5 * umocni 5 8
+~>2   5 * 5 * 5 * umocni 5 7
+~>14  5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * umocni 5 0
+~>    5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 1
+~>10  9765625
+</pre>
+
+Celkem 31 kroků.
+
+<pre>
+umocni2 5 10
+
+~>3   umocni2 (5 * 5) (10 ‘div‘ 2)
+~>    umocni2 (5 * 5) 5
+~>3   5 * 5 * umocni2 (5 * 5 * 5 * 5) (5 ‘div‘ 2)
+~>    5 * 5 * umocni2 (5 * 5 * 5 * 5) 2
+~>3   5 * 5 * umocni2 (5 * 5 * 5 * 5 * 5 * 5 * 5 * 5) (2 ‘div‘ 2)
+~>    5 * 5 * umocni2 (5 * 5 * 5 * 5 * 5 * 5 * 5 * 5) 1
+~>3   5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 
+        umocni2 (5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 *
+                 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5) (1 ‘div‘ 2)
+~>    5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 
+        umocni2 (5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 *
+                 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5) 0
+~>4   5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 1
+~>10  9765625
+</pre>
+
+Celkem 30 kroků. Pokud bychom exponent ještě navýšili, zjistili bychom, že čím větší exponent zvolíme, tím je definice <code>umocni2</code> efektivnější.
+</p>
+
+<p>
+Časová složitost zkoumá <b>náročnost výpočtu v závislosti na velikosti argumentů</b>. Nyní si povíme základní věci z této problematiky.
+</p>== PARAGRAPH ==176== ATRIBUTE ==78== ATRIBUTE ==2== ATRIBUTE ==Konstantní složitost== ATRIBUTE ==<p>
+Funkce, jejichž výpočet trvá vždy konstantní počet kroků, mají <b>konstantní časovou složitost</b>.
+</p>
+
+<p>
+Příkladem může být funkce <code>head</code> v závislosti na délce seznamu v argumentu.
+
+<pre>
+head [1]      ~>  1
+head [1,2,3]  ~>  1
+head [1,2,3,4,5,6,7,8,9,10]  ~>  1
+</pre>
+
+Bez ohledu na délku seznamu v argumentu trvá vyhodnocení funkce <code>head</code> <b>konstantní počet kroků</b>. V našem případě jeden krok.
+</p>== PARAGRAPH ==177== ATRIBUTE ==78== ATRIBUTE ==3== ATRIBUTE ==Lineární složitost== ATRIBUTE ==<p>
+Funkce, jejichž doba vyhodnocení <b>lineárně stoupá</b> s velikostí argumentů, mají <b>lineární časovou složitost</b>.
+</p>
+
+<p>
+Například funkce <code>map (+1)</code> má lineární složitost vzhledem k délce seznamu v argumentu.
+
+<pre>
+map (+1) [1]
+
+~> 1+1 : map (+1) []
+~> 1+1 : []
+~>  2  : []
+</pre>
+
+Celkem 3 kroky na jednoprvkovém seznamu
+
+<pre>
+map (+1) [1,2]
+
+~> 1+1 : map (+1) [2]
+~> 1+1 : 2+1 : map (+1) []
+~> 1+1 : 2+1 : []
+~>  2  : 2+1 : []
+~>  2  :  3  : []
+</pre>
+
+Celkem 5 kroků na dvouprvkovém seznamu
+
+<pre>
+map (+1) [1,2,3]
+
+~> 1+1 : map (+1) [2,3]
+~> 1+1 : 2+1 : map (+1) [3]
+~> 1+1 : 2+1 : 3+1 : map (+1) []
+~> 1+1 : 2+1 : 3+1 : []
+~>  2  : 2+1 : 3+1 : []
+~>  2  :  3  : 3+1 : []
+~>  2  :  3  :  4  : []
+</pre>
+
+Celkem 7 kroků na tříprvkovém seznamu.
+</p>
+
+<p>
+Obecně tedy můžeme říct, že s každým dalším prvkem v seznamu <b>vzroste časová složitost o konstantní počet kroků</b>, v našem případě o dva. V takovém případě má funkce <b>lineární časovou složitost</b>.
+</p>== PARAGRAPH ==178== ATRIBUTE ==78== ATRIBUTE ==4== ATRIBUTE ==Kvadratická složitost== ATRIBUTE ==<p>
+Mějme funkci <code>jeDvakrat :: Eq a => [a] -> Bool</code>, kde se výraz <code>jeDvakrat s</code> vyhodnotí na <code>True</code>, pokud jsou v seznamu <code>s</code> dva stejné prvky, a na <code>False</code>, pokud je tam každý prvek pouze jednou.
+</p>
+
+<p>
+Místo přesné definice si pouze řekněme, jak bude taková funkce pracovat.
+</p>
+
+<ul>
+<li>pro první prvek seznamu <code>s</code> zkontroluj, zda se nevyskytuje ještě někde dále v seznamu <code>s</code>
+<li>pokud narazíš na takový výskyt, vyhodnoť se na <code>True</code>
+<li>pokud se dále nevyskytuje, zavolej rekurzivně funkci <code>jeDvakrat</code> na seznam <code>s</code> bez prvního prvku
+</ul>
+
+<p>
+Předpokládejme, že porovnání dvou prvků trvá konstantní počet kroků. S každým prvkem seznamu se projdou ostatní prvky seznamu. Čili se n-krát provede n kroků, kde n je délka seznamu <code>s</code>. Což nám dává složitost <i>n*n</i>, neboli <i>n^2</i>. Budeme říkat, že funkce, jejíž vyhodnocení trvá <i>n^2</i> kroků, má <b>kvadratickou časovou složitost</b>.
+</p>
+
+<p>
+Dále ještě existují funkce, jejichž vyhodnocení trvá <i>n^3</i> kroků. Takové funkce mají <b>kubickou časovou složitost</b>. Obecně o funkcích se složitostí <i>n^a</i>, kde <i>a</i> je konstanta, říkáme, že mají <b>polynomiální časovou složitost</b>.
+</p>== PARAGRAPH ==179== ATRIBUTE ==78== ATRIBUTE ==5== ATRIBUTE ==Logaritmická složitost== ATRIBUTE ==<p>
+Existují i funkce, které pracují déle než konstantně, ale kratčeji než lineárně. A to jsou funkce s <b>logaritmickou časovou složitostí</b>.
+</p>
+
+<p>
+Příkladem takové funkce může být například následující funkce:
+
+<pre>
+pocitej x  =  if x < 1 then 0
+                       else pocitej (x `div` 2)
+</pre>
+
+Jak asi sami zjistíte, funkce nic užitečného nedělá. Pokaždé vrátí nulu. Ale vyhodnocení jí bude trvat jinak dlouho v závislosti na argumentu. Například:
+
+<pre>
+    pocitej 5
+~>  pocitej 2
+~>  pocitej 1
+~>  pocitej 0
+~>  0
+
+    pocitej 10
+~>  pocitej 5
+~>  pocitej 2
+~>  pocitej 1
+~>  pocitej 0
+~>  0
+
+    pocitej 1000
+~>  pocitej 500
+~>  pocitej 250
+~>  pocitej 125
+~>  pocitej 62
+~>  pocitej 31
+~>  pocitej 15
+~>  pocitej 7
+~>  pocitej 3
+~>  pocitej 1
+~>  pocitej 0
+~>  0
+</pre>
+
+Jak vidíme, vyhodnocení výrazu <code>pocitej 5</code> trvalo 4 kroky, vyhodnocení <code>pocitej 10</code> 5 kroků a <code>pocitej 1000</code> trvalo 11 kroků. Můžeme říct, že funkce <code>pocitej</code> má <b>logaritmickou</b> časovou složitost.
+</p>== PARAGRAPH ==182== ATRIBUTE ==59== ATRIBUTE ==2== ATRIBUTE ==Příklad== ATRIBUTE ==<p>
+Vyjádřete následující funkci bez lambda abstrakce:
+
+<pre>
+\x -> 0 < 35 - 3 * 2 ^ x
+</pre>
+</p>
+
+<hr>
+
+<p>
+Nejprve si celý výraz převedeme do prefixu s respektováním priority jednotlivých operátorů.
+
+<pre>
+\x -> (<) 0 ((-) 35 ((*) 3 ((^) 2 x)))
+</pre>
+
+Prefixový zápis binárních funkcí můžeme zapsat jako částečnou aplikaci binární funkce na jeden argument.
+
+<pre>
+\x -> (0<) ((35-) ((3*) ((2^) x)))
+</pre>
+
+Nyní již můžeme začít s převodem výrazu do pointfree. Využijeme k tomu definici tečky
+
+<pre>
+(f . g) x = f (g x)
+</pre>
+
+v opačném směru na argument funkce <code>(35-)</code>:
+
+<pre>
+(3*) ((2^) x)
+--f- (--g- x)
+
+\x -> (0<) ((35-) (((3*).(2^)) x))
+</pre>
+
+Pokračujeme stejně, jako v předchozím kroku:
+
+<pre>
+(35-) (((3*).(2^)) x)
+--f-- (-----g----- x)
+
+\x -> (0<) (((35-).((3*).(2^))) x)
+</pre>
+
+Stejný postup.
+
+<pre>
+(0<) (((35-).((3*).(2^))) x)
+--f- (---------g--------- x)
+
+\x -> ((0<).((35-).((3*).(2^)))) x
+</pre>
+
+V tomto bodě je již x úplně napravo, tím pádem můžeme odstranit lambdu.
+
+<pre>
+(0<).((35-).((3*).(2^)))
+</pre>
+
+Jelikož funkce (.) sdružuje zprava, můžeme odstranit závorky určující pořadí vyhodnocení.
+
+<pre>
+(0<).(35-).(3*).(2^)
+</pre>
+</p>
+
+<hr>
+
+<p>
+Barevnou verzi tohoto povídání naleznete <a href="files/etaredukce.pdf">v tomto PDF souboru</a>.
+</p>== MAIN ==1== ATRIBUTE ==44== ATRIBUTE ==1== ATRIBUTE ==<p>Co přesně Hugs vypíše, když mu zadáme povel <code>:t id</code>?
+</p>
+
+<p>
+(jeden řádek začínající <code>id ::</code>)
+</p>== ATRIBUTE ==id :: a -> a== ATRIBUTE ==1== ATRIBUTE ==1== PROBLEM ==2== ATRIBUTE ==46== ATRIBUTE ==1== ATRIBUTE ==<p>
+Rozumíš systému odpovídání na příklady?
+</p>
+
+<p>
+<i>(správná odpověď je <b>ano</b>)</i>
+</p>== ATRIBUTE ==ano== ATRIBUTE ==1== ATRIBUTE ==1== PROBLEM ==3== ATRIBUTE ==44== ATRIBUTE ==2== ATRIBUTE ==<p>
+Jakým povelem se provede zopakování posledního povelu načtení? (ve tvaru <code>:povel</code>)
+</p>
+
+<p>
+<i>(Existuje i jeho zkrácená varianta, my chceme tu běžnou, dlouhou)</i>
+</p>== ATRIBUTE ==:reload== ATRIBUTE ==1== ATRIBUTE ==1

@@ -1,0 +1,345 @@
+div {
+    padding: 5px;
+}
+
+div.container {
+    background-color: #ffffff;
+    width: 990px;
+}
+
+div.topContainer, div.footer, div.leftMenu, div.about {
+    background-color: #ffffff;
+    width: 990px;
+}
+
+div.mainContainer {
+    font-family: Arial,Helvetica,sans-serif;
+    width: 1000px;
+    background: #ccccff;
+}
+
+div.topContainer {
+    height: 100px;
+    background-image: url(logo.gif);
+}
+
+.headerFont {
+    position: relative;
+    top: 25px;
+    left: 10px;
+}
+
+div.bottomContainer {
+    padding: 0px;
+    padding-top: 10px;
+}
+
+div.footer {
+    margin-top: 5px;
+}
+
+div.leftMenu {
+    width: 260px;
+    float: left;
+    padding: 0px;
+    font-weight: bolder;
+}
+
+div.lessonText {
+    float: right;
+    width: 695px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+div.about {
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 940px;
+}
+
+div.menuUnit {
+    background-color: #7878ff;
+    margin: 5px;
+    padding: 4px;
+}
+
+div.selectedLesson {
+    background-color: #003399;
+}
+
+div.disabledLesson {
+    background-color: #66ff66;
+}
+
+div.quote {
+    background-color: #dcdcff;
+    border: solid #9999ff 1px;
+    font-style: italic;
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* frames displaying good or bad messages */
+div.okframe, div.notokframe {
+    border: solid 2px;
+    margin: 10px;
+    width: 400px;
+}
+
+div.okframe {
+    border-color: green;
+    background-color: #99ff99;
+    color: green;
+}
+
+div.notokframe {
+    border-color: red;
+    background-color: #ffcccc;
+    color: red;
+}
+
+div.paragraph {
+    margin: 0px;
+    margin-bottom: 20px;
+    background-color: #e6e6e6;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+div.paragraphOk {
+    background-color: #99ff99;
+}
+
+div.paragraphNoOk {
+    background-color: #ff9999;
+}
+
+div.paragraphIDK {
+    background-color: #ffcc99;
+}
+
+#discussion {
+    background-color: #ffff99;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+div.discussionPost {
+    background-color: #ffff33;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+div.discussionText {
+    background-color: #ffffff;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    font-family: monospace;
+}
+
+div.discussPoints {
+    background-color: #ffff99;
+    margin-right: 5px;
+    margin-left: 30px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-left: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+
+/********************
+ ***** PROBLEMS *****
+ ********************/
+
+div#problems {
+    background-color:#cce8ca;
+    padding: 20px;
+}
+
+div.solvedProblem, div.unsolvedProblem, div.adminProblem {
+    margin-bottom: 10px;
+}
+
+div.solvedProblem {
+    background-color: #5ae65a;
+}
+
+div.unsolvedProblem {
+    background-color: #cccccc;
+}
+
+div.adminProblem {
+    background-color: #d58787;
+}
+
+div.unsolvedProblem div.problemHeader,
+  div.solvedProblem div.problemHeader,
+  div.adminProblem div.problemHeader {
+    float: left;
+}
+
+div.unsolvedProblem div.task,
+  div.solvedProblem div.task,
+  div.adminProblem div.task {
+    margin-left: 5px;
+}
+
+div.unsolvedProblem div.task {
+    background-color:#e7e6e6;
+}
+
+div.solvedProblem div.task {
+    background-color:#a4f2a4;
+}
+
+div.adminProblem div.task {
+    background-color: #ffcccc;
+}
+
+div.unsolvedProblem div.answerForm,
+  div.solvedProblem div.answerForm,
+  div.adminProblem div.answerForm {
+    text-align: right;
+}
+
+div.unsolvedProblem div.peopleSolved,
+  div.solvedProblem div.peopleSolved,
+  div.adminProblem div.peopleSolved {
+    text-align: right;
+    font-size: small;
+    height: 25px;
+}
+
+
+/*****************************************************************/
+span.red {
+    color: red;
+    font-weight: bold;
+}
+
+body {
+    background-color: #9999ff;
+    line-height: 130%;
+}
+
+a:link {
+    color: #0000cc;
+}
+
+a:visited {
+    color: #0000cc;
+}
+
+a:hover {
+    color: #000066;
+}
+
+a.selectedLesson {
+    color: white;
+}
+
+div.topContainer a, div.leftMenu a {
+    text-decoration: none;
+}
+
+div.topContainer a:link, div.topContainer a:visited {
+    color: #3333ff;
+}
+
+div.topContainer a:hover {
+    color: #000099;
+}
+
+a.adminLink, #adminMenu a, table.adminTable a {
+    background-color: #ffcc66;
+    text-decoration: none;
+}
+
+div.viewarchived {
+    text-align: right;
+    font-size: small;
+}
+
+div.discussionPost a {
+    color: black;
+    text-decoration: none;
+}
+
+div.discussionPost a:hover {
+    text-decoration: underline;
+}
+
+table.adminTable {
+    text-align: center;
+    background-color: #ffcc99;
+    border-color: #ff6600;
+}
+
+thead.adminTable {
+    font-weight: bolder;
+}
+
+div#adminMenu {
+    background-color: #ffcc99;
+    text-align: center;
+}
+
+h1 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h2 {
+    padding: 20px;
+    margin: 0px;
+}
+
+h3 {
+    text-indent: 40px;
+    margin-top: 10px;
+}
+
+#discussion h3, #problems h3 {
+    text-align: right;
+}
+
+span.paragraphText {
+    text-indent: 1em;
+}
+
+code, pre {
+    font-size: 15px;
+    background-color: #ffffff;
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-indent: 0px;
+    opacity: 0.75;
+}
+
+img {
+    border: 0px;
+}
+
+img.lessonImg {
+    border-width: 2px;
+    border: solid;
+    padding: 10px;
+    background-color: white;
+    border-color: #9999ff;
+}
+
+form {
+    margin: 0px;
+}
